@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
+const indexService = require("../business/index_service")
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 
 
 /**
@@ -28,12 +28,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         name: The New Turing Omnibus
  */
 
- /**
-  * @swagger
-  * tags:
-  *   name: Index
-  *   description: Index page
-  */
+/**
+ * @swagger
+ * tags:
+ *   name: Index
+ *   description: Index page
+ */
 
 /**
  * @swagger
@@ -45,12 +45,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       200:
  *         description: Index page
  */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   // res.render('index', { title: 'Express' });
-  res.send({
-    id:1,
-    name:"Index Page"
-  })
+  var service = new indexService();
+  res.send(service.getAll())
+  // res.send({
+  //   id:1,
+  //   name:"Index Page"
+  // })
 });
 
 
@@ -77,9 +79,11 @@ router.get('/', function(req, res, next) {
  *       404:
  *         description: The book was not found
  */
- router.get('/:id' ,function(req, res, next) {
+router.get('/:id', function (req, res, next) {
   // res.render('index', { title: 'Express' });
-  res.send(req.params.id)
+  // res.send(req.params.id)
+  var service = new indexService();
+  res.send(service.getById(req.params.id))
 });
 
 
@@ -105,10 +109,10 @@ router.get('/', function(req, res, next) {
  *       500:
  *         description: Some server error
  */
-router.post("/", urlencodedParser ,function(req,res,next) {
+router.post("/", urlencodedParser, function (req, res, next) {
   data = {
-    id:req.body.id,
-    name:req.body.name
+    id: req.body.id,
+    name: req.body.name
   }
   res.send(data)
 });
@@ -136,10 +140,10 @@ router.post("/", urlencodedParser ,function(req,res,next) {
  *       500:
  *         description: Some server error
  */
- router.put("/", urlencodedParser ,function(req,res,next) {
+router.put("/", urlencodedParser, function (req, res, next) {
   data = {
-    id:req.body.id,
-    name:req.body.name
+    id: req.body.id,
+    name: req.body.name
   }
   res.send(data)
 });
@@ -164,7 +168,7 @@ router.post("/", urlencodedParser ,function(req,res,next) {
  *       404:
  *         description: The book was not found
  */
-router.delete("/:id", function(req,res,next) {
+router.delete("/:id", function (req, res, next) {
   res.send(req.params.id)
 })
 

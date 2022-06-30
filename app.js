@@ -64,7 +64,7 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(3000,()=>{
-  console.log("Working on port 3000!")
+  console.log("Working on localhost:3000/api-docs")
 })
 
 
