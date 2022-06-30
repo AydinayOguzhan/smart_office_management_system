@@ -2,6 +2,7 @@ const IndexObject = require("../entities/index_object")
 const SuccessDataResult = require("../core/utilities/results/success_data_result")
 const ErrorDataResult = require("../core/utilities/results/error_data_result");
 const ErrorResult = require("../core/utilities/results/error_result");
+const Messages = require("../core/utilities/constants/messages");
 
 class IndexDAL{
     getAll(){
@@ -11,9 +12,9 @@ class IndexDAL{
 
     getById(id){
         if(id != 1){
-            return new ErrorResult(`${id} numaralı id'ye bağlı bir veri bulunmamaktadır `);
+            return new ErrorResult(Messages.Unsuccessful);
         } 
-        return new SuccessDataResult("Başarılı", {id:id,name:"Lorem ipsum dolor sit amet"});
+        return new SuccessDataResult(Messages.Successful, {id:id,name:"Lorem ipsum dolor sit amet"});
     }
 }
 
