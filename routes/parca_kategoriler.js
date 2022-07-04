@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
-const indexService = require("../business/index_service");
+const ParcaKategorilerService = require('../business/parca_kategoriler_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -15,81 +15,82 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       type: object
  *       required:
  *         - id
- *         - name
+ *         - adi
  *       properties:
  *         id:
  *           type: number
- *           description: The auto-generated id of the book
+ *           description: The auto-generated id of the parca_kategoriler
  *         name:
  *           type: string
- *           description: The name of the data
+ *           description: The name of the kategori
  *       example:
  *         id: 12
- *         name: The New Turing Omnibus
+ *         name: sensör
  */
 
 /**
  * @swagger
  * tags:
- *   name: Index
- *   description: Index page
+ *   name: ParcaKategoriler
+ *   description: Parca Kategori Page
  */
 
 /**
  * @swagger
- * /:
+ * /parca_kategoriler/:
  *   get:
- *     summary: Returns index page
- *     tags: [Index]
+ *     summary: Returns all parca_kategoriler
+ *     tags: [ParcaKategoriler]
  *     responses:
  *       200:
- *         description: Index page
+ *         description: All data
  */
-router.get('/', function (req, res, next) {
-  // res.render('index', { title: 'Express' });
-  console.log("index/get/");
-  var service = new indexService();
-  res.send(service.getAll());
+router.get("/", async function(req, res, next){
+  // res.render('index', { title: 'Express' }); 
+  var service = new ParcaKategorilerService();
+  const response = await service.getAll();
+  res.send(response);
 });
 
 
 /**
  * @swagger
- * /{id}:
+ * /parca_kategoriler/{id}:
  *   get:
- *     summary: Get the data by id
- *     tags: [Index]
+ *     summary: Get the parca_kategoriler by id
+ *     tags: [ParcaKategoriler]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
  *         required: true
- *         description: The data id
+ *         description: The parca_kategoriler id
  *     responses:
  *       200:
- *         description: The data description by id
+ *         description: The specific data by id
  *         contens:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Data'
  *       404:
- *         description: The book was not found
+ *         description: The data was not found
  */
-router.get('/:id', function (req, res, next) {
+router.get('/:id', async function (req, res, next) {
   // res.render('index', { title: 'Express' });
   // res.send(req.params.id)
-  var service = new indexService();
-  res.send(service.getById(req.params.id))
+  var service = new ParcaKategorilerService();
+  var response = await service.getById(req.params.id);
+  res.send(response);
 });
 
 
 /**
  * @swagger
- * /:
+ * /parca_kategoriler/:
  *   post:
- *     summary: Add new data to index page
- *     tags: [Index]
+ *     summary: Add new data to parca_kategoriler
+ *     tags: [ParcaKategoriler]
  *     requestBody:
  *       required: true
  *       content:
@@ -117,10 +118,10 @@ router.post("/", urlencodedParser, function (req, res, next) {
 
 /**
  * @swagger
- * /:
+ * /parca_kategoriler/:
  *   put:
- *     summary: Add new data to index page
- *     tags: [Index]
+ *     summary: Update the data of the parca_kategoriler by id
+ *     tags: [ParcaKategoriler]
  *     requestBody:
  *       required: true
  *       content:
@@ -129,7 +130,7 @@ router.post("/", urlencodedParser, function (req, res, next) {
  *               $ref: '#/components/schemas/Data'
  *     responses:
  *       200:
- *         description: New data successfully added
+ *         description: New data successfully updated
  *         content:
  *           application/json:
  *            schema:
@@ -148,10 +149,10 @@ router.put("/", urlencodedParser, function (req, res, next) {
 
 /**
  * @swagger
- * /{id}:
+ * /parca_kategoriler/{id}:
  *   delete:
  *     summary: Delete the data by id
- *     tags: [Index]
+ *     tags: [ParcaKategoriler]
  *     parameters:
  *       - in: path
  *         name: id
@@ -163,7 +164,7 @@ router.put("/", urlencodedParser, function (req, res, next) {
  *       200:
  *         description: The data successfully deleted
  *       404:
- *         description: The book was not found
+ *         description: The data was not found
  */
 router.delete("/:id", function (req, res, next) {
   res.send(req.params.id)

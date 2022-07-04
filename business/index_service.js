@@ -1,15 +1,16 @@
-const indexDal  = require("../data_access/index_dal")
+const indexDal = require("../data_access/index_dal")
 
-class IndexService{
-    constructor(){
+class IndexService {
+    constructor() {
         this.dalInstance = new indexDal()
     }
-    
-    getAll(){
-        return this.dalInstance.getAll();
-    }   
 
-    getById(id){
+    getAll() {
+        console.log("index/service/getall");
+        return this.dalInstance.getAll();
+    }
+
+    getById(id) {
         return this.dalInstance.getById(id);
     }
 }
