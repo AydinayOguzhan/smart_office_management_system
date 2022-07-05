@@ -1,31 +1,34 @@
 const ParcaKategorilerDal = require("../data_access/parca_kategoriler_dal");
-const parcaKategorilerDal = require("../data_access/parca_kategoriler_dal");
 const ParcaKategorilerObject = require("../entities/parca_kategoriler_object");
 
 class ParcaKategorilerService{
     constructor(){
-        this.dalInstance = new ParcaKategorilerDal();
+        this.dal = new ParcaKategorilerDal();
     }
 
     async getAll(){
-        const result = await this.dalInstance.getAll();
+        const result = await this.dal.getAll();
         return result;
     }
 
     async getById(id){
-        return await this.dalInstance.getById(id);
+        const result = await this.dal.getById(id);
+        return result;
     }
 
-    add(obj){
-        return this.dalInstance.add(obj);
+    async add(obj){
+        const result = await this.dal.add(obj);
+        return result;
     }
 
-    update(obj){
-        return this.dalInstance.update(obj);
+    async update(obj){
+        const result = await this.dal.update(obj);
+        return result;
     }
 
-    delete(id){
-        return this.dalInstance.delete(id);
+    async delete(id){
+        const result = await this.dal.delete(id);
+        return result;
     }
 }
 

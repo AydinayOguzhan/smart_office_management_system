@@ -11,7 +11,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * components:
  *   schemas:
- *     Data:
+ *     Parca_Kategori:
  *       type: object
  *       required:
  *         - id
@@ -20,12 +20,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         id:
  *           type: number
  *           description: The auto-generated id of the parca_kategoriler
- *         name:
+ *         adi:
  *           type: string
  *           description: The name of the kategori
  *       example:
  *         id: 12
- *         name: sensör
+ *         adi: sensör
  */
 
 /**
@@ -72,7 +72,7 @@ router.get("/", async function(req, res, next){
  *         contens:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Data'
+ *               $ref: '#/components/schemas/Parca_Kategori'
  *       404:
  *         description: The data was not found
  */
@@ -96,23 +96,24 @@ router.get('/:id', async function (req, res, next) {
  *       content:
  *         application/json:
  *          schema:
- *               $ref: '#/components/schemas/Data'
+ *               $ref: '#/components/schemas/Parca_Kategori'
  *     responses:
  *       200:
  *         description: New data successfully added
  *         content:
  *           application/json:
  *            schema:
- *               $ref: '#/components/schemas/Data'
+ *               $ref: '#/components/schemas/Parca_Kategori'
  *       500:
  *         description: Some server error
  */
-router.post("/", urlencodedParser, function (req, res, next) {
+router.post("/", urlencodedParser, async function (req, res, next) {
+  var service = new ParcaKategorilerService();
   data = {
-    id: req.body.id,
-    name: req.body.name
+    adi: req.body.name
   }
-  res.send(data)
+  var result = await service.add(data);
+  res.send(result);
 });
 
 
@@ -127,23 +128,25 @@ router.post("/", urlencodedParser, function (req, res, next) {
  *       content:
  *         application/json:
  *          schema:
- *               $ref: '#/components/schemas/Data'
+ *               $ref: '#/components/schemas/Parca_Kategori'
  *     responses:
  *       200:
  *         description: New data successfully updated
  *         content:
  *           application/json:
  *            schema:
- *               $ref: '#/components/schemas/Data'
+ *               $ref: '#/components/schemas/Parca_Kategori'
  *       500:
  *         description: Some server error
  */
-router.put("/", urlencodedParser, function (req, res, next) {
+router.put("/", urlencodedParser, async function (req, res, next) {
+  var service = new ParcaKategorilerService();
   data = {
     id: req.body.id,
-    name: req.body.name
+    adi: req.body.name
   }
-  res.send(data)
+  var result = await service.update(data);
+  res.send(result);
 });
 
 
@@ -166,8 +169,10 @@ router.put("/", urlencodedParser, function (req, res, next) {
  *       404:
  *         description: The data was not found
  */
-router.delete("/:id", function (req, res, next) {
-  res.send(req.params.id)
+router.delete("/:id", async function (req, res, next) {
+  var service = new ParcaKategorilerService();
+  var result = await service.delete(req.params.id);
+  res.send(result);
 })
 
 

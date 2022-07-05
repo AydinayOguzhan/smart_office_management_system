@@ -11,7 +11,7 @@ class ParcaKategorilerDal {
             const parcaKategorilerObj = new Array();
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM parca_kategoriler", (err, result) => {
-                    if (err) throw err;
+                    if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     result.forEach(element => {
                         parcaKategorilerObj.push({ id: element.id, adi: element.adi });
@@ -29,7 +29,7 @@ class ParcaKategorilerDal {
             const parcaKategorilerObj = new ParcaKategorilerObject();
             connection.connect((successResponse)=>{
                 connection.query(`select * from parca_kategoriler where id=${id}`, (err,result)=>{
-                    if(err) throw err;
+                    if(err) resolve(new ErrorResult(err));
                     if(result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     console.log(result);
                     result.forEach(element => {
@@ -45,15 +45,45 @@ class ParcaKategorilerDal {
     }
 
     add(obj) {
-
+        return new Promise((resolve,reject)=>{
+            connection.connect((successResponse)=>{
+                connection.query(`INSERT INTO parca_kategoriler(adi) VALUES ("${obj.adi}")`, (err,result)=>{
+                    if(err) resolve(new ErrorResult(err));
+                    if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
+                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                });
+            },(errorResponse)=>{
+                reject(errorResponse);
+            });
+        });
     }
 
     update(obj) {
-
+        return new Promise((resolve,reject)=>{
+            connection.connect((successResponse)=>{
+                connection.query(`UPDATE parca_kategoriler SET adi="${obj.adi}" WHERE id=${obj.id}`, (err,result)=>{
+                    if(err) resolve(new ErrorResult(err));
+                    if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
+                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                });
+            },(errorResponse)=>{
+                reject(errorResponse);
+            });
+        });
     }
 
     delete(id) {
-
+        return new Promise((resolve,reject)=>{
+            connection.connect((successResponse)=>{
+                connection.query(`DELETE FROM parca_kategoriler WHERE id=${id}`, (err,result)=>{
+                    if(err) resolve(new ErrorResult(err));
+                    if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
+                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                });
+            },(errorResponse)=>{
+                reject(errorResponse);
+            });
+        })
     }
 }
 
