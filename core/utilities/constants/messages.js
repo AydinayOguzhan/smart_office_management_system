@@ -1,6 +1,7 @@
 class Messages{
-    static Successful = "Successful";
-    static Unsuccessful = "Unsuccessful";
+    static Successful = "İşlem Başarılı";
+    static Unsuccessful = "İşlem Başarısız";
+    static DataNotFound = "Veri Bulunamadı";
 }
 
 module.exports = Messages;
