@@ -14,7 +14,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *     Parca:
  *       type: object
  *       required:
- *         - id
  *         - cihazId
  *         - kategoriId
  *         - parcaAdi

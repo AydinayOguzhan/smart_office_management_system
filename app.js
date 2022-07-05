@@ -12,6 +12,7 @@ var swaggerUI = require("swagger-ui-express");
 // var usersRouter = require('./routes/users');
 var parcaKategorilerRouter = require('./routes/parca_kategoriler');
 var parcalarRouter = require("./routes/parca");
+var cihazlarRouter = require("./routes/cihazlar");
 
 
 var app = express();
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/users', usersRouter);
 app.use('/parca_kategoriler', parcaKategorilerRouter);
 app.use('/parca', parcalarRouter);
+app.use('/cihaz', cihazlarRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
