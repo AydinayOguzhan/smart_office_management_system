@@ -215,4 +215,27 @@ router.delete("/:id", async function (req, res, next) {
 })
 
 
+/**
+ * @swagger
+ * /cihaz/mekan/{mekanId}:
+ *   get:
+ *     summary: Tüm cihazları bulundukları mekana göre döndürür
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: mekanId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Cihazın bulunduğu mekana ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/mekan/:mekanId", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.getAllByMekan(req.params.mekanId);
+    res.send(response);
+});
+
 module.exports = router;

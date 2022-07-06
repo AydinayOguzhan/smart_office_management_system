@@ -31,6 +31,11 @@ class CihazlarService{
         var result = await this.dal.delete(id);
         return result;
     }
+
+    async getAllByMekan(mekanId){
+        var result = await this.dal.getAllByMekan(mekanId);
+        return result;
+    }
 }
 
 module.exports = CihazlarService;
