@@ -238,4 +238,27 @@ router.delete("/:id", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /cihaz/bina/{binaId}:
+ *   get:
+ *     summary: Tüm cihazları bulundukları binaya göre döndürür
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: binaId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Cihazın bulunduğu binaya ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/bina/:binaId", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.getAllByBina(req.params.binaId);
+    res.send(response);
+});
+
 module.exports = router;
