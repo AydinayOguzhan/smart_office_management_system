@@ -267,5 +267,28 @@ router.delete("/:id", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /parca/cihaz/{cihazId}:
+ *   get:
+ *     summary: Cihazlar üzerine takılı bütün parçaları getirir
+ *     tags: [parcalar]
+ *     parameters:
+ *       - in: path
+ *         name: cihazId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Parçaya ait cihaz Id numarası
+ *     responses:
+ *       200:
+ *         description: Gerekli veri döner
+ */
+ router.get('/cihaz/:cihazId', async function (req, res, next) {
+    var service = new ParcaService();
+    var response = await service.getAllByCihaz(req.params.cihazId);
+    res.send(response);
+});
+
 
 module.exports = router;

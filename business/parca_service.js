@@ -45,6 +45,11 @@ class ParcaService{
         var result = await this.dal.getAllByCategory(kategoriId);
         return result;
     }
+
+    async getAllByCihaz(cihazId){
+        var result = await this.dal.getAllByCihaz(cihazId);
+        return result;
+    }
 }
 
 module.exports = ParcaService;
