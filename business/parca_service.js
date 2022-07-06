@@ -30,6 +30,16 @@ class ParcaService{
         var result = await this.dal.delete(id);
         return result;
     }
+
+    async getAllByDurum(durum){
+        var result = await this.dal.getAllByDurum(durum);
+        return result;
+    }
+
+    async getAllByDate(startDate,endDate){
+        var result = await this.dal.getAllByDate(startDate,endDate);
+        return result;
+    }
 }
 
 module.exports = ParcaService;

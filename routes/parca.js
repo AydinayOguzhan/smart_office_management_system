@@ -49,7 +49,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /parca/:
  *   get:
- *     summary: Returns all parca_kategoriler
+ *     summary: Sistemde kayıtlı bütün parçaları getirir
  *     tags: [parcalar]
  *     responses:
  *       200:
@@ -190,5 +190,58 @@ router.delete("/:id", async function (req, res, next) {
     res.send(result);
 })
 
+
+/**
+ * @swagger
+ * /parca/durum/{durum}:
+ *   get:
+ *     summary: Sistemde ekli bütün parçaları durum alanına göre getirir
+ *     tags: [parcalar]
+ *     parameters:
+ *       - in: path
+ *         name: durum
+ *         schema:
+ *           type: boolean
+ *         required: true
+ *         description: Parçaya ait durum bilgisi
+ *     responses:
+ *       200:
+ *         description: Gerekli veri döner
+ */
+ router.get('/durum/:durum', async function (req, res, next) {
+    var service = new ParcaService();
+    var response = await service.getAllByDurum(req.params.durum);
+    res.send(response);
+});
+
+
+/**
+ * @swagger
+ * /parca/tarih/{startDate}/{endDate}:
+ *   get:
+ *     summary: Sistemde ekli bütün parçaları tarih aralığına göre getirir
+ *     tags: [parcalar]
+ *     parameters:
+ *       - in: path
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Parçaya ait eklenme tarihi bilgisi
+ *       - in: path
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Parçaya ait eklenme tarihi bilgisi
+ *     responses:
+ *       200:
+ *         description: Gerekli veri döner
+ */
+ router.get('/tarih/:startDate/:endDate', async function (req, res, next) {
+    var service = new ParcaService();
+    var response = await service.getAllByDate(req.params.startDate, req.params.endDate);
+    res.send(response);
+});
 
 module.exports = router;

@@ -100,6 +100,52 @@ class ParcaDal {
             });
         });
     }
+
+    async getAllByDurum(durum) {
+        return new Promise((resolve, reject) => {
+            const parcalarObj = new Array();
+            console.log(durum);
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM parcalar where durum = ${durum}`, (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    result.forEach(element => {
+                        parcalarObj.push({
+                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
+                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
+                        });
+                    });
+                    resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    async getAllByDate(startDate, endDate) {
+        return new Promise((resolve, reject) => {
+            const parcalarObj = new Array();
+            connection.connect((successResponse) => {
+                console.log(startDate);
+                console.log(endDate);
+                connection.query(`SELECT * FROM parcalar WHERE (eklenme_tarihi BETWEEN '${startDate}' AND '${endDate}')`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    result.forEach(element => {
+                        parcalarObj.push({
+                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
+                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
+                        });
+                    });
+                    resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
 }
 
 module.exports = ParcaDal;
