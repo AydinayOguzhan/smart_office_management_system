@@ -14,6 +14,7 @@ var parcaKategorilerRouter = require('./routes/parca_kategoriler');
 var parcalarRouter = require("./routes/parca");
 var cihazlarRouter = require("./routes/cihazlar");
 var veriLimitleriRouter = require("./routes/veri_limit");
+var olcumlerRouter = require("./routes/olcum");
 
 
 var app = express();
@@ -54,6 +55,7 @@ app.use('/parca_kategoriler', parcaKategorilerRouter);
 app.use('/parca', parcalarRouter);
 app.use('/cihaz', cihazlarRouter);
 app.use('/veri_limit', veriLimitleriRouter);
+app.use('/olcum', olcumlerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
