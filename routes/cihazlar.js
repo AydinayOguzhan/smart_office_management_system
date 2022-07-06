@@ -261,4 +261,27 @@ router.delete("/:id", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /cihaz/kampus/{kampusId}:
+ *   get:
+ *     summary: Tüm cihazları bulundukları kampüse göre döndürür
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: kampusId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Cihazın bulunduğu kampüse ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/kampus/:kampusId", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.getAllByKampus(req.params.kampusId);
+    res.send(response);
+});
+
 module.exports = router;

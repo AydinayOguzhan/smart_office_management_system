@@ -41,6 +41,12 @@ class CihazlarService{
         var result = await this.dal.getAllByMekan(binaId);
         return result;
     }
+
+    async getAllByKampus(kampusId){
+        var result = await this.dal.getAllByKampus(kampusId);
+        return result;
+    }
+
 }
 
 module.exports = CihazlarService;
