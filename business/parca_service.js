@@ -40,6 +40,11 @@ class ParcaService{
         var result = await this.dal.getAllByDate(startDate,endDate);
         return result;
     }
+
+    async getAllByCategory(kategoriId){
+        var result = await this.dal.getAllByCategory(kategoriId);
+        return result;
+    }
 }
 
 module.exports = ParcaService;

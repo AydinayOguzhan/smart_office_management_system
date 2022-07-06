@@ -244,4 +244,28 @@ router.delete("/:id", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /parca/kategori/{kategoriId}:
+ *   get:
+ *     summary: Sistemde ekli bütün parçaları kategori alanına göre getirir
+ *     tags: [parcalar]
+ *     parameters:
+ *       - in: path
+ *         name: kategoriId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Parçaya ait kategori Id numarası
+ *     responses:
+ *       200:
+ *         description: Gerekli veri döner
+ */
+ router.get('/kategori/:kategoriId', async function (req, res, next) {
+    var service = new ParcaService();
+    var response = await service.getAllByCategory(req.params.kategoriId);
+    res.send(response);
+});
+
+
 module.exports = router;
