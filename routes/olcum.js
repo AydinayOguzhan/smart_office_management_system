@@ -233,10 +233,37 @@ router.delete("/:id", async function (req, res, next) {
  *         description: Data bulunamadı
  */
  router.get('/durum/:durum', async function (req, res, next) {
-    // res.render('index', { title: 'Express' });
-    // res.send(req.params.id)
     var service = new OlcumService();
     var response = await service.getAllByDurum(req.params.durum);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/cihaz/{cihazId}:
+ *   get:
+ *     summary: Cihaza göre verileri getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: cihazId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Cihazın Id numarası
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/cihaz/:cihazId', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByCihazId(req.params.cihazId);
     res.send(response);
 });
 

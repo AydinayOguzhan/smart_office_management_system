@@ -35,6 +35,12 @@ class OlcumService{
         var result = await this.dal.getAllByDurum(durum);
         return result;
     }
+
+    async getAllByCihazId(cihazId){
+        var result = await this.dal.getAllByCihazId(cihazId);
+        return result;
+    }
+
 }
 
 module.exports = OlcumService;
