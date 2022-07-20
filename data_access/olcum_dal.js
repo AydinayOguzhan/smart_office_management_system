@@ -123,6 +123,87 @@ class OlcumDal {
             });
         });
     }
+
+    getAllByIsikSiddeti(loverLimit, upperLimit) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM olcumler WHERE (isik_siddeti BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
+    getAllBySicaklik(loverLimit, upperLimit) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM olcumler WHERE (sicaklik BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
+    getAllByKarbondioksitMiktari(loverLimit, upperLimit) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM olcumler WHERE (karbondioksit_miktari BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
+    getAllByNem(loverLimit, upperLimit) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM olcumler WHERE (nem BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
+    getAllByGurultu(loverLimit, upperLimit) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM olcumler WHERE (gurultu BETWEEN ${loverLimit} AND ${upperLimit})`, 
+                (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    console.log(result);
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
 }
 
 module.exports = OlcumDal;

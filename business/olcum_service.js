@@ -41,6 +41,31 @@ class OlcumService{
         return result;
     }
 
+    async getAllByIsikSiddeti(loverLimit, upperLimit){
+        var result = await this.dal.getAllByIsikSiddeti(loverLimit, upperLimit);
+        return result;
+    }
+
+    async getAllBySicaklik(loverLimit, upperLimit){
+        var result = await this.dal.getAllBySicaklik(loverLimit, upperLimit);
+        return result;
+    }
+
+    async getAllByKarbondioksitMiktari(loverLimit, upperLimit){
+        var result = await this.dal.getAllByKarbondioksitMiktari(loverLimit, upperLimit);
+        return result;
+    }
+
+    async getAllByNem(loverLimit, upperLimit){
+        var result = await this.dal.getAllByNem(loverLimit, upperLimit);
+        return result;
+    }
+
+    async getAllByGurultu(loverLimit, upperLimit){
+        var result = await this.dal.getAllByGurultu(loverLimit, upperLimit);
+        return result;
+    }
+
 }
 
 module.exports = OlcumService;

@@ -267,4 +267,179 @@ router.delete("/:id", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /olcum/isikSiddeti/{loverLimit}/{upperLimit}:
+ *   get:
+ *     summary: Işık şiddeti belirlenen aralığa giren ölçümleri gelir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Işık şiddetinin alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Işık şiddetinin üst limiti
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/isikSiddeti/:loverLimit/:upperLimit', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByIsikSiddeti(req.params.loverLimit, req.params.upperLimit);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/sicaklik/{loverLimit}/{upperLimit}:
+ *   get:
+ *     summary: Sıcaklık belirlenen aralığa giren ölçümleri gelir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Sıcaklığın alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Sıcaklığın üst limiti
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/sicaklik/:loverLimit/:upperLimit', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllBySicaklik(req.params.loverLimit, req.params.upperLimit);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/karbondioksitMiktari/{loverLimit}/{upperLimit}:
+ *   get:
+ *     summary: Karbondioksit miktari belirlenen aralığa giren ölçümleri getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Karbondioksit miktarının alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Karbondioksit miktarının üst limiti
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/karbondioksitMiktari/:loverLimit/:upperLimit', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByKarbondioksitMiktari(req.params.loverLimit, req.params.upperLimit);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/nem/{loverLimit}/{upperLimit}:
+ *   get:
+ *     summary: Nem belirlenen aralığa giren ölçümleri gelir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Nemin alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Nemin üst limiti
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/nem/:loverLimit/:upperLimit', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByNem(req.params.loverLimit, req.params.upperLimit);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/gurultu/{loverLimit}/{upperLimit}:
+ *   get:
+ *     summary: Gürültü belirlenen aralığa giren ölçümleri gelir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Gürültünün alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Gürültünün üst limiti
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/gurultu/:loverLimit/:upperLimit', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByGurultu(req.params.loverLimit, req.params.upperLimit);
+    res.send(response);
+});
+
 module.exports = router;
