@@ -285,4 +285,27 @@ router.get("/kampus/:kampusId", async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /cihaz/aktif/{aktif}:
+ *   get:
+ *     summary: Tüm cihazları aktifliklerine göre getirir
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: aktif
+ *        schema:
+ *          type: boolean
+ *        required: false
+ *        description: Cihazın aktiflik durumu. 1- Aktif 2-Deaktif
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/aktif/:aktif", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.getAllByAktif(req.params.aktif);
+    res.send(response);
+});
+
 module.exports = router;

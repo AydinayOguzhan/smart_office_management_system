@@ -47,6 +47,11 @@ class CihazlarService{
         return result;
     }
 
+    async getAllByAktif(aktif){
+        var result = await this.dal.getAllByAktif(aktif);
+        return result;
+    }
+
 }
 
 module.exports = CihazlarService;
