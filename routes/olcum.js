@@ -209,5 +209,35 @@ router.delete("/:id", async function (req, res, next) {
     res.send(result);
 })
 
+/**
+ * @swagger
+ * /olcum/durum/{durum}:
+ *   get:
+ *     summary: Verinin aktiflik durumuna göre getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: durum
+ *         schema:
+ *           type: boolean
+ *         required: true
+ *         description: Aktiflik durumu. 1-Aktif 2-Deaktif
+ *     responses:
+ *       200:
+ *         description: Ölçümler gelir
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Olcum'
+ *       404:
+ *         description: Data bulunamadı
+ */
+ router.get('/durum/:durum', async function (req, res, next) {
+    // res.render('index', { title: 'Express' });
+    // res.send(req.params.id)
+    var service = new OlcumService();
+    var response = await service.getAllByDurum(req.params.durum);
+    res.send(response);
+});
 
 module.exports = router;

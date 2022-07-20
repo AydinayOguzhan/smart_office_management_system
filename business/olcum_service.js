@@ -30,6 +30,11 @@ class OlcumService{
         var result = await this.dal.delete(id);
         return result;
     }
+
+    async getAllByDurum(durum){
+        var result = await this.dal.getAllByDurum(durum);
+        return result;
+    }
 }
 
 module.exports = OlcumService;
