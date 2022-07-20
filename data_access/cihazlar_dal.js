@@ -153,6 +153,21 @@ class CihazlarDal {
         });
     }
 
+    getAllByDurum(durum){
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM cihazlar where durum = ${durum}`, (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazlar));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
 }
 
 module.exports = CihazlarDal;

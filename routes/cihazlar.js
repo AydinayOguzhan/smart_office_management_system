@@ -297,7 +297,7 @@ router.get("/kampus/:kampusId", async function (req, res, next) {
  *        schema:
  *          type: boolean
  *        required: false
- *        description: Cihazın aktiflik durumu. 1- Aktif 2-Deaktif
+ *        description: Cihazın aktiflik durumu. 1-Aktif 2-Deaktif
  *     responses:
  *       200:
  *         description: Tüm data döner
@@ -305,6 +305,29 @@ router.get("/kampus/:kampusId", async function (req, res, next) {
  router.get("/aktif/:aktif", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByAktif(req.params.aktif);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /cihaz/durum/{durum}:
+ *   get:
+ *     summary: Tüm cihazları veri aktifliğine göre getirir
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: durum
+ *        schema:
+ *          type: boolean
+ *        required: false
+ *        description: Cihazın durumu. 1-Aktif 2-Deaktif
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/durum/:durum", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.getAllByDurum(req.params.durum);
     res.send(response);
 });
 

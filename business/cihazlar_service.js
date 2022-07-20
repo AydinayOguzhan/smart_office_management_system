@@ -52,6 +52,11 @@ class CihazlarService{
         return result;
     }
 
+    async getAllByDurum(durum){
+        var result = await this.dal.getAllByDurum(durum);
+        return result;
+    }
+
 }
 
 module.exports = CihazlarService;
