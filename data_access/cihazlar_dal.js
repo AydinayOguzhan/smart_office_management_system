@@ -8,19 +8,11 @@ const ErrorResult = require("../core/utilities/results/error_result");
 class CihazlarDal {
     getAll() {
         return new Promise((resolve, reject) => {
-            const cihazlar = new Array();
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM cihazlar", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        cihazlar.push({
-                            id: element.id, adi: element.adi, kat: element.kat, mekanId: element.mekan_id,
-                            binaId: element.bina_id, kampusId: element.kampus_id, universiteId: element.universite_id,
-                            veriGondermeSikligi: element.veri_gonderme_sikligi,
-                            aktif: element.aktif, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...cihazlar] = result;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -31,24 +23,12 @@ class CihazlarDal {
 
     getById(id) {
         return new Promise((resolve, reject) => {
-            const cihazObj = new ParcaKategorilerObject();
             connection.connect((successResponse) => {
                 connection.query(`select * from cihazlar where id=${id}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        cihazObj.id = element.id;
-                        cihazObj.adi = element.adi;
-                        cihazObj.kat = element.kat;
-                        cihazObj.mekanId = element.mekan_id;
-                        cihazObj.binaId = element.bina_id;
-                        cihazObj.kampusId = element.kampus_id;
-                        cihazObj.universiteId = element.universite_id;
-                        cihazObj.veriGondermeSikligi = element.veri_gonderme_sikligi;
-                        cihazObj.aktif = element.aktif;
-                        cihazObj.eklenmeTarihi = element.eklenme_tarihi;
-                        cihazObj.durum = element.durum
-                    });
+                    //array destructuring
+                    const [cihazObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, cihazObj));
                 });
             }, (errorResponse) => {
@@ -60,7 +40,6 @@ class CihazlarDal {
     add(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                console.log(obj);
                 connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi, 
                     aktif, eklenme_tarihi, durum) VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
                     ${obj.veriGondermeSikligi},  ${obj.aktif}, '${obj.eklenmeTarihi}', ${obj.durum})`, (err, result) => {
@@ -116,19 +95,11 @@ class CihazlarDal {
 
     getAllByMekan(mekanId) {
         return new Promise((resolve, reject) => {
-            const cihazlar = new Array();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where mekan_id = ${mekanId}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        cihazlar.push({
-                            id: element.id, adi: element.adi, kat: element.kat, mekanId: element.mekan_id,
-                            binaId: element.bina_id, kampusId: element.kampus_id, universiteId: element.universite_id,
-                            veriGondermeSikligi: element.veri_gonderme_sikligi,
-                            aktif: element.aktif, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...cihazlar] = result;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -139,19 +110,11 @@ class CihazlarDal {
 
     getAllByBina(binaId) {
         return new Promise((resolve, reject) => {
-            const cihazlar = new Array();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where bina_id = ${binaId}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        cihazlar.push({
-                            id: element.id, adi: element.adi, kat: element.kat, mekanId: element.mekan_id,
-                            binaId: element.bina_id, kampusId: element.kampus_id, universiteId: element.universite_id,
-                            veriGondermeSikligi: element.veri_gonderme_sikligi,
-                            aktif: element.aktif, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...cihazlar] = result;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -162,19 +125,11 @@ class CihazlarDal {
 
     getAllByKampus(kampusId) {
         return new Promise((resolve, reject) => {
-            const cihazlar = new Array();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where kampus_id = ${kampusId}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        cihazlar.push({
-                            id: element.id, adi: element.adi, kat: element.kat, mekanId: element.mekan_id,
-                            binaId: element.bina_id, kampusId: element.kampus_id, universiteId: element.universite_id,
-                            veriGondermeSikligi: element.veri_gonderme_sikligi,
-                            aktif: element.aktif, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...cihazlar] = result;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {

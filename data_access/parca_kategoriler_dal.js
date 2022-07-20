@@ -8,14 +8,11 @@ const ErrorResult = require("../core/utilities/results/error_result");
 class ParcaKategorilerDal {
     getAll() {
         return new Promise((resolve, reject) => {
-            const parcaKategorilerObj = new Array();
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM parca_kategoriler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcaKategorilerObj.push({ id: element.id, adi: element.adi });
-                    });
+                    const [...parcaKategorilerObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcaKategorilerObj));
                 });  
             },(errorResponse) =>{
@@ -26,16 +23,11 @@ class ParcaKategorilerDal {
 
     getById(id) {
         return new Promise((resolve, reject) =>{
-            const parcaKategorilerObj = new ParcaKategorilerObject();
             connection.connect((successResponse)=>{
                 connection.query(`select * from parca_kategoriler where id=${id}`, (err,result)=>{
                     if(err) resolve(new ErrorResult(err));
                     if(result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    console.log(result);
-                    result.forEach(element => {
-                        parcaKategorilerObj.id = element.id;
-                        parcaKategorilerObj.adi = element.adi
-                    });
+                    const [parcaKategorilerObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful,parcaKategorilerObj));
                 });
             },(errorResponse) =>{

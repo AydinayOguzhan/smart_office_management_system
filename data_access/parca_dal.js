@@ -9,17 +9,11 @@ const ParcaObject = require("../entities/parca_object");
 class ParcaDal {
     async getAll() {
         return new Promise((resolve, reject) => {
-            const parcalarObj = new Array();
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM parcalar", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcalarObj.push({
-                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
-                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...parcalarObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
                 });
             }, (errorResponse) => {
@@ -30,15 +24,11 @@ class ParcaDal {
 
     async getById(id) {
         return new Promise((resolve, reject) => {
-            const parcaObj = new ParcaObject();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM parcalar where id=${id}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcaObj.id = element.id, parcaObj.cihazId = element.cihaz_id, parcaObj.kategoriId = element.kategori_id,
-                            parcaObj.parcaAdi = element.parca_adi, parcaObj.eklenmeTarihi = element.eklenme_tarihi, parcaObj.durum = element.durum
-                    });
+                    const [parcaObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcaObj));
                 });
             }, (errorResponse) => {
@@ -103,18 +93,11 @@ class ParcaDal {
 
     async getAllByDurum(durum) {
         return new Promise((resolve, reject) => {
-            const parcalarObj = new Array();
-            console.log(durum);
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM parcalar where durum = ${durum}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcalarObj.push({
-                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
-                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...parcalarObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
                 });
             }, (errorResponse) => {
@@ -125,7 +108,6 @@ class ParcaDal {
 
     async getAllByDate(startDate, endDate) {
         return new Promise((resolve, reject) => {
-            const parcalarObj = new Array();
             connection.connect((successResponse) => {
                 console.log(startDate);
                 console.log(endDate);
@@ -133,12 +115,7 @@ class ParcaDal {
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcalarObj.push({
-                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
-                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...parcalarObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
                 });
             }, (errorResponse) => {
@@ -149,18 +126,12 @@ class ParcaDal {
 
     async getAllByCategory(kategoriId) {
         return new Promise((resolve, reject) => {
-            const parcalarObj = new Array();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM parcalar WHERE kategori_id = ${kategoriId}`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcalarObj.push({
-                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
-                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...parcalarObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
                 });
             }, (errorResponse) => {
@@ -172,18 +143,12 @@ class ParcaDal {
 
     async getAllByCihaz(cihazId) {
         return new Promise((resolve, reject) => {
-            const parcalarObj = new Array();
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM parcalar WHERE cihaz_id = ${cihazId}`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    result.forEach(element => {
-                        parcalarObj.push({
-                            id: element.id, cihazId: element.cihaz_id, kategoriId: element.kategori_id,
-                            parcaAdi: element.parca_adi, eklenmeTarihi: element.eklenme_tarihi, durum: element.durum
-                        });
-                    });
+                    const [...parcalarObj] = result;
                     resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
                 });
             }, (errorResponse) => {

@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 const { response } = require('../app');
 const CihazlarService = require('../business/cihazlar_service');
 const CihazObject = require('../entities/cihaz_object');
+const ErrorResult = require('../core/utilities/results/error_result');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -232,7 +233,7 @@ router.delete("/:id", async function (req, res, next) {
  *       200:
  *         description: Tüm data döner
  */
- router.get("/mekan/:mekanId", async function (req, res, next) {
+router.get("/mekan/:mekanId", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByMekan(req.params.mekanId);
     res.send(response);
@@ -255,7 +256,7 @@ router.delete("/:id", async function (req, res, next) {
  *       200:
  *         description: Tüm data döner
  */
- router.get("/bina/:binaId", async function (req, res, next) {
+router.get("/bina/:binaId", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByBina(req.params.binaId);
     res.send(response);
@@ -272,13 +273,13 @@ router.delete("/:id", async function (req, res, next) {
  *        name: kampusId
  *        schema:
  *          type: number
- *        required: true
+ *        required: false
  *        description: Cihazın bulunduğu kampüse ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
- router.get("/kampus/:kampusId", async function (req, res, next) {
+router.get("/kampus/:kampusId", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByKampus(req.params.kampusId);
     res.send(response);

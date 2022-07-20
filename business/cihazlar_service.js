@@ -38,7 +38,7 @@ class CihazlarService{
     }
 
     async getAllByBina(binaId){
-        var result = await this.dal.getAllByMekan(binaId);
+        var result = await this.dal.getAllByBina(binaId);
         return result;
     }
 
