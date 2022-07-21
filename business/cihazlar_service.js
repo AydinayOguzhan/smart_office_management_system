@@ -1,11 +1,16 @@
 const CihazlarDal = require("../data_access/cihazlar_dal");
+const Operations = require("../core/utilities/secured_operations/secured_operations");
 
 class CihazlarService{
     constructor(){
         this.dal = new CihazlarDal();
     }
 
-    async getAll(){
+    async getAll(userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAll();
         return result;
     }

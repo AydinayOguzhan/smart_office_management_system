@@ -1,4 +1,4 @@
-const ErrorResult = require("./error_result")
+const ErrorResult = require("./error_result");
 
 class ErrorDataResult extends ErrorResult{
     constructor(message, data){

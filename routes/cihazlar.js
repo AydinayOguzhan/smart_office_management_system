@@ -66,25 +66,31 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /cihaz/:
+ * /cihaz/{userId}:
  *   get:
  *     summary: Tüm cihazları döndürür
  *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Cihaza ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/", async function (req, res, next) {
-    // res.render('index', { title: 'Express' }); 
+router.get("/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAll();
+    const response = await service.getAll(req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /cihaz/{id}:
+ * /cihaz/id/{id}:
  *   get:
  *     summary: Id'ye göre cihazı getir
  *     tags: [cihazlar]
@@ -105,7 +111,7 @@ router.get("/", async function (req, res, next) {
  *       404:
  *         description: Data bulunamadı
  */
-router.get('/:id', async function (req, res, next) {
+router.get('/id/:id', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new CihazlarService();
