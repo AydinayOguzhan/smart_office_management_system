@@ -40,6 +40,7 @@ class CihazlarDal {
     add(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                // console.log(obj);
                 connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi, 
                     aktif, eklenme_tarihi, durum) VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
                     ${obj.veriGondermeSikligi},  ${obj.aktif}, '${obj.eklenmeTarihi}', ${obj.durum})`, (err, result) => {

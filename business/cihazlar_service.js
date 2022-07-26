@@ -1,13 +1,15 @@
 const CihazlarDal = require("../data_access/cihazlar_dal");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
+const logger = require("../core/logger/winston_logger");
+var winLog = require("../core/logger/winston_logger");
 
 class CihazlarService{
     constructor(){
         this.dal = new CihazlarDal();
     }
-
+    
     async getAll(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
+        const operationResult = await Operations.securedOperations(userId, 1,2);
         if (operationResult.success === false) {
             return operationResult;
         }
@@ -23,6 +25,7 @@ class CihazlarService{
     async add(obj){
         obj.aktif = true;
         obj.durum = true;
+        console.log(obj);
         var result = await this.dal.add(obj);
         return result;
     }

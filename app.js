@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
 
+var winLog = require("../api/core/logger/winston_logger");
+
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
 
@@ -42,6 +44,11 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use((req,res,next)=>{
+  winLog.info(`url: ${req.originalUrl}- method: ${req.method}`);
+  next();
+});
 
 app.use(logger('dev'));
 app.use(express.json());

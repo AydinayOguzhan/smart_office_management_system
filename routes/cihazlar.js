@@ -109,7 +109,7 @@ router.get("/:userId", async function (req, res, next) {
  *             schema:
  *               $ref: '#/components/schemas/Cihaz'
  *       404:
- *         description: Data bulunamadı
+ *         description: Data bulunamadı 
  */
 router.get('/id/:id', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
@@ -147,10 +147,10 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     const cihazObj = new CihazObject();
     cihazObj.adi = req.body.adi;
     cihazObj.kat = req.body.kat;
-    cihazObj.mekanId = req.body.mekanId;
-    cihazObj.binaId = req.body.binaId;
-    cihazObj.kampusId = req.body.kampusId;
-    cihazObj.veriGondermeSikligi = req.body.veriGondermeSikligi;
+    cihazObj.mekanId = req.body.mekan_id;
+    cihazObj.binaId = req.body.bina_id;
+    cihazObj.kampusId = req.body.kampus_id;
+    cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
 
     var result = await service.add(cihazObj);
     res.send(result);

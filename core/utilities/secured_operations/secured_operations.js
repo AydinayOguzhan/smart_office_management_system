@@ -8,6 +8,10 @@ class Operations {
     static async securedOperations(userId, ...operations) {
         const userOperationClaimService = new UserOperationClaimService();
         const claim = await userOperationClaimService.getByUserId(userId);
+        if (claim.success === false) {
+            return new ErrorResult(Messages.UserNotFound);
+        }
+
         const result = operations.find(element => claim.data.operation_claim_id === element);
         if (result === undefined) {
             return new ErrorResult(Messages.AuthorizationDenied);
