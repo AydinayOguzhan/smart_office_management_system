@@ -1,12 +1,12 @@
 const date = require("date-and-time");
 
 class OlcumObject{
-    constructor(id, cihazId, isikSiddeti, sicaklik, karbondioksitMiktari, nem, gurultu,durum){
+    constructor(id, cihaz_id, isik_siddeti, sicaklik, karbondioksit_miktari, nem, gurultu,durum){
         this.id = id;
-        this.cihazId = cihazId;
-        this.isikSiddeti = isikSiddeti;
+        this.cihaz_id = cihaz_id;
+        this.isik_siddeti = isik_siddeti;
         this.sicaklik = sicaklik;
-        this.karbondioksitMiktari = karbondioksitMiktari;
+        this.karbondioksit_miktari = karbondioksit_miktari;
         this.nem = nem;
         this.gurultu = gurultu;
         this.eklenmeTarihi = date.format(new Date(),'YYYY-MM-DD');

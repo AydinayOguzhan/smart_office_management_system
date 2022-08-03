@@ -39,8 +39,9 @@ class OlcumDal {
     add(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                console.log(obj);
                 connection.query(`INSERT INTO olcumler(cihaz_id, isik_siddeti, sicaklik, karbondioksit_miktari, nem, gurultu, 
-                    eklenme_tarihi, durum) VALUES (${obj.cihazId}, '${obj.isikSiddeti}', '${obj.sicaklik}', '${obj.karbondioksitMiktari}', 
+                    eklenme_tarihi, durum) VALUES (${obj.cihaz_id}, '${obj.isik_siddeti}', '${obj.sicaklik}', '${obj.karbondioksit_miktari}', 
                     '${obj.nem}', '${obj.gurultu}', '${obj.eklenmeTarihi}', ${obj.durum})`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
@@ -59,8 +60,8 @@ class OlcumDal {
     update(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`UPDATE olcumler SET cihaz_id=${obj.cihazId} , isik_siddeti='${obj.isikSiddeti}', 
-                sicaklik='${obj.sicaklik}', karbondioksit_miktari = '${obj.karbondioksitMiktari}', nem = '${obj.nem}', 
+                connection.query(`UPDATE olcumler SET cihaz_id=${obj.cihaz_id} , isik_siddeti='${obj.isik_siddeti}', 
+                sicaklik='${obj.sicaklik}', karbondioksit_miktari = '${obj.karbondioksit_miktari}', nem = '${obj.nem}', 
                 gurultu = '${obj.gurultu}', eklenme_tarihi = '${obj.eklenmeTarihi}' 
                 WHERE id=${obj.id}`, (err, result) => {
 
