@@ -61,7 +61,7 @@ class CihazlarDal {
     update(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                console.log(obj);
+                // console.log(obj);
                 connection.query(`UPDATE cihazlar SET adi='${obj.adi}' , kat=${obj.kat}, mekan_id=${obj.mekanId}, 
                 bina_id = ${obj.binaId}, kampus_id = ${obj.kampusId},
                 veri_gonderme_sikligi = ${obj.veriGondermeSikligi}, aktif = ${obj.aktif}, eklenme_tarihi = '${obj.eklenmeTarihi}' 

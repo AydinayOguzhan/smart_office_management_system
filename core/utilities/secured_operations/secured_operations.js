@@ -8,7 +8,7 @@ class Operations {
     static async securedOperations(userId, ...operations) {
         const userOperationClaimService = new UserOperationClaimService();
         const claim = await userOperationClaimService.getByUserId(userId);
-        if (claim.success === false) {
+        if (claim.success === false || claim.data.durum === 0) {
             return new ErrorResult(Messages.UserNotFound);
         }
 

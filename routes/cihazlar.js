@@ -16,40 +16,44 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *     Cihaz:
  *       type: object
  *       required:
+ *         - userId
  *         - adi
  *         - kat
- *         - mekanId
- *         - binaId
- *         - kampusId
+ *         - mekan_id
+ *         - bina_id
+ *         - kampus_id
  *       properties:
  *         id:
  *           type: number
  *           description: Cihazın Id numarası. Otomatik oluşturulur.
+ *         userId:
+ *           type: number
+ *           description: Kullanıcıya ait Id numarası.
  *         adi:
  *           type: string
  *           description: Cihazın adı.
  *         kat:
  *           type: number
  *           description: Cihazın bulunduğu kat.
- *         mekanId:
+ *         mekan_id:
  *           type: number
  *           description: Cihazın bulunduğu mekanın Id numarası.
- *         binaId:
+ *         bina_id4:
  *           type: number
  *           description: Cihazın bulunduğu binanın Id numarası.
- *         kampusId:
+ *         kampus_id:
  *           type: number
  *           description: Cihazın bulunduğu kampüsün Id numarası.
- *         universiteId:
+ *         universite_id:
  *           type: number
  *           description: Cihazın bulunduğu üniversitenin Id numarası. Otomatik atanır.
- *         veriGondermeSikligi:
+ *         veri_gonderme_sikligi:
  *           type: number
  *           description: Cihazın veri gönderme sıklığı. Saniye cinsinden.
  *         aktif:
  *           type: boolean
  *           description: Cihazın çalışıp çalışmadığını gösteren alan.
- *         eklenmeTarihi:
+ *         eklenme_tarihi:
  *           type: string
  *           description: Cihazın sisteme eklendiği tarih. Otomatik atanır.
  *         durum:
@@ -76,7 +80,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *        schema:
  *          type: number
  *        required: true
- *        description: Cihaza ait Id numarası
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
@@ -90,7 +94,7 @@ router.get("/:userId", async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/id/{id}:
+ * /cihaz/id/{id}/{userId}:
  *   get:
  *     summary: Id'ye göre cihazı getir
  *     tags: [cihazlar]
@@ -101,6 +105,12 @@ router.get("/:userId", async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Cihaza ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli data gelir
@@ -111,11 +121,11 @@ router.get("/:userId", async function (req, res, next) {
  *       404:
  *         description: Data bulunamadı 
  */
-router.get('/id/:id', async function (req, res, next) {
+router.get('/id/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new CihazlarService();
-    var response = await service.getById(req.params.id);
+    var response = await service.getById(req.params.id, req.params.userId);
     res.send(response);
 });
 
@@ -152,7 +162,7 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     cihazObj.kampusId = req.body.kampus_id;
     cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
 
-    var result = await service.add(cihazObj);
+    var result = await service.add(cihazObj, req.body.userId);
     res.send(result);
 });
 
@@ -185,20 +195,20 @@ router.put("/", urlencodedParser, async function (req, res, next) {
     cihazObj.id = req.body.id;
     cihazObj.adi = req.body.adi;
     cihazObj.kat = req.body.kat;
-    cihazObj.mekanId = req.body.mekanId;
-    cihazObj.binaId = req.body.binaId;
-    cihazObj.kampusId = req.body.kampusId;
-    cihazObj.veriGondermeSikligi = req.body.veriGondermeSikligi;
+    cihazObj.mekanId = req.body.mekan_id;
+    cihazObj.binaId = req.body.bina_id;
+    cihazObj.kampusId = req.body.kampus_id;
+    cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
     cihazObj.aktif = req.body.aktif;
 
-    var result = await service.update(cihazObj);
+    var result = await service.update(cihazObj, req.body.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /cihaz/{id}:
+ * /cihaz/{id}/{userId}:
  *   delete:
  *     summary: Id numarasına göre verinin durumunu false yap.
  *     tags: [cihazlar]
@@ -209,22 +219,28 @@ router.put("/", urlencodedParser, async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Cihaza ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Veri başarıyla silindi
  *       404:
  *         description: Veri bulunamadı
  */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    var result = await service.delete(req.params.id);
+    var result = await service.delete(req.params.id, req.params.userId);
     res.send(result);
 })
 
 
 /**
  * @swagger
- * /cihaz/mekan/{mekanId}:
+ * /cihaz/mekan/{mekanId}/{userId}:
  *   get:
  *     summary: Tüm cihazları bulundukları mekana göre döndürür
  *     tags: [cihazlar]
@@ -235,19 +251,25 @@ router.delete("/:id", async function (req, res, next) {
  *          type: number
  *        required: true
  *        description: Cihazın bulunduğu mekana ait Id numarası
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/mekan/:mekanId", async function (req, res, next) {
+router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByMekan(req.params.mekanId);
+    const response = await service.getAllByMekan(req.params.mekanId, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/bina/{binaId}:
+ * /cihaz/bina/{binaId}/{userId}:
  *   get:
  *     summary: Tüm cihazları bulundukları binaya göre döndürür
  *     tags: [cihazlar]
@@ -258,19 +280,25 @@ router.get("/mekan/:mekanId", async function (req, res, next) {
  *          type: number
  *        required: true
  *        description: Cihazın bulunduğu binaya ait Id numarası
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/bina/:binaId", async function (req, res, next) {
+router.get("/bina/:binaId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByBina(req.params.binaId);
+    const response = await service.getAllByBina(req.params.binaId, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/kampus/{kampusId}:
+ * /cihaz/kampus/{kampusId}/{userId}:
  *   get:
  *     summary: Tüm cihazları bulundukları kampüse göre döndürür
  *     tags: [cihazlar]
@@ -281,19 +309,25 @@ router.get("/bina/:binaId", async function (req, res, next) {
  *          type: number
  *        required: false
  *        description: Cihazın bulunduğu kampüse ait Id numarası
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/kampus/:kampusId", async function (req, res, next) {
+router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByKampus(req.params.kampusId);
+    const response = await service.getAllByKampus(req.params.kampusId, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/aktif/{aktif}:
+ * /cihaz/aktif/{aktif}/{userId}:
  *   get:
  *     summary: Tüm cihazları aktifliklerine göre getirir
  *     tags: [cihazlar]
@@ -304,19 +338,25 @@ router.get("/kampus/:kampusId", async function (req, res, next) {
  *          type: boolean
  *        required: false
  *        description: Cihazın aktiflik durumu. 1-Aktif 2-Deaktif
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
- router.get("/aktif/:aktif", async function (req, res, next) {
+ router.get("/aktif/:aktif/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByAktif(req.params.aktif);
+    const response = await service.getAllByAktif(req.params.aktif, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/durum/{durum}:
+ * /cihaz/durum/{durum}/{userId}:
  *   get:
  *     summary: Tüm cihazları veri aktifliğine göre getirir
  *     tags: [cihazlar]
@@ -327,13 +367,19 @@ router.get("/kampus/:kampusId", async function (req, res, next) {
  *          type: boolean
  *        required: false
  *        description: Cihazın durumu. 1-Aktif 2-Deaktif
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
- router.get("/durum/:durum", async function (req, res, next) {
+ router.get("/durum/:durum/:userId", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByDurum(req.params.durum);
+    const response = await service.getAllByDurum(req.params.durum, req.params.userId);
     res.send(response);
 });
 

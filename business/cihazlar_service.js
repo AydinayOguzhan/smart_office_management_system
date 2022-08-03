@@ -9,7 +9,7 @@ class CihazlarService{
     }
     
     async getAll(userId){
-        const operationResult = await Operations.securedOperations(userId, 1,2);
+        const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
         }
@@ -17,50 +17,85 @@ class CihazlarService{
         return result;
     }
 
-    async getById(id){
+    async getById(id, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getById(id);
         return result;
     }
 
-    async add(obj){
+    async add(obj, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         obj.aktif = true;
         obj.durum = true;
-        console.log(obj);
         var result = await this.dal.add(obj);
         return result;
     }
 
-    async update(obj){
+    async update(obj, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.update(obj);
         return result;
     }
 
-    async delete(id){
+    async delete(id, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.delete(id);
         return result;
     }
 
-    async getAllByMekan(mekanId){
+    async getAllByMekan(mekanId, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAllByMekan(mekanId);
         return result;
     }
 
-    async getAllByBina(binaId){
+    async getAllByBina(binaId, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAllByBina(binaId);
         return result;
     }
 
-    async getAllByKampus(kampusId){
+    async getAllByKampus(kampusId, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAllByKampus(kampusId);
         return result;
     }
 
-    async getAllByAktif(aktif){
+    async getAllByAktif(aktif, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAllByAktif(aktif);
         return result;
     }
 
-    async getAllByDurum(durum){
+    async getAllByDurum(durum, userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
         var result = await this.dal.getAllByDurum(durum);
         return result;
     }
