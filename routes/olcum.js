@@ -166,7 +166,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /olcum/{userId}:
  *   put:
- *      summary: Ölçümler tablosuna yeni cihaz ekle
+ *      summary: Ölçümler tablosundaki bir ölçümü güncelle
  *      tags: [olcumler]
  *      parameters:
  *       - in: path

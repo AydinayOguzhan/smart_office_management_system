@@ -130,7 +130,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /parca_kategoriler/{userId}:
  *   put:
- *      summary: Yeni bir parça kategorisi ekle
+ *      summary: Parça kategoriler tablosundaki bir parça kategorisini güncelle
  *      tags: [ParcaKategoriler]
  *      parameters:
  *       - in: path
