@@ -37,25 +37,32 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /parca_kategoriler/:
+ * /parca_kategoriler/{userId}:
  *   get:
- *     summary: Returns all parca_kategoriler
+ *     summary: Tüm ölçümleri döndürür
  *     tags: [ParcaKategoriler]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: All data
+ *         description: İşlem başarılı
  */
-router.get("/", async function(req, res, next){
+router.get("/:userId", async function(req, res, next){
   // res.render('index', { title: 'Express' }); 
   var service = new ParcaKategorilerService();
-  const response = await service.getAll();
+  const response = await service.getAll(req.params.userId);
   res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca_kategoriler/{id}:
+ * /parca_kategoriler/{id}/{userId}:
  *   get:
  *     summary: Get the parca_kategoriler by id
  *     tags: [ParcaKategoriler]
@@ -65,94 +72,99 @@ router.get("/", async function(req, res, next){
  *         schema:
  *           type: number
  *         required: true
- *         description: The parca_kategoriler id
+ *         description: Parçanın kategorisine ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: The specific data by id
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Parca_Kategori'
- *       404:
- *         description: The data was not found
+ *         description: İşlem başarılı
  */
-router.get('/:id', async function (req, res, next) {
+router.get('/:id/:userId', async function (req, res, next) {
   // res.render('index', { title: 'Express' });
   // res.send(req.params.id)
   var service = new ParcaKategorilerService();
-  var response = await service.getById(req.params.id);
+  var response = await service.getById(req.params.id, req.params.userId);
   res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca_kategoriler/:
+ * /parca_kategoriler/{userId}:
  *   post:
- *     summary: Add new data to parca_kategoriler
- *     tags: [ParcaKategoriler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Parca_Kategori'
- *     responses:
- *       200:
- *         description: New data successfully added
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Parca_Kategori'
- *       500:
- *         description: Some server error
+ *      summary: Yeni bir parça kategorisi ekle
+ *      tags: [ParcaKategoriler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Parca_Kategori'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.post("/", urlencodedParser, async function (req, res, next) {
+router.post("/:userId", urlencodedParser, async function (req, res, next) {
   var service = new ParcaKategorilerService();
   data = {
-    adi: req.body.name
+    adi: req.body.adi
   }
-  var result = await service.add(data);
+  var result = await service.add(data, req.params.userId);
   res.send(result);
 });
 
-
 /**
  * @swagger
- * /parca_kategoriler/:
+ * /parca_kategoriler/{userId}:
  *   put:
- *     summary: Update the data of the parca_kategoriler by id
- *     tags: [ParcaKategoriler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Parca_Kategori'
- *     responses:
- *       200:
- *         description: New data successfully updated
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Parca_Kategori'
- *       500:
- *         description: Some server error
+ *      summary: Yeni bir parça kategorisi ekle
+ *      tags: [ParcaKategoriler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Parca_Kategori'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.put("/", urlencodedParser, async function (req, res, next) {
+router.put("/:userId", urlencodedParser, async function (req, res, next) {
   var service = new ParcaKategorilerService();
   data = {
     id: req.body.id,
-    adi: req.body.name
+    adi: req.body.adi
   }
-  var result = await service.update(data);
+  var result = await service.update(data, req.params.userId);
   res.send(result);
 });
 
 
 /**
  * @swagger
- * /parca_kategoriler/{id}:
+ * /parca_kategoriler/{id}/{userId}:
  *   delete:
  *     summary: Delete the data by id
  *     tags: [ParcaKategoriler]
@@ -162,16 +174,20 @@ router.put("/", urlencodedParser, async function (req, res, next) {
  *         schema:
  *           type: number
  *         required: true
- *         description: The data id
+ *         description: Silinecek kategoriye ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: The data successfully deleted
- *       404:
- *         description: The data was not found
+ *         description: işlem başarılı
  */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id/:userId", async function (req, res, next) {
   var service = new ParcaKategorilerService();
-  var result = await service.delete(req.params.id);
+  var result = await service.delete(req.params.id, req.params.userId);
   res.send(result);
 })
 
