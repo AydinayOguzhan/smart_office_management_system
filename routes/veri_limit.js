@@ -50,29 +50,37 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *   description: Limitler
  */
 
+
 /**
  * @swagger
- * /veri_limit/:
+ * /veri_limit/{userId}:
  *   get:
  *     summary: Tüm limitleri döndürür
  *     tags: [limitler]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/", async function (req, res, next) {
+router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new VeriLimitService();
-    const response = await service.getAll();
+    const response = await service.getAll(req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /veri_limit/{id}:
+ * /veri_limit/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre limitleri getir
+ *     summary: Id'ye göre limitleri getirir
  *     tags: [limitler]
  *     parameters:
  *       - in: path
@@ -81,48 +89,51 @@ router.get("/", async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Limite ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli data gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Veri_Limit'
- *       404:
- *         description: Data bulunamadı
  */
-router.get('/:id', async function (req, res, next) {
+router.get('/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new VeriLimitService();
-    var response = await service.getById(req.params.id);
+    var response = await service.getById(req.params.id, req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /veri_limit/:
+ * /veri_limit/{userId}:
  *   post:
- *     summary: Limitler tablosuna yeni cihaz ekle
- *     tags: [limitler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Veri_Limit'
- *     responses:
- *       200:
- *         description: Yeni cihaz başarıyla eklendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Veri_Limit'
- *       500:
- *         description: Server hatası
+ *      summary: Limitler tablosuna yeni limit ekle
+ *      tags: [limitler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Veri_Limit'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.post("/", urlencodedParser, async function (req, res, next) {
+router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = new VeriLimitObject();
     limitObj.adi = req.body.adi;
@@ -130,34 +141,37 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     limitObj.ustLimit = req.body.ustLimit;
     limitObj.yerId = req.body.yerId;
 
-    var result = await service.add(limitObj);
+    var result = await service.add(limitObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /veri_limit/:
+ * /veri_limit/{userId}:
  *   put:
- *     summary: Id numarasına göre limitleri güncelle
- *     tags: [limitler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Veri_Limit'
- *     responses:
- *       200:
- *         description: Data başarıyla güncellendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Veri_Limit'
- *       500:
- *         description: Server hatası
+ *      summary: Limitler tablosundaki bir limiti güncelle
+ *      tags: [limitler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Veri_Limit'
+ *      responses:
+ *          200:
+ *              description: Güncelleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.put("/", urlencodedParser, async function (req, res, next) {
+router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = new VeriLimitObject();
     limitObj.id = req.body.id;
@@ -166,14 +180,14 @@ router.put("/", urlencodedParser, async function (req, res, next) {
     limitObj.ustLimit = req.body.ustLimit;
     limitObj.yerId = req.body.yerId;
 
-    var result = await service.update(limitObj);
+    var result = await service.update(limitObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /veri_limit/{id}:
+ * /veri_limit/{id}/{userId}:
  *   delete:
  *     summary: Id numarasına göre limitin durumunu false yap.
  *     tags: [limitler]
@@ -184,15 +198,21 @@ router.put("/", urlencodedParser, async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Limite ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Veri başarıyla silindi
  *       404:
  *         description: Veri bulunamadı
  */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id/:userId", async function (req, res, next) {
     var service = new VeriLimitService();
-    var result = await service.delete(req.params.id);
+    var result = await service.delete(req.params.id, req.params.userId);
     res.send(result);
 })
 
