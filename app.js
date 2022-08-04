@@ -45,10 +45,14 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use((req,res,next)=>{
-  winLog.info(`url: ${req.originalUrl}- method: ${req.method}`);
+
+app.use((req, res, next) => {
+  const urlArr = req.url.split("/");
+  const userId = urlArr[urlArr.length - 1];
+  winLog.info(`url: ${req.originalUrl} , method: ${req.method} , userId: ${userId}`);
   next();
 });
+
 
 app.use(logger('dev'));
 app.use(express.json());

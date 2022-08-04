@@ -8,7 +8,6 @@ const ErrorResult = require('../core/utilities/results/error_result');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-
 /**
  * @swagger
  * components:
@@ -16,7 +15,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *     Cihaz:
  *       type: object
  *       required:
- *         - userId
  *         - adi
  *         - kat
  *         - mekan_id
@@ -26,9 +24,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         id:
  *           type: number
  *           description: Cihazın Id numarası. Otomatik oluşturulur.
- *         userId:
- *           type: number
- *           description: Kullanıcıya ait Id numarası.
  *         adi:
  *           type: string
  *           description: Cihazın adı.
@@ -38,7 +33,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         mekan_id:
  *           type: number
  *           description: Cihazın bulunduğu mekanın Id numarası.
- *         bina_id4:
+ *         bina_id:
  *           type: number
  *           description: Cihazın bulunduğu binanın Id numarası.
  *         kampus_id:
@@ -130,29 +125,33 @@ router.get('/id/:id/:userId', async function (req, res, next) {
 });
 
 
+
 /**
  * @swagger
- * /cihaz/:
+ * /cihaz/{userId}:
  *   post:
- *     summary: Cihazlar tablosuna yeni cihaz ekle
- *     tags: [cihazlar]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Cihaz'
- *     responses:
- *       200:
- *         description: Yeni cihaz başarıyla eklendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Cihaz'
- *       500:
- *         description: Server hatası
+ *      summary: Cihazlar tablosuna yeni cihaz ekle
+ *      tags: [cihazlar]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Cihaz'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.post("/", urlencodedParser, async function (req, res, next) {
+router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = new CihazObject();
     cihazObj.adi = req.body.adi;
@@ -162,23 +161,30 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     cihazObj.kampusId = req.body.kampus_id;
     cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
 
-    var result = await service.add(cihazObj, req.body.userId);
+    var result = await service.add(cihazObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /cihaz/:
+ * /cihaz/{userId}:
  *   put:
  *     summary: Id numarasına göre cihazları güncelle
  *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Cihaz'
+ *         required: true
+ *         content:
+ *             application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/Cihaz'
  *     responses:
  *       200:
  *         description: Data başarıyla güncellendi
@@ -189,7 +195,7 @@ router.post("/", urlencodedParser, async function (req, res, next) {
  *       500:
  *         description: Server hatası
  */
-router.put("/", urlencodedParser, async function (req, res, next) {
+router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = new CihazObject();
     cihazObj.id = req.body.id;
@@ -201,7 +207,7 @@ router.put("/", urlencodedParser, async function (req, res, next) {
     cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
     cihazObj.aktif = req.body.aktif;
 
-    var result = await service.update(cihazObj, req.body.userId);
+    var result = await service.update(cihazObj, req.params.userId);
     res.send(result);
 });
 
@@ -348,7 +354,7 @@ router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
  *       200:
  *         description: Tüm data döner
  */
- router.get("/aktif/:aktif/:userId", async function (req, res, next) {
+router.get("/aktif/:aktif/:userId", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByAktif(req.params.aktif, req.params.userId);
     res.send(response);
@@ -377,7 +383,7 @@ router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
  *       200:
  *         description: Tüm data döner
  */
- router.get("/durum/:durum/:userId", async function (req, res, next) {
+router.get("/durum/:durum/:userId", async function (req, res, next) {
     var service = new CihazlarService();
     const response = await service.getAllByDurum(req.params.durum, req.params.userId);
     res.send(response);

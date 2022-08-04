@@ -16,7 +16,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *     Olcum:
  *       type: object
  *       required:
- *         - userId
  *         - cihaz_id
  *         - isik_siddeti
  *         - sicaklik
@@ -27,9 +26,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         id:
  *           type: number
  *           description: Ölçümün Id numarası. Otomatik oluşturulur.
- *         userId:
- *           type: number
- *           description: Kullanıcıya ait Id Numarası.
  *         cihaz_id:
  *           type: number
  *           description: Ölçümün ait olduğu cihazın Id numarası.
@@ -128,27 +124,30 @@ router.get('/:id/:userId', async function (req, res, next) {
 
 /**
  * @swagger
- * /olcum/:
+ * /olcum/{userId}:
  *   post:
- *     summary: Ölçümler tablosuna yeni ölçüm ekle
- *     tags: [olcumler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Olcum'
- *     responses:
- *       200:
- *         description: Yeni ölçüm başarıyla eklendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Olcum'
- *       500:
- *         description: Server hatası
+ *      summary: Ölçümler tablosuna yeni cihaz ekle
+ *      tags: [olcumler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Olcum'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.post("/", urlencodedParser, async function (req, res, next) {
+router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
     const olcumObj = new OlcumObject();
     olcumObj.cihaz_id = req.body.cihaz_id;
@@ -158,34 +157,37 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     olcumObj.nem = req.body.nem;
     olcumObj.gurultu = req.body.gurultu;
 
-    var result = await service.add(olcumObj, req.body.userId);
+    var result = await service.add(olcumObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /olcum/:
+ * /olcum/{userId}:
  *   put:
- *     summary: Id numarasına göre ölçümleri güncelle
- *     tags: [olcumler]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Olcum'
- *     responses:
- *       200:
- *         description: Data başarıyla güncellendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Olcum'
- *       500:
- *         description: Server hatası
+ *      summary: Ölçümler tablosuna yeni cihaz ekle
+ *      tags: [olcumler]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Olcum'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.put("/", urlencodedParser, async function (req, res, next) {
+router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
     const olcumObj = new OlcumObject();
     olcumObj.id = req.body.id;
@@ -196,7 +198,7 @@ router.put("/", urlencodedParser, async function (req, res, next) {
     olcumObj.nem = req.body.nem;
     olcumObj.gurultu = req.body.gurultu;
 
-    var result = await service.update(olcumObj, req.body.userId);
+    var result = await service.update(olcumObj, req.params.userId);
     res.send(result);
 });
 
