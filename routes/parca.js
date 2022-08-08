@@ -43,29 +43,36 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * tags:
  *   name: parcalar
  *   description: Parcalar
- */
+ */ 
 
 /**
  * @swagger
- * /parca/:
+ * /parca/{userId}:
  *   get:
  *     summary: Sistemde kayıtlı bütün parçaları getirir
  *     tags: [parcalar]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/", async function (req, res, next) {
+ router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new ParcaService();
-    const response = await service.getAll();
+    const response = await service.getAll(req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/{id}:
+ * /parca/{id}/{userId}:
  *   get:
  *     summary: Id'ye göre parçayı getir
  *     tags: [parcalar]
@@ -76,82 +83,88 @@ router.get("/", async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Parçaya ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli data gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Parca'
- *       404:
- *         description: Data bulunamadı
  */
-router.get('/:id', async function (req, res, next) {
+router.get('/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new ParcaService();
-    var response = await service.getById(req.params.id);
+    var response = await service.getById(req.params.id, req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/:
+ * /parca/{userId}:
  *   post:
- *     summary: Parçalar tablosuna yeni parça ekle
- *     tags: [parcalar]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Parca'
- *     responses:
- *       200:
- *         description: Yeni parça başarıyla eklendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Parca'
- *       500:
- *         description: Server hatası
+ *      summary: Parçalar tablosuna yeni cihaz ekle
+ *      tags: [parcalar]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Parca'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.post("/", urlencodedParser, async function (req, res, next) {
+router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
     const parcaObj = new ParcaObject();
     parcaObj.cihazId = req.body.cihazId;
     parcaObj.kategoriId = req.body.kategoriId;
     parcaObj.parcaAdi = req.body.parcaAdi;
 
-    var result = await service.add(parcaObj);
+    var result = await service.add(parcaObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /parca/:
+ * /parca/{userId}:
  *   put:
- *     summary: Id numarasına göre parçaları güncelle
- *     tags: [parcalar]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *          schema:
- *               $ref: '#/components/schemas/Parca'
- *     responses:
- *       200:
- *         description: Data başarıyla güncellendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Parca'
- *       500:
- *         description: Server hatası
+ *      summary: Parçalar tablosundaki bir parçayı güncelle
+ *      tags: [parcalar]
+ *      parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/Parca'
+ *      responses:
+ *          200:
+ *              description: Ekleme işlemi başarılı
+ *          500: 
+ *              description: Server hatası
  */
-router.put("/", urlencodedParser, async function (req, res, next) {
+ router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
     const parcaObj = new ParcaObject();
     parcaObj.id = req.body.id;
@@ -160,14 +173,14 @@ router.put("/", urlencodedParser, async function (req, res, next) {
     parcaObj.parcaAdi = req.body.parcaAdi;
     parcaObj.durum = req.body.durum;
 
-    var result = await service.update(parcaObj);
+    var result = await service.update(parcaObj, req.params.userId);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /parca/{id}:
+ * /parca/{id}/{userId}:
  *   delete:
  *     summary: Id numarasına göre verinin durumunu false yap
  *     tags: [parcalar]
@@ -178,22 +191,28 @@ router.put("/", urlencodedParser, async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Parçaya ait Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Veri başarıyla silindi
  *       404:
  *         description: Veri bulunamadı
  */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id/:userId", async function (req, res, next) {
     var service = new ParcaService();
-    var result = await service.delete(req.params.id);
+    var result = await service.delete(req.params.id, req.params.userId);
     res.send(result);
 })
 
 
 /**
  * @swagger
- * /parca/durum/{durum}:
+ * /parca/durum/{durum}/{userId}:
  *   get:
  *     summary: Sistemde ekli bütün parçaları durum alanına göre getirir
  *     tags: [parcalar]
@@ -204,20 +223,26 @@ router.delete("/:id", async function (req, res, next) {
  *           type: boolean
  *         required: true
  *         description: Parçaya ait durum bilgisi
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/durum/:durum', async function (req, res, next) {
+ router.get('/durum/:durum/:userId', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByDurum(req.params.durum);
+    var response = await service.getAllByDurum(req.params.durum, req.params.userId);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/tarih/{startDate}/{endDate}:
+ * /parca/tarih/{startDate}/{endDate}/{userId}:
  *   get:
  *     summary: Sistemde ekli bütün parçaları tarih aralığına göre getirir
  *     tags: [parcalar]
@@ -234,19 +259,25 @@ router.delete("/:id", async function (req, res, next) {
  *           type: string
  *         required: true
  *         description: Parçaya ait eklenme tarihi bilgisi
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/tarih/:startDate/:endDate', async function (req, res, next) {
+ router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByDate(req.params.startDate, req.params.endDate);
+    var response = await service.getAllByDate(req.params.startDate, req.params.endDate, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /parca/kategori/{kategoriId}:
+ * /parca/kategori/{kategoriId}/{userId}:
  *   get:
  *     summary: Sistemde ekli bütün parçaları kategori alanına göre getirir
  *     tags: [parcalar]
@@ -257,19 +288,25 @@ router.delete("/:id", async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Parçaya ait kategori Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/kategori/:kategoriId', async function (req, res, next) {
+ router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByCategory(req.params.kategoriId);
+    var response = await service.getAllByCategory(req.params.kategoriId, req.params.userId);
     res.send(response);
 });
 
 /**
  * @swagger
- * /parca/cihaz/{cihazId}:
+ * /parca/cihaz/{cihazId}/{userId}:
  *   get:
  *     summary: Cihazlar üzerine takılı bütün parçaları getirir
  *     tags: [parcalar]
@@ -280,13 +317,19 @@ router.delete("/:id", async function (req, res, next) {
  *           type: number
  *         required: true
  *         description: Parçaya ait cihaz Id numarası
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/cihaz/:cihazId', async function (req, res, next) {
+ router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByCihaz(req.params.cihazId);
+    var response = await service.getAllByCihaz(req.params.cihazId, req.params.userId);
     res.send(response);
 });
 
