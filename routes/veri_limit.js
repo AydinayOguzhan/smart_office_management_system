@@ -15,14 +15,21 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *     Veri_Limit:
  *       type: object
  *       required:
+ *         - cihazId
+ *         - kategoriId
  *         - adi
  *         - altLimit
  *         - ustLimit
- *         - yerId
  *       properties:
  *         id:
  *           type: number
  *           description: Veri limitinin Id numarası. Otomatik oluşturulur.
+ *         cihazId:
+ *           type: number
+ *           description: Veri limitinin ait olduğu cihazın Id numarası.
+ *         kategoriId:
+ *           type: number
+ *           description: Veri limitinin ait olduğu kategoriye ait Id numarası.
  *         adi:
  *           type: string
  *           description: Liminin adı.
@@ -32,9 +39,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         ustLimit:
  *           type: string
  *           description: Üst limit değeri.
- *         yerId:
- *           type: number
- *           description: Limitin ait olduğu yerin Id numarası.
  *         eklenmeTarihi:
  *           type: string
  *           description: Limitin sisteme eklendiği tarih. Otomatik atanır.
@@ -136,10 +140,11 @@ router.get('/:id/:userId', async function (req, res, next) {
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = new VeriLimitObject();
+    limitObj.cihazId = req.body.cihazId;
+    limitObj.kategoriId = req.body.kategoriId;
     limitObj.adi = req.body.adi;
     limitObj.altLimit = req.body.altLimit;
     limitObj.ustLimit = req.body.ustLimit;
-    limitObj.yerId = req.body.yerId;
 
     var result = await service.add(limitObj, req.params.userId);
     res.send(result);
@@ -175,10 +180,11 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = new VeriLimitObject();
     limitObj.id = req.body.id;
+    limitObj.cihazId = req.body.cihazId;
+    limitObj.kategoriId = req.body.kategoriId;
     limitObj.adi = req.body.adi;
     limitObj.altLimit = req.body.altLimit;
     limitObj.ustLimit = req.body.ustLimit;
-    limitObj.yerId = req.body.yerId;
 
     var result = await service.update(limitObj, req.params.userId);
     res.send(result);

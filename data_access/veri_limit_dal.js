@@ -40,8 +40,8 @@ class VeriLimitDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 console.log(obj);
-                connection.query(`INSERT INTO veri_limitleri(adi, alt_limit, ust_limit, yer_id, eklenme_tarihi, durum) 
-                    VALUES ('${obj.adi}', ${obj.altLimit}, ${obj.ustLimit}, ${obj.yerId}, '${obj.eklenmeTarihi}', ${obj.durum})`, 
+                connection.query(`INSERT INTO veri_limitleri(cihaz_id, kategori_id, adi, alt_limit, ust_limit, eklenme_tarihi, durum) 
+                    VALUES ('${obj.cihazId}','${obj.kategoriId}','${obj.adi}', ${obj.altLimit}, ${obj.ustLimit}, '${obj.eklenmeTarihi}', ${obj.durum})`, 
                     (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
@@ -60,9 +60,8 @@ class VeriLimitDal {
     update(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                console.log(obj);
-                connection.query(`UPDATE veri_limitleri SET adi='${obj.adi}', alt_limit = ${obj.altLimit}, ust_limit = ${obj.ustLimit},
-                yer_id = ${obj.yerId}, eklenme_tarihi = '${obj.eklenmeTarihi}' WHERE id=${obj.id}`, (err, result) => {
+                connection.query(`UPDATE veri_limitleri SET cihaz_id='${obj.cihazId}', kategori_id='${obj.kategoriId}', adi='${obj.adi}', alt_limit = ${obj.altLimit}, ust_limit = ${obj.ustLimit},
+                eklenme_tarihi = '${obj.eklenmeTarihi}' WHERE id=${obj.id}`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
                     if (result !== undefined) {
