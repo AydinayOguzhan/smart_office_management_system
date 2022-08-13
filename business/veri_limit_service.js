@@ -24,6 +24,15 @@ class VeriLimitService{
         return result;
     }
 
+    async getAllByKategoriId(kategoriId,userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.getAllByKategoriId(kategoriId);
+        return result;
+    }
+
     async getById(id, userId){
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {

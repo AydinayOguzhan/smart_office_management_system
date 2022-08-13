@@ -36,6 +36,21 @@ class VeriLimitDal {
         });
     }
 
+    getAllByKategoriId(kategoriId) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM veri_limitleri where kategori_id = ${kategoriId}`, (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...veriLimitleri] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
     getById(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {

@@ -110,6 +110,39 @@ router.get("/:userId", async function (req, res, next) {
 });
 
 
+
+/**
+ * @swagger
+ * /veri_limit/kategori/{kategoriId}/{userId}:
+ *   get:
+ *     summary: Tüm limitleri kategori alanına göre döndürür
+ *     tags: [limitler]
+ *     parameters:
+ *      - in: path
+ *        name: kategoriId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Limitin kategorisine ait Id numarası
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/kategori/:kategoriId/:userId", async function (req, res, next) {
+    // res.render('index', { title: 'Express' }); 
+    var service = new VeriLimitService();
+    const response = await service.getAllByKategoriId(req.params.kategoriId, req.params.userId);
+    res.send(response);
+});
+
+
+
 /**
  * @swagger
  * /veri_limit/{id}/{userId}:
