@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
 const CihazlarService = require('../business/cihazlar_service');
-const CihazObject = require('../entities/cihaz_object');
 const ErrorResult = require('../core/utilities/results/error_result');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -153,13 +152,14 @@ router.get('/id/:id/:userId', async function (req, res, next) {
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
-    const cihazObj = new CihazObject();
-    cihazObj.adi = req.body.adi;
-    cihazObj.kat = req.body.kat;
-    cihazObj.mekanId = req.body.mekan_id;
-    cihazObj.binaId = req.body.bina_id;
-    cihazObj.kampusId = req.body.kampus_id;
-    cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
+    const cihazObj = {
+        adi: req.body.adi,
+        kat: req.body.kat,
+        mekanId: req.body.mekan_id,
+        binaId: req.body.bina_id,
+        kampusId: req.body.kampus_id,
+        veriGondermeSikligi: req.body.veri_gonderme_sikligi,
+    };
 
     var result = await service.add(cihazObj, req.params.userId);
     res.send(result);
@@ -197,15 +197,16 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
-    const cihazObj = new CihazObject();
-    cihazObj.id = req.body.id;
-    cihazObj.adi = req.body.adi;
-    cihazObj.kat = req.body.kat;
-    cihazObj.mekanId = req.body.mekan_id;
-    cihazObj.binaId = req.body.bina_id;
-    cihazObj.kampusId = req.body.kampus_id;
-    cihazObj.veriGondermeSikligi = req.body.veri_gonderme_sikligi;
-    cihazObj.aktif = req.body.aktif;
+    const cihazObj = {
+        id: req.body.id,
+        adi: req.body.adi,
+        kat: req.body.kat,
+        mekanId: req.body.mekan_id,
+        binaId: req.body.bina_id,
+        kampusId: req.body.kampus_id,
+        veriGondermeSikligi: req.body.veri_gonderme_sikligi,
+        aktif: req.body.aktif,
+    };
 
     var result = await service.update(cihazObj, req.params.userId);
     res.send(result);

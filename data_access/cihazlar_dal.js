@@ -1,6 +1,5 @@
 const SuccessResult = require("../core/utilities/results/success_result");
 const SuccessDataResult = require("../core/utilities/results/success_data_result");
-const ParcaKategorilerObject = require("../entities/parca_kategoriler_object");
 const connection = require("../data_access/connections/connection");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
@@ -42,8 +41,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 // console.log(obj);
                 connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi, 
-                    aktif, eklenme_tarihi, durum) VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
-                    ${obj.veriGondermeSikligi},  ${obj.aktif}, '${obj.eklenmeTarihi}', ${obj.durum})`, (err, result) => {
+                    aktif, durum) VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
+                    ${obj.veriGondermeSikligi},  ${obj.aktif}, ${obj.durum})`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
                     if (result !== undefined) {

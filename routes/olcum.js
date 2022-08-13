@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
 const OlcumService = require('../business/olcum_service');
-const OlcumObject = require('../entities/olcum_object');
 
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -149,13 +148,14 @@ router.get('/:id/:userId', async function (req, res, next) {
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
-    const olcumObj = new OlcumObject();
-    olcumObj.cihaz_id = req.body.cihaz_id;
-    olcumObj.isik_siddeti = req.body.isik_siddeti;
-    olcumObj.sicaklik = req.body.sicaklik;
-    olcumObj.karbondioksit_miktari = req.body.karbondioksit_miktari;
-    olcumObj.nem = req.body.nem;
-    olcumObj.gurultu = req.body.gurultu;
+    const olcumObj = {
+        cihaz_id: req.body.cihaz_id,
+        isik_siddeti: req.body.isik_siddeti,
+        sicaklik: req.body.sicaklik,
+        karbondioksit_miktari: req.body.karbondioksit_miktari,
+        nem: req.body.nem,
+        gurultu: req.body.gurultu,
+    };
 
     var result = await service.add(olcumObj, req.params.userId);
     res.send(result);
@@ -189,14 +189,15 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
-    const olcumObj = new OlcumObject();
-    olcumObj.id = req.body.id;
-    olcumObj.cihaz_id = req.body.cihaz_id;
-    olcumObj.isik_siddeti = req.body.isik_siddeti;
-    olcumObj.sicaklik = req.body.sicaklik;
-    olcumObj.karbondioksit_miktari = req.body.karbondioksit_miktari;
-    olcumObj.nem = req.body.nem;
-    olcumObj.gurultu = req.body.gurultu;
+    const olcumObj = {
+        id: req.body.id,
+        cihaz_id: req.body.cihaz_id,
+        isik_siddeti: req.body.isik_siddeti,
+        sicaklik: req.body.sicaklik,
+        karbondioksit_miktari: req.body.karbondioksit_miktari,
+        nem: req.body.nem,
+        gurultu: req.body.gurultu,
+    };
 
     var result = await service.update(olcumObj, req.params.userId);
     res.send(result);

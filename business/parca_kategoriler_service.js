@@ -1,5 +1,4 @@
 const ParcaKategorilerDal = require("../data_access/parca_kategoriler_dal");
-const ParcaKategorilerObject = require("../entities/parca_kategoriler_object");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
 
 class ParcaKategorilerService{

@@ -1,6 +1,5 @@
 const SuccessResult = require("../core/utilities/results/success_result");
 const SuccessDataResult = require("../core/utilities/results/success_data_result");
-const ParcaKategorilerObject = require("../entities/parca_kategoriler_object");
 const connection = require("../data_access/connections/connection");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");

@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
 const VeriLimitService = require('../business/veri_limit_service');
-const VeriLimitObject = require('../entities/veri_limit_object');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -202,12 +201,13 @@ router.get('/:id/:userId', async function (req, res, next) {
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
-    const limitObj = new VeriLimitObject();
-    limitObj.cihazId = req.body.cihazId;
-    limitObj.kategoriId = req.body.kategoriId;
-    limitObj.adi = req.body.adi;
-    limitObj.altLimit = req.body.altLimit;
-    limitObj.ustLimit = req.body.ustLimit;
+    const limitObj = {
+        cihazId: req.body.cihazId,
+        kategoriId: req.body.kategoriId,
+        adi: req.body.adi,
+        altLimit: req.body.altLimit,
+        ustLimit: req.body.ustLimit,
+    };
 
     var result = await service.add(limitObj, req.params.userId);
     res.send(result);
@@ -241,13 +241,14 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
-    const limitObj = new VeriLimitObject();
-    limitObj.id = req.body.id;
-    limitObj.cihazId = req.body.cihazId;
-    limitObj.kategoriId = req.body.kategoriId;
-    limitObj.adi = req.body.adi;
-    limitObj.altLimit = req.body.altLimit;
-    limitObj.ustLimit = req.body.ustLimit;
+    const limitObj = {
+        id: req.body.id,
+        cihazId: req.body.cihazId,
+        kategoriId: req.body.kategoriId,
+        adi: req.body.adi,
+        altLimit: req.body.altLimit,
+        ustLimit: req.body.ustLimit,
+    };
 
     var result = await service.update(limitObj, req.params.userId);
     res.send(result);

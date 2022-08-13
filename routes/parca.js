@@ -3,7 +3,6 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
 const ParcaService = require('../business/parca_service');
-const ParcaObject = require('../entities/parca_object');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
@@ -43,7 +42,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * tags:
  *   name: parcalar
  *   description: Parcalar
- */ 
+ */
 
 /**
  * @swagger
@@ -62,7 +61,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       200:
  *         description: Tüm data döner
  */
- router.get("/:userId", async function (req, res, next) {
+router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new ParcaService();
     const response = await service.getAll(req.params.userId);
@@ -129,10 +128,11 @@ router.get('/:id/:userId', async function (req, res, next) {
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
-    const parcaObj = new ParcaObject();
-    parcaObj.cihazId = req.body.cihazId;
-    parcaObj.kategoriId = req.body.kategoriId;
-    parcaObj.parcaAdi = req.body.parcaAdi;
+    const parcaObj = {
+        cihazId: req.body.cihazId,
+        kategoriId: req.body.kategoriId,
+        parcaAdi: req.body.parcaAdi,
+    };
 
     var result = await service.add(parcaObj, req.params.userId);
     res.send(result);
@@ -164,14 +164,15 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *          500: 
  *              description: Server hatası
  */
- router.put("/:userId", urlencodedParser, async function (req, res, next) {
+router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
-    const parcaObj = new ParcaObject();
-    parcaObj.id = req.body.id;
-    parcaObj.cihazId = req.body.cihazId;
-    parcaObj.kategoriId = req.body.kategoriId;
-    parcaObj.parcaAdi = req.body.parcaAdi;
-    parcaObj.durum = req.body.durum;
+    const parcaObj = {
+        id: req.body.id,
+        cihazId: req.body.cihazId,
+        kategoriId: req.body.kategoriId,
+        parcaAdi: req.body.parcaAdi,
+        durum: req.body.durum,
+    };
 
     var result = await service.update(parcaObj, req.params.userId);
     res.send(result);
@@ -233,7 +234,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/durum/:durum/:userId', async function (req, res, next) {
+router.get('/durum/:durum/:userId', async function (req, res, next) {
     var service = new ParcaService();
     var response = await service.getAllByDurum(req.params.durum, req.params.userId);
     res.send(response);
@@ -269,7 +270,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next) {
+router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next) {
     var service = new ParcaService();
     var response = await service.getAllByDate(req.params.startDate, req.params.endDate, req.params.userId);
     res.send(response);
@@ -298,7 +299,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
+router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
     var service = new ParcaService();
     var response = await service.getAllByCategory(req.params.kategoriId, req.params.userId);
     res.send(response);
@@ -327,7 +328,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *       200:
  *         description: Gerekli veri döner
  */
- router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
+router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
     var service = new ParcaService();
     var response = await service.getAllByCihaz(req.params.cihazId, req.params.userId);
     res.send(response);
