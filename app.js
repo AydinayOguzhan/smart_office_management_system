@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
 
+var cors = require("cors");
+
 var winLog = require("../api/core/logger/winston_logger");
 
 var swaggerJsDoc = require("swagger-jsdoc");
@@ -21,6 +23,8 @@ var veriLimitKategori = require("./routes/veri_limit_kategori");
 
 
 var app = express();
+app.use(cors())
+
 
 const swaggerOptions = {
   definition: {
@@ -31,7 +35,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://localhost:3000"
+        url: "http://localhost:3000",
+        url: "http://192.168.1.43:3000"
       }
     ]
   },
