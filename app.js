@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
+require('dotenv').config() 
 
 var cors = require("cors");
 
@@ -12,8 +13,6 @@ var winLog = require("../api/core/logger/winston_logger");
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 var parcaKategorilerRouter = require('./routes/parca_kategoriler');
 var parcalarRouter = require("./routes/parca");
 var cihazlarRouter = require("./routes/cihazlar");
@@ -25,6 +24,10 @@ var veriLimitKategori = require("./routes/veri_limit_kategori");
 var app = express();
 app.use(cors())
 
+let PORT;
+process.env.STATUS === "development" 
+? (PORT = process.env.DEV_PORT)
+: (PORT = process.env.PROD_PORT)
 
 const swaggerOptions = {
   definition: {
@@ -35,8 +38,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
-        url: "http://192.168.1.43:3000"
+        url: `${process.env.LOCALHOST1}:${PORT}`,
+        url: `${process.env.LOCALHOST2}:${PORT}`
       }
     ]
   },
@@ -67,7 +70,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/parca_kategoriler', parcaKategorilerRouter);
 app.use('/parca', parcalarRouter);
@@ -85,7 +87,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = process.env.STATUS === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
@@ -93,8 +95,9 @@ app.use(function (err, req, res, next) {
 });
 
 
-app.listen(3000, () => {
-  console.log("Working on localhost:3000/api-docs")
+
+app.listen(PORT, () => {
+  console.log(`Working on localhost:${PORT}/api-docs`)
 })
 
 
