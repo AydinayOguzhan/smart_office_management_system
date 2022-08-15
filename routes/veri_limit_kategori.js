@@ -66,6 +66,32 @@ router.get("/:userId", async function (req, res, next) {
 
 /**
  * @swagger
+ * /veri_limit_kategori/without_durum/{userId}:
+ *   get:
+ *     summary: Tüm limit kategorileri döndürür
+ *     tags: [limit_kategoriler]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/without_durum/:userId", async function (req, res, next) {
+    // res.render('index', { title: 'Express' }); 
+    console.log("çalıştı");
+    var service = new VeriLimitKategoriService();
+    const response = await service.getAllByWithoutDurum(req.params.userId);
+    res.send(response);
+});
+
+
+/**
+ * @swagger
  * /veri_limit_kategori/{id}/{userId}:
  *   get:
  *     summary: Id'ye göre limit kategorileri getirir

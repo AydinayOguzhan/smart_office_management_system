@@ -8,6 +8,21 @@ class VeriLimitKategoriDal {
     getAll() {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                connection.query("SELECT * FROM veri_limit_kategoriler where durum = 1", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...veriLimitleri] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    getAllByWithoutDurum() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
                 connection.query("SELECT * FROM veri_limit_kategoriler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -23,7 +38,7 @@ class VeriLimitKategoriDal {
     getById(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from veri_limit_kategoriler where id=${id}`, (err, result) => {
+                connection.query(`select * from veri_limit_kategoriler where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [veriLimit] = result;

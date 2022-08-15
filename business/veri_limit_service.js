@@ -15,6 +15,15 @@ class VeriLimitService{
         return result;
     }
 
+    async getAllByWithoutDurum(userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.getAllByWithoutDurum();
+        return result;
+    }
+
     async getAllByCihazId(cihazId,userId){
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {

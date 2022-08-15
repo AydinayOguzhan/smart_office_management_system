@@ -80,6 +80,30 @@ router.get("/:userId", async function (req, res, next) {
 
 /**
  * @swagger
+ * /veri_limit/without_durum/{userId}:
+ *   get:
+ *     summary: Tüm limitleri döndürür
+ *     tags: [limitler]
+ *     parameters:
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Tüm data döner
+ */
+ router.get("/without_durum/:userId", async function (req, res, next) {
+    // res.render('index', { title: 'Express' }); 
+    var service = new VeriLimitService();
+    const response = await service.getAllByWithoutDurum(req.params.userId);
+    res.send(response);
+});
+
+/**
+ * @swagger
  * /veri_limit/cihaz/{cihazId}/{userId}:
  *   get:
  *     summary: Tüm limitleri döndürür

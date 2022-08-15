@@ -8,6 +8,21 @@ class CihazlarDal {
     getAll() {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                connection.query("SELECT * FROM cihazlar where durum = 1", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazlar));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    getAllByWithoutDurum() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
                 connection.query("SELECT * FROM cihazlar", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -23,7 +38,7 @@ class CihazlarDal {
     getById(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from cihazlar where id=${id}`, (err, result) => {
+                connection.query(`select * from cihazlar where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     //array destructuring
@@ -96,7 +111,7 @@ class CihazlarDal {
     getAllByMekan(mekanId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where mekan_id = ${mekanId}`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where mekan_id = ${mekanId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
@@ -111,7 +126,7 @@ class CihazlarDal {
     getAllByBina(binaId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where bina_id = ${binaId}`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where bina_id = ${binaId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
@@ -126,7 +141,7 @@ class CihazlarDal {
     getAllByKampus(kampusId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where kampus_id = ${kampusId}`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where kampus_id = ${kampusId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
@@ -141,7 +156,7 @@ class CihazlarDal {
     getAllByAktif(aktif){
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where aktif = ${aktif}`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where aktif = ${aktif} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
@@ -156,7 +171,7 @@ class CihazlarDal {
     getAllByDurum(durum){
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where durum = ${durum}`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where durum = ${durum} durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;

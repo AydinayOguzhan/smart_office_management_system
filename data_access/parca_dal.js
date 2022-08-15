@@ -8,6 +8,21 @@ class ParcaDal {
     async getAll() {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                connection.query("SELECT * FROM parcalar where durum = 1", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...parcalarObj] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, parcalarObj));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    async getAllByWithoutDurum() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
                 connection.query("SELECT * FROM parcalar", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -23,7 +38,7 @@ class ParcaDal {
     async getById(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM parcalar where id=${id}`, (err, result) => {
+                connection.query(`SELECT * FROM parcalar where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [parcaObj] = result;
@@ -92,7 +107,7 @@ class ParcaDal {
     async getAllByDurum(durum) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM parcalar where durum = ${durum}`, (err, result) => {
+                connection.query(`SELECT * FROM parcalar where durum = ${durum} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...parcalarObj] = result;
@@ -109,7 +124,7 @@ class ParcaDal {
             connection.connect((successResponse) => {
                 console.log(startDate);
                 console.log(endDate);
-                connection.query(`SELECT * FROM parcalar WHERE (eklenme_tarihi BETWEEN '${startDate}' AND '${endDate}')`, 
+                connection.query(`SELECT * FROM parcalar WHERE (eklenme_tarihi BETWEEN '${startDate}' AND '${endDate}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -125,7 +140,7 @@ class ParcaDal {
     async getAllByCategory(kategoriId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM parcalar WHERE kategori_id = ${kategoriId}`, 
+                connection.query(`SELECT * FROM parcalar WHERE kategori_id = ${kategoriId} and durum = 1`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -142,7 +157,7 @@ class ParcaDal {
     async getAllByCihaz(cihazId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM parcalar WHERE cihaz_id = ${cihazId}`, 
+                connection.query(`SELECT * FROM parcalar WHERE cihaz_id = ${cihazId} and durum = 1`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));

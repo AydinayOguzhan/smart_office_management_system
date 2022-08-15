@@ -8,6 +8,21 @@ class OlcumDal {
     getAll() {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
+                connection.query("SELECT * FROM olcumler where durum = 1", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...olcumler] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    getAllByWithoutDurum() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
                 connection.query("SELECT * FROM olcumler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -23,7 +38,7 @@ class OlcumDal {
     getById(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from olcumler where id=${id}`, (err, result) => {
+                connection.query(`select * from olcumler where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [olcumObj] = result;
@@ -97,7 +112,7 @@ class OlcumDal {
     getAllByDurum(durum) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from olcumler where durum=${durum}`, (err, result) => {
+                connection.query(`select * from olcumler where durum=${durum} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...olcumler] = result;
@@ -112,7 +127,7 @@ class OlcumDal {
     getAllByCihazId(cihazId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from olcumler where cihaz_id=${cihazId}`, (err, result) => {
+                connection.query(`select * from olcumler where cihaz_id=${cihazId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...olcumler] = result;
@@ -127,7 +142,7 @@ class OlcumDal {
     getAllByIsikSiddeti(loverLimit, upperLimit) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM olcumler WHERE (isik_siddeti BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                connection.query(`SELECT * FROM olcumler WHERE (isik_siddeti BETWEEN '${loverLimit}' AND '${upperLimit}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -143,7 +158,7 @@ class OlcumDal {
     getAllBySicaklik(loverLimit, upperLimit) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM olcumler WHERE (sicaklik BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                connection.query(`SELECT * FROM olcumler WHERE (sicaklik BETWEEN '${loverLimit}' AND '${upperLimit}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -159,7 +174,7 @@ class OlcumDal {
     getAllByKarbondioksitMiktari(loverLimit, upperLimit) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM olcumler WHERE (karbondioksit_miktari BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                connection.query(`SELECT * FROM olcumler WHERE (karbondioksit_miktari BETWEEN '${loverLimit}' AND '${upperLimit}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -175,7 +190,7 @@ class OlcumDal {
     getAllByNem(loverLimit, upperLimit) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM olcumler WHERE (nem BETWEEN '${loverLimit}' AND '${upperLimit}')`, 
+                connection.query(`SELECT * FROM olcumler WHERE (nem BETWEEN '${loverLimit}' AND '${upperLimit}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
@@ -191,7 +206,7 @@ class OlcumDal {
     getAllByGurultu(loverLimit, upperLimit) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM olcumler WHERE (gurultu BETWEEN ${loverLimit} AND ${upperLimit})`, 
+                connection.query(`SELECT * FROM olcumler WHERE (gurultu BETWEEN ${loverLimit} AND ${upperLimit} and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
