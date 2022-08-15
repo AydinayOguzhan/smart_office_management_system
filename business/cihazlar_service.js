@@ -40,8 +40,6 @@ class CihazlarService{
         if (operationResult.success === false) {
             return operationResult;
         }
-        obj.aktif = true;
-        obj.durum = true;
         var result = await this.dal.add(obj);
         return result;
     }

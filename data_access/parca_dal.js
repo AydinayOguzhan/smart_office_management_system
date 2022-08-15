@@ -53,7 +53,8 @@ class ParcaDal {
     async add(obj) {
         return new Promise((resolve,reject)=>{
             connection.connect((successResponse)=>{
-                connection.query(`INSERT INTO parcalar(cihaz_id, kategori_id, parca_adi, eklenme_tarihi, durum) VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}', '${obj.eklenmeTarihi}', ${obj.durum})`, (err,result)=>{
+                connection.query(`INSERT INTO parcalar(cihaz_id, kategori_id, parca_adi) 
+                VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}')`, (err,result)=>{
                     if(err) resolve(new ErrorResult(err));
                     if(result !== undefined){    
                         if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));

@@ -55,9 +55,9 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi, 
-                    aktif, durum) VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
-                    ${obj.veriGondermeSikligi},  ${obj.aktif}, ${obj.durum})`, (err, result) => {
+                connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi) 
+                VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
+                    ${obj.veriGondermeSikligi})`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
                     if (result !== undefined) {

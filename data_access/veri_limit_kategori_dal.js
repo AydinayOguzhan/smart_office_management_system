@@ -54,8 +54,8 @@ class VeriLimitKategoriDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 console.log(obj);
-                connection.query(`INSERT INTO veri_limit_kategoriler(adi, durum) 
-                    VALUES ('${obj.adi}', ${obj.durum})`, 
+                connection.query(`INSERT INTO veri_limit_kategoriler(adi) 
+                    VALUES ('${obj.adi}')`, 
                     (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));

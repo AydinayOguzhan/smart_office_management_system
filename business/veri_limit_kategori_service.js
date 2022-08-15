@@ -38,7 +38,6 @@ class VeriLimitKategoriService{
         if (operationResult.success === false) {
             return operationResult;
         }
-        obj.durum = true;
         var result = await this.dal.add(obj);
         return result;
     }
