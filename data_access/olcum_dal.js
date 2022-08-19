@@ -53,7 +53,7 @@ class OlcumDal {
     add(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                console.log(obj);
+                // console.log(obj);
                 connection.query(`INSERT INTO olcumler(cihaz_id, isik_siddeti, sicaklik, karbondioksit_miktari, nem, gurultu) 
                 VALUES (${obj.cihaz_id}, '${obj.isik_siddeti}', '${obj.sicaklik}', '${obj.karbondioksit_miktari}', 
                     '${obj.nem}', '${obj.gurultu}')`, (err, result) => {

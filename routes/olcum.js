@@ -173,6 +173,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
+    console.log(req.body)
     const olcumObj = {
         cihaz_id: req.body.cihaz_id,
         isik_siddeti: req.body.isik_siddeti,
