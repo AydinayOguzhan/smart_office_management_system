@@ -1,5 +1,6 @@
 const OlcumDal = require("../data_access/olcum_dal");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
+var winLog = require("../core/logger/winston_logger");
 
 class OlcumService{
     constructor(){
@@ -38,6 +39,8 @@ class OlcumService{
         if (operationResult.success === false) {
             return operationResult;
         }
+        this.checkIfEmpty(obj);
+
         var result = await this.dal.add(obj);
         return result;
     }
@@ -123,6 +126,18 @@ class OlcumService{
         return result;
     }
 
+    checkIfEmpty(obj){
+        var emptyObjs = new Array();
+        for(var key in obj){
+            var element = obj[key];
+            if (element === "" || element === null) {
+                emptyObjs.push(key);
+            }
+        }
+        if (emptyObjs.length !== 0) {
+            winLog.error(`Boş ölçümler: ${emptyObjs}`);
+        }
+    }
 }
 
 module.exports = OlcumService;

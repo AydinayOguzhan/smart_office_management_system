@@ -54,7 +54,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-
+//LOG
 app.use((req, res, next) => {
   const urlArr = req.url.split("/");
   const userId = urlArr[urlArr.length - 1];
