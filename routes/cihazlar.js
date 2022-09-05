@@ -7,6 +7,7 @@ const ErrorResult = require('../core/utilities/results/error_result');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+
 /**
  * @swagger
  * components:
@@ -84,6 +85,31 @@ router.get("/:userId", async function (req, res, next) {
     const response = await service.getAll(req.params.userId);
     res.send(response);
 });
+
+/**
+ * @swagger
+ * /cihaz/check/is_working/{timeOut}:
+ *   get:
+ *     summary: Cihaz çalışıyor mu kontrol et
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: timeOut
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kontrolün ne kadar sürede bir yapılacağını gösteren milisaniye cinsi değişken
+ *     responses:
+ *      200:
+ *          description: İşlem başarılı
+ */
+router.get("/check/is_working/:timeOut", async function (req, res, next) {
+    var service = new CihazlarService();
+    const response = await service.checkIfCihazWorks(req.params.timeOut);
+    // res.send(response);
+    // res.sendStatus(response);
+});
+
 
 /**
  * @swagger
@@ -235,6 +261,45 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var result = await service.update(cihazObj, req.params.userId);
     res.send(result);
 });
+
+
+/**
+ * @swagger
+ * /cihaz/ip/{id}/{ipAddress}/{userId}:
+ *   put:
+ *     summary: Id numarasına göre cihazların Ip adreslerini güncelle
+ *     tags: [cihazlar]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Cihaza ait Id numarası
+ *      - in: path
+ *        name: ipAddress
+ *        schema:
+ *          type: text
+ *        required: false
+ *        description: Cihaza ait Ip numarası
+ *      - in: path
+ *        name: userId
+ *        schema:
+ *          type: number
+ *        required: true
+ *        description: Kullanıcıya ait Id numarası
+ *     responses:
+ *       200:
+ *         description: Data başarıyla güncellendi
+ *       500:
+ *         description: Server hatası
+ */
+ router.put("/ip/:id/:ipAddress/:userId", urlencodedParser, async function (req, res, next) {
+    var service = new CihazlarService();
+    var result = await service.updateIpAddress(req.params.id, req.params.ipAddress, req.params.userId);
+    res.send(result);
+});
+
 
 
 /**
@@ -413,5 +478,7 @@ router.get("/durum/:durum/:userId", async function (req, res, next) {
     const response = await service.getAllByDurum(req.params.durum, req.params.userId);
     res.send(response);
 });
+
+
 
 module.exports = router;

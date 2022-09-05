@@ -94,6 +94,45 @@ class CihazlarDal {
         });
     }
 
+    updateIpAddress(id, ipAddress) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                // console.log(obj);
+                connection.query(`UPDATE cihazlar SET ip_adresi = '${ipAddress}' 
+                WHERE id=${id}`, (err, result) => {
+
+                    if (err) resolve(new ErrorResult(err));
+                    if (result !== undefined) {
+                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
+                        else resolve(new ErrorResult(Messages.Unsuccessful));
+                    }
+                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
+    updateAktif(id, aktif) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`UPDATE cihazlar SET aktif = '${aktif}' 
+                WHERE id=${id}`, (err, result) => {
+
+                    if (err) resolve(new ErrorResult(err));
+                    if (result !== undefined) {
+                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
+                        else resolve(new ErrorResult(Messages.Unsuccessful));
+                    }
+                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
     delete(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {

@@ -2,13 +2,15 @@ const CihazlarDal = require("../data_access/cihazlar_dal");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
 const logger = require("../core/logger/winston_logger");
 var winLog = require("../core/logger/winston_logger");
+const RaspBerryServerAdapter = require("./adapters/raspberry_server_adapter");
 
-class CihazlarService{
-    constructor(){
+
+class CihazlarService {
+    constructor() {
         this.dal = new CihazlarDal();
     }
-    
-    async getAll(userId){
+
+    async getAll(userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -17,7 +19,7 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByWithoutDurum(userId){
+    async getAllByWithoutDurum(userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -26,7 +28,7 @@ class CihazlarService{
         return result;
     }
 
-    async getById(id, userId){
+    async getById(id, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -35,7 +37,7 @@ class CihazlarService{
         return result;
     }
 
-    async add(obj, userId){
+    async add(obj, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -44,7 +46,7 @@ class CihazlarService{
         return result;
     }
 
-    async update(obj, userId){
+    async update(obj, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -53,7 +55,16 @@ class CihazlarService{
         return result;
     }
 
-    async delete(id, userId){
+    async updateIpAddress(id, ipAddress, userId) {
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.updateIpAddress(id, ipAddress);
+        return result;
+    }
+
+    async delete(id, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -62,7 +73,7 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByMekan(mekanId, userId){
+    async getAllByMekan(mekanId, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -71,7 +82,7 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByBina(binaId, userId){
+    async getAllByBina(binaId, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -80,7 +91,7 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByKampus(kampusId, userId){
+    async getAllByKampus(kampusId, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -89,7 +100,7 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByAktif(aktif, userId){
+    async getAllByAktif(aktif, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
@@ -98,13 +109,45 @@ class CihazlarService{
         return result;
     }
 
-    async getAllByDurum(durum, userId){
+    async getAllByDurum(durum, userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
         if (operationResult.success === false) {
             return operationResult;
         }
         var result = await this.dal.getAllByDurum(durum);
         return result;
+    }
+
+    async checkIfCihazWorks(timeOut) {
+        var adapter = new RaspBerryServerAdapter();
+
+        while (true) {
+            var result = await this.dal.getAll();
+            for (let i = 0; i < result.data.length; i++) {
+                const element = result.data[i];
+                var res = await adapter.isRunning(element.ip_adresi);
+
+                if (res === 200) {
+                    // console.log("başarılı");
+                    if (element.aktif === 0) {
+                        await this.dal.updateAktif(element.id, 1);
+                        winLog.info(`Id: ${element.id}- Name: ${element.adi} cihaz çalışmaya başladı`);
+                        // console.log(`Id: ${element.id}- Name: ${element.adi} cihaz çalışmaya başladı`);
+                        // console.log("aktif yapıldı");
+                    }
+                } else {
+                    // console.log("başarısız");
+                    if (element.aktif === 1) {
+                        await this.dal.updateAktif(element.id, 0);
+                        winLog.error(`Id: ${element.id}- Name: ${element.adi} cihaz çalışmayı durdurdu`);
+                        // console.log(`Id: ${element.id}- Name: ${element.adi} cihaz çalışmayı durdurdu`);
+                        // console.log("deaktif yapıldı");
+                    }
+                }
+
+                await new Promise((resolve)=>{ setTimeout(resolve, parseInt(timeOut))});
+            }
+        }
     }
 
 }
