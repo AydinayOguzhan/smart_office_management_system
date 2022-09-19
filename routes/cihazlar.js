@@ -44,7 +44,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *           description: Cihazın bulunduğu üniversitenin Id numarası. Otomatik atanır.
  *         veri_gonderme_sikligi:
  *           type: number
- *           description: Cihazın veri gönderme sıklığı. Saniye cinsinden.
+ *           description: Cihazın saniye cinsinden veri gönderme sıklığı.
+ *         ip_adresi:
+ *           type: string
+ *           description: Cihaza ait Ip adresi. Cihaz tarafından atanır.
  *         aktif:
  *           type: boolean
  *           description: Cihazın çalışıp çalışmadığını gösteren alan.
@@ -67,7 +70,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /cihaz/{userId}:
  *   get:
- *     summary: Tüm cihazları döndürür
+ *     summary: Tüm cihazları getir.
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -78,7 +81,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -90,7 +93,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/check/is_working/{timeOut}:
  *   get:
- *     summary: Cihaz çalışıyor mu kontrol et
+ *     summary: Cihazın çalışırlık durumunu kontrol et. Çalıştırıldığında, durdurulana kadar çalışmaya devam eder. 
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -115,7 +118,7 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
  * @swagger
  * /cihaz/without_durum/{userId}:
  *   get:
- *     summary: Tüm cihazları döndürür
+ *     summary: Sistemdeki silinmiş cihazlar dahil bütün cihazları getir. 
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -126,7 +129,7 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/without_durum/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -140,7 +143,7 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
  * @swagger
  * /cihaz/id/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre cihazı getir
+ *     summary: Cihazın Id numarasına göre cihazı getir.
  *     tags: [cihazlar]
  *     parameters:
  *       - in: path
@@ -157,13 +160,7 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli data gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Cihaz'
- *       404:
- *         description: Data bulunamadı 
+ *         description: İşlem başarılı
  */
 router.get('/id/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
@@ -179,7 +176,7 @@ router.get('/id/:id/:userId', async function (req, res, next) {
  * @swagger
  * /cihaz/{userId}:
  *   post:
- *      summary: Cihazlar tablosuna yeni cihaz ekle
+ *      summary: Sisteme yeni cihaz bilgisi ekle.
  *      tags: [cihazlar]
  *      parameters:
  *       - in: path
@@ -196,9 +193,7 @@ router.get('/id/:id/:userId', async function (req, res, next) {
  *                  $ref: '#/components/schemas/Cihaz'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı.
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
@@ -220,7 +215,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /cihaz/{userId}:
  *   put:
- *     summary: Id numarasına göre cihazları güncelle
+ *     summary: Cihazların Id numarasına göre cihazları güncelle
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -237,13 +232,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *                 $ref: '#/components/schemas/Cihaz'
  *     responses:
  *       200:
- *         description: Data başarıyla güncellendi
- *         content:
- *           application/json:
- *            schema:
- *               $ref: '#/components/schemas/Cihaz'
- *       500:
- *         description: Server hatası
+ *         description: İşlem başarılı
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
@@ -291,8 +280,6 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *     responses:
  *       200:
  *         description: Data başarıyla güncellendi
- *       500:
- *         description: Server hatası
  */
  router.put("/ip/:id/:ipAddress/:userId", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
@@ -306,7 +293,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /cihaz/{id}/{userId}:
  *   delete:
- *     summary: Id numarasına göre verinin durumunu false yap.
+ *     summary: Cihazı sil
  *     tags: [cihazlar]
  *     parameters:
  *       - in: path
@@ -324,8 +311,6 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *     responses:
  *       200:
  *         description: Veri başarıyla silindi
- *       404:
- *         description: Veri bulunamadı
  */
 router.delete("/:id/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -338,7 +323,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/mekan/{mekanId}/{userId}:
  *   get:
- *     summary: Tüm cihazları bulundukları mekana göre döndürür
+ *     summary: Bulundukları mekana göre cihazları getir.
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -355,7 +340,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı 
  */
 router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -367,7 +352,7 @@ router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/bina/{binaId}/{userId}:
  *   get:
- *     summary: Tüm cihazları bulundukları binaya göre döndürür
+ *     summary: Bulundukları binaya göre cihazları getir.
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -384,7 +369,7 @@ router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı 
  */
 router.get("/bina/:binaId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -396,7 +381,7 @@ router.get("/bina/:binaId/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/kampus/{kampusId}/{userId}:
  *   get:
- *     summary: Tüm cihazları bulundukları kampüse göre döndürür
+ *     summary: Bulundukları kampüse göre cihazları getir. 
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -413,7 +398,7 @@ router.get("/bina/:binaId/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -425,7 +410,7 @@ router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/aktif/{aktif}/{userId}:
  *   get:
- *     summary: Tüm cihazları aktifliklerine göre getirir
+ *     summary: Aktiflik durumlarına göre cihazları getir. 
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -442,7 +427,7 @@ router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/aktif/:aktif/:userId", async function (req, res, next) {
     var service = new CihazlarService();
@@ -454,7 +439,7 @@ router.get("/aktif/:aktif/:userId", async function (req, res, next) {
  * @swagger
  * /cihaz/durum/{durum}/{userId}:
  *   get:
- *     summary: Tüm cihazları veri aktifliğine göre getirir
+ *     summary: İsteğe göre silinmiş veya silinmemiş cihazları getir
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
@@ -471,7 +456,7 @@ router.get("/aktif/:aktif/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/durum/:durum/:userId", async function (req, res, next) {
     var service = new CihazlarService();

@@ -19,10 +19,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       properties:
  *         id:
  *           type: number
- *           description: The auto-generated id of the parca_kategoriler
+ *           description: Parça kategorisine ait Id numarası. Otomatik olarak üretilir.
  *         adi:
  *           type: string
- *           description: The name of the kategori
+ *           description: Kategorinin adı
  *       example:
  *         id: 12
  *         adi: sensör
@@ -32,14 +32,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * tags:
  *   name: ParcaKategoriler
- *   description: Parca Kategori Page
+ *   description: Parca Kategoriler
  */
 
 /**
  * @swagger
  * /parca_kategoriler/{userId}:
  *   get:
- *     summary: Tüm ölçümleri döndürür
+ *     summary: Tüm parça kategorilerini getir
  *     tags: [ParcaKategoriler]
  *     parameters:
  *      - in: path
@@ -64,7 +64,7 @@ router.get("/:userId", async function(req, res, next){
  * @swagger
  * /parca_kategoriler/{id}/{userId}:
  *   get:
- *     summary: Get the parca_kategoriler by id
+ *     summary: Parça kategorisinin Id numarasına göre parça kategorisini getir
  *     tags: [ParcaKategoriler]
  *     parameters:
  *       - in: path
@@ -114,8 +114,6 @@ router.get('/:id/:userId', async function (req, res, next) {
  *      responses:
  *          200:
  *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
   var service = new ParcaKategorilerService();
@@ -148,8 +146,6 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *      responses:
  *          200:
  *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
   var service = new ParcaKategorilerService();
@@ -166,7 +162,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /parca_kategoriler/{id}/{userId}:
  *   delete:
- *     summary: Delete the data by id
+ *     summary: Bir parça kategorisini sil
  *     tags: [ParcaKategoriler]
  *     parameters:
  *       - in: path

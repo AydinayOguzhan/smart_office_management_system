@@ -42,7 +42,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /veri_limit_kategori/{userId}:
  *   get:
- *     summary: Tüm limit kategorileri döndürür
+ *     summary: Tüm veri limit kategorilerini getir
  *     tags: [limit_kategoriler]
  *     parameters:
  *      - in: path
@@ -53,7 +53,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -68,7 +68,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit_kategori/without_durum/{userId}:
  *   get:
- *     summary: Tüm limit kategorileri döndürür
+ *     summary: Sistemdeki silinmiş veri limit kategorileri dahil bütün veri limit kategorileri getir
  *     tags: [limit_kategoriler]
  *     parameters:
  *      - in: path
@@ -79,7 +79,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/without_durum/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -94,7 +94,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit_kategori/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre limit kategorileri getirir
+ *     summary: Veri limit kategori Id numarasına göre veri limit kategorisi getir
  *     tags: [limit_kategoriler]
  *     parameters:
  *       - in: path
@@ -126,7 +126,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  * @swagger
  * /veri_limit_kategori/{userId}:
  *   post:
- *      summary: Limit kategori tablosuna yeni limit ekle
+ *      summary: Yeni bir veri limit kategorisi ekle
  *      tags: [limit_kategoriler]
  *      parameters:
  *       - in: path
@@ -143,9 +143,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *                  $ref: '#/components/schemas/Veri_Limit_Kategori'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitKategoriService();
@@ -162,7 +160,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /veri_limit_kategori/{userId}:
  *   put:
- *      summary: Limit kategori tablosundaki bir limiti güncelle
+ *      summary: Veri limit kategori tablosundaki bir veri limit kategorisini güncelle
  *      tags: [limit_kategoriler]
  *      parameters:
  *       - in: path
@@ -179,9 +177,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *                  $ref: '#/components/schemas/Veri_Limit_Kategori'
  *      responses:
  *          200:
- *              description: Güncelleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitKategoriService();
@@ -199,7 +195,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /veri_limit_kategori/{id}/{userId}:
  *   delete:
- *     summary: Id numarasına göre limit kategorisinin durumunu false yap.
+ *     summary: Veri limit kategorisi sil
  *     tags: [limit_kategoriler]
  *     parameters:
  *       - in: path
@@ -216,7 +212,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Veri başarıyla silindi
+ *         description: İşlem başarılı
  */
 router.delete("/:id/:userId", async function (req, res, next) {
     var service = new VeriLimitKategoriService();

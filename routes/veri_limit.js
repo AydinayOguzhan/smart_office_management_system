@@ -58,7 +58,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /veri_limit/{userId}:
  *   get:
- *     summary: Tüm limitleri döndürür
+ *     summary: Tüm veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
@@ -82,7 +82,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit/without_durum/{userId}:
  *   get:
- *     summary: Tüm limitleri döndürür
+ *     summary: Sistemdeki silinmiş veri limitleri dahil bütün veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
@@ -93,7 +93,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/without_durum/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -106,7 +106,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit/cihaz/{cihazId}/{userId}:
  *   get:
- *     summary: Tüm limitleri döndürür
+ *     summary: Cihazın Id numarasına göre veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
@@ -123,7 +123,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/cihaz/:cihazId/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -138,7 +138,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit/kategori/{kategoriId}/{userId}:
  *   get:
- *     summary: Tüm limitleri kategori alanına göre döndürür
+ *     summary: Kategori Id numarasına göre tüm veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
@@ -155,7 +155,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/kategori/:kategoriId/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -170,7 +170,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /veri_limit/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre limitleri getirir
+ *     summary: Veri limiti Id numarasına göre veri limiti getir
  *     tags: [limitler]
  *     parameters:
  *       - in: path
@@ -187,7 +187,7 @@ router.get("/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli data gelir
+ *         description: İşlem başarılı
  */
 router.get('/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
@@ -202,7 +202,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  * @swagger
  * /veri_limit/{userId}:
  *   post:
- *      summary: Limitler tablosuna yeni limit ekle
+ *      summary: Yeni bir veri limiti ekle
  *      tags: [limitler]
  *      parameters:
  *       - in: path
@@ -219,9 +219,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *                  $ref: '#/components/schemas/Veri_Limit'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
@@ -242,7 +240,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /veri_limit/{userId}:
  *   put:
- *      summary: Limitler tablosundaki bir limiti güncelle
+ *      summary: Veri limitleri tablosundaki bir veri limitini güncelle
  *      tags: [limitler]
  *      parameters:
  *       - in: path
@@ -259,9 +257,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *                  $ref: '#/components/schemas/Veri_Limit'
  *      responses:
  *          200:
- *              description: Güncelleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
@@ -283,7 +279,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /veri_limit/{id}/{userId}:
  *   delete:
- *     summary: Id numarasına göre limitin durumunu false yap.
+ *     summary: Veri limiti sil
  *     tags: [limitler]
  *     parameters:
  *       - in: path
@@ -300,9 +296,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Veri başarıyla silindi
- *       404:
- *         description: Veri bulunamadı
+ *         description: İşlem başarılı
  */
 router.delete("/:id/:userId", async function (req, res, next) {
     var service = new VeriLimitService();

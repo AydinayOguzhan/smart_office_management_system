@@ -48,7 +48,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /parca/{userId}:
  *   get:
- *     summary: Sistemde kayıtlı bütün parçaları getirir
+ *     summary: Tüm parçaları getirir
  *     tags: [parcalar]
  *     parameters:
  *      - in: path
@@ -59,7 +59,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -72,7 +72,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /parca/without_durum/{userId}:
  *   get:
- *     summary: Sistemde kayıtlı bütün parçaları getirir
+ *     summary: Sistemdeki silinmiş parçalar dahil bütün parçaları getirir
  *     tags: [parcalar]
  *     parameters:
  *      - in: path
@@ -83,7 +83,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/without_durum/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -97,7 +97,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /parca/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre parçayı getir
+ *     summary: Parçanın Id numarasına göre parçayı getir
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -114,7 +114,7 @@ router.get("/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli data gelir
+ *         description: İşlem başarılı
  */
 router.get('/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
@@ -129,7 +129,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  * @swagger
  * /parca/{userId}:
  *   post:
- *      summary: Parçalar tablosuna yeni cihaz ekle
+ *      summary: Parçalar tablosuna yeni parça ekle
  *      tags: [parcalar]
  *      parameters:
  *       - in: path
@@ -146,9 +146,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *                  $ref: '#/components/schemas/Parca'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
@@ -184,9 +182,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *                  $ref: '#/components/schemas/Parca'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
@@ -207,7 +203,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /parca/{id}/{userId}:
  *   delete:
- *     summary: Id numarasına göre verinin durumunu false yap
+ *     summary: Parçayı sil
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -224,9 +220,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Veri başarıyla silindi
- *       404:
- *         description: Veri bulunamadı
+ *         description: İşlem başarılı
  */
 router.delete("/:id/:userId", async function (req, res, next) {
     var service = new ParcaService();
@@ -239,7 +233,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /parca/durum/{durum}/{userId}:
  *   get:
- *     summary: Sistemde ekli bütün parçaları durum alanına göre getirir
+ *     summary: İsteğe göre silinmiş veya silinmemiş parçaları getir
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -256,7 +250,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli veri döner
+ *         description: İşlem başarılı
  */
 router.get('/durum/:durum/:userId', async function (req, res, next) {
     var service = new ParcaService();
@@ -269,7 +263,7 @@ router.get('/durum/:durum/:userId', async function (req, res, next) {
  * @swagger
  * /parca/tarih/{startDate}/{endDate}/{userId}:
  *   get:
- *     summary: Sistemde ekli bütün parçaları tarih aralığına göre getirir
+ *     summary: Tarih aralığına göre parçaları getir
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -292,7 +286,7 @@ router.get('/durum/:durum/:userId', async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli veri döner
+ *         description: İşlem başarılı
  */
 router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next) {
     var service = new ParcaService();
@@ -304,7 +298,7 @@ router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next)
  * @swagger
  * /parca/kategori/{kategoriId}/{userId}:
  *   get:
- *     summary: Sistemde ekli bütün parçaları kategori alanına göre getirir
+ *     summary: Seçilen kategoriye göre parçaları getir
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -321,7 +315,7 @@ router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next)
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli veri döner
+ *         description: İşlem başarılı
  */
 router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
     var service = new ParcaService();
@@ -333,7 +327,7 @@ router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
  * @swagger
  * /parca/cihaz/{cihazId}/{userId}:
  *   get:
- *     summary: Cihazlar üzerine takılı bütün parçaları getirir
+ *     summary: Cihazın Id numarasına göre üzerinde takılı parçaları getir
  *     tags: [parcalar]
  *     parameters:
  *       - in: path
@@ -350,7 +344,7 @@ router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli veri döner
+ *         description: İşlem başarılı
  */
 router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
     var service = new ParcaService();

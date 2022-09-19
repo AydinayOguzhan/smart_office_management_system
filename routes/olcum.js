@@ -62,7 +62,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * /olcum/{userId}:
  *   get:
- *     summary: Tüm ölçümleri döndürür
+ *     summary: Tüm ölçümleri getir
  *     tags: [olcumler]
  *     parameters:
  *      - in: path
@@ -73,7 +73,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
 router.get("/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -87,7 +87,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/without_durum/{userId}:
  *   get:
- *     summary: Tüm ölçümleri döndürür
+ *     summary: Sistemdeki silinmiş ölçümler dahil bütün ölçümleri getir
  *     tags: [olcumler]
  *     parameters:
  *      - in: path
@@ -98,7 +98,7 @@ router.get("/:userId", async function (req, res, next) {
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Tüm data döner
+ *         description: İşlem başarılı
  */
  router.get("/without_durum/:userId", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
@@ -112,7 +112,7 @@ router.get("/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/{id}/{userId}:
  *   get:
- *     summary: Id'ye göre ölçümü getir
+ *     summary: Ölçümün Id numarasına göre ölçümü getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -129,13 +129,7 @@ router.get("/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Gerekli data gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
 router.get('/:id/:userId', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
@@ -150,7 +144,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  * @swagger
  * /olcum/{userId}:
  *   post:
- *      summary: Ölçümler tablosuna yeni cihaz ekle
+ *      summary: Ölçümler tablosuna yeni ölçüm ekle
  *      tags: [olcumler]
  *      parameters:
  *       - in: path
@@ -167,9 +161,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *                  $ref: '#/components/schemas/Olcum'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.post("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
@@ -208,9 +200,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *                  $ref: '#/components/schemas/Olcum'
  *      responses:
  *          200:
- *              description: Ekleme işlemi başarılı
- *          500: 
- *              description: Server hatası
+ *              description: İşlem başarılı
  */
 router.put("/:userId", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
@@ -233,7 +223,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  * @swagger
  * /olcum/{id}/{userId}:
  *   delete:
- *     summary: Id numarasına göre verinin durumunu false yap.
+ *     summary: Ölçümü sil
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -250,9 +240,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Veri başarıyla silindi
- *       404:
- *         description: Veri bulunamadı
+ *         description: İşlem başarılı
  */
 router.delete("/:id/:userId", async function (req, res, next) {
     var service = new OlcumService();
@@ -264,7 +252,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/durum/{durum}/{userId}:
  *   get:
- *     summary: Verinin aktiflik durumuna göre getirir
+ *     summary: İsteğe göre silinmiş veya silinmemiş verileri getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -281,13 +269,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/durum/:durum/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -299,7 +281,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/cihaz/{cihazId}/{userId}:
  *   get:
- *     summary: Cihaza göre verileri getirir
+ *     summary: Cihazın Id numarasına göre cihaza ait ölçümleri getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -316,13 +298,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -334,7 +310,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/isikSiddeti/{loverLimit}/{upperLimit}/{userId}:
  *   get:
- *     summary: Işık şiddeti belirlenen aralığa giren ölçümleri gelir
+ *     summary: Belirlenen aralığa göre ışık şiddeti ölçümlerini getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -357,13 +333,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/isikSiddeti/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -375,7 +345,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/sicaklik/{loverLimit}/{upperLimit}/{userId}:
  *   get:
- *     summary: Sıcaklık belirlenen aralığa giren ölçümleri gelir
+ *     summary: Belirlenen aralığa göre sıcaklık ölçümlerini getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -398,13 +368,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/sicaklik/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -416,7 +380,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/karbondioksitMiktari/{loverLimit}/{upperLimit}/{userId}:
  *   get:
- *     summary: Karbondioksit miktari belirlenen aralığa giren ölçümleri getirir
+ *     summary: Belirlenen aralığa göre karbondioksit miktarı ölçümlerini getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -439,13 +403,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/karbondioksitMiktari/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -457,7 +415,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/nem/{loverLimit}/{upperLimit}/{userId}:
  *   get:
- *     summary: Nem belirlenen aralığa giren ölçümleri gelir
+ *     summary: Belirlenen aralığa göre nem ölçümlerini getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -480,13 +438,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/nem/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
     var service = new OlcumService();
@@ -498,7 +450,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  * @swagger
  * /olcum/gurultu/{loverLimit}/{upperLimit}/{userId}:
  *   get:
- *     summary: Gürültü belirlenen aralığa giren ölçümleri gelir
+ *     summary: Belirlenen aralığa göre gürültü ölçümlerini getirir
  *     tags: [olcumler]
  *     parameters:
  *       - in: path
@@ -521,13 +473,7 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
- *         description: Ölçümler gelir
- *         contens:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Olcum'
- *       404:
- *         description: Data bulunamadı
+ *         description: İşlem başarılı
  */
  router.get('/gurultu/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
     var service = new OlcumService();
