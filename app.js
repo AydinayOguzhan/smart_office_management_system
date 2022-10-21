@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
-require('dotenv').config() 
+require('dotenv').config();
 
 var cors = require("cors");
 
@@ -20,6 +20,11 @@ var veriLimitleriRouter = require("./routes/veri_limit");
 var olcumlerRouter = require("./routes/olcum");
 var veriLimitKategori = require("./routes/veri_limit_kategori");
 
+var notifications = require("./web_socket/notification_socket");
+const { level } = require('winston');
+
+
+// var CustomTransport = require("./core/logger/winston_logger");
 
 var app = express();
 app.use(cors())
@@ -39,7 +44,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        // url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
+        url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
       }
     ]
   },
@@ -70,13 +75,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use('/notifications', notifications.Server);
+// app.use(notifications.Server);
+
 // app.use('/users', usersRouter);
 app.use('/parca_kategoriler', parcaKategorilerRouter);
 app.use('/parca', parcalarRouter);
 app.use('/cihaz', cihazlarRouter);
 app.use('/veri_limit', veriLimitleriRouter);
 app.use('/olcum', olcumlerRouter);
-app.use('/veri_limit_kategori', veriLimitKategori)
+app.use('/veri_limit_kategori', veriLimitKategori);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

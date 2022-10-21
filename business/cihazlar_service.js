@@ -4,7 +4,6 @@ const logger = require("../core/logger/winston_logger");
 var winLog = require("../core/logger/winston_logger");
 const RaspBerryServerAdapter = require("./adapters/raspberry_server_adapter");
 
-
 class CihazlarService {
     constructor() {
         this.dal = new CihazlarDal();
