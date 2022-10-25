@@ -8,14 +8,32 @@ class LogService{
         this.dal = new LogDal();
     }
 
-    // async getAll(userId){
-    //     const operationResult = await Operations.securedOperations(userId, 1);
-    //     if (operationResult.success === false) {
-    //         return operationResult;
-    //     }
-    //     var result = await this.dal.getAll();
-    //     return result;
-    // }
+    async getAllServerLogs(userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.getAllServerLogs();
+        return result;
+    }
+
+    async getAllExceptionLogs(userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.getAllExceptionLogs();
+        return result;
+    }
+
+    async getAllRejectionLogs(userId){
+        const operationResult = await Operations.securedOperations(userId, 1);
+        if (operationResult.success === false) {
+            return operationResult;
+        }
+        var result = await this.dal.getAllRejectionLogs();
+        return result;
+    }
 
     // async getById(id, userId){
     //     const operationResult = await Operations.securedOperations(userId, 1);

@@ -5,21 +5,50 @@ const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
 
 class LogDal {
-    // getAll() {
-    //     return new Promise((resolve, reject) => {
-    //         connection.connect((successResponse) => {
-    //             connection.query("SELECT * FROM cihazlar where durum = 1", (err, result) => {
-    //                 if (err) resolve(new ErrorResult(err));
-    //                 if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-    //                 const [...cihazlar] = result;
-    //                 resolve(new SuccessDataResult(Messages.Successful, cihazlar));
-    //             });
-    //         }, (errorResponse) => {
-    //             reject(errorResponse);
-    //         })
-    //     });
-    // }
+    getAllServerLogs() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query("SELECT * FROM serverlogs", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazlar));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
 
+    getAllExceptionLogs() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query("SELECT * FROM exceptionlogs", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazlar));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
+
+    getAllRejectionLogs() {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query("SELECT * FROM rejectionlogs", (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazlar));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            })
+        });
+    }
    
 
     // getById(id) {
