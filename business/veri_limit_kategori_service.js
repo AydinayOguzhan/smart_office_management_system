@@ -1,9 +1,15 @@
 const Operations = require("../core/utilities/secured_operations/secured_operations");
 const VeriLimitKategoriDal = require("../data_access/veri_limit_kategori_dal");
+const Validator = require("../node_modules/fastest-validator");
 
 class VeriLimitKategoriService{
     constructor(){
         this.dal = new VeriLimitKategoriDal();
+
+        this.v = new Validator();
+        this.schema = {
+            adi:{type:"string", optional:false}
+        }
     }
 
     async getAll(userId){
@@ -38,6 +44,13 @@ class VeriLimitKategoriService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validationResult = check(obj);
+        if (Array.isArray(validationResult)) {
+            return validationResult;
+        }
+
         var result = await this.dal.add(obj);
         return result;
     }
@@ -47,6 +60,13 @@ class VeriLimitKategoriService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validationResult = check(obj);
+        if (Array.isArray(validationResult)) {
+            return validationResult;
+        }
+
         var result = await this.dal.update(obj);
         return result;
     }

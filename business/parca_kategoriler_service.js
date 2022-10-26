@@ -1,9 +1,15 @@
 const ParcaKategorilerDal = require("../data_access/parca_kategoriler_dal");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
+const Validator = require("../node_modules/fastest-validator");
 
 class ParcaKategorilerService{
     constructor(){
         this.dal = new ParcaKategorilerDal();
+
+        this.v = new Validator();
+        this.schema = {
+            adi:{type:"string", optional:false, min:2}
+        }
     }
 
     async getAll(userId){
@@ -29,6 +35,13 @@ class ParcaKategorilerService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validationResult = check(obj);
+        if (Array.isArray(validationResult)) {
+            return validationResult;
+        }
+
         const result = await this.dal.add(obj);
         return result;
     }
@@ -38,6 +51,13 @@ class ParcaKategorilerService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validationResult = check(obj);
+        if (Array.isArray(validationResult)) {
+            return validationResult;
+        }
+
         const result = await this.dal.update(obj);
         return result;
     }

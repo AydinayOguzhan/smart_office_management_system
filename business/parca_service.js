@@ -1,9 +1,17 @@
 const ParcaDal = require("../data_access/parca_dal");
 const Operations = require("../core/utilities/secured_operations/secured_operations");
+const Validator = require("../node_modules/fastest-validator");
 
 class ParcaService{
     constructor(){
         this.dal = new ParcaDal();
+
+        this.v = new Validator();
+        this.schema = {
+            cihazId: {type:"number", integer:true, optional:false},
+            kategoriId: {type:"number", integer:true, optional:false},
+            parcaAdi: {type:"string", optional:false}
+        }
     }
 
     async getAll(userId){
@@ -38,6 +46,13 @@ class ParcaService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validateResult = check(obj);
+        if (Array.isArray(validateResult)) {
+            return validateResult;
+        }
+
         var result = await this.dal.add(obj);
         return result;
     }
@@ -47,6 +62,13 @@ class ParcaService{
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        const check = this.v.compile(this.schema);
+        var validateResult = check(obj);
+        if (Array.isArray(validateResult)) {
+            return validateResult;
+        }
+
         var result = await this.dal.update(obj);
         return result;
     }

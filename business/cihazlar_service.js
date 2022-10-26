@@ -3,11 +3,24 @@ const Operations = require("../core/utilities/secured_operations/secured_operati
 const logger = require("../core/logger/winston_logger");
 var winLog = require("../core/logger/winston_logger");
 const RaspBerryServerAdapter = require("./adapters/raspberry_server_adapter");
+const Validator = require("../node_modules/fastest-validator");
 
 class CihazlarService {
     constructor() {
         this.dal = new CihazlarDal();
+      
+        this.v = new Validator();
+        this.schema = {
+            adi: {type:"string", min:3, optional:false},
+            kat: {type:"number", optional:false},
+            mekan_id: {type:"number", optional:false},
+            bina_id: {type:"number", optional:false},
+            kampus_id: {type:"number", optional:false},
+            universite_id: {type:"number", optional:true},
+            veri_gonderme_sikligi: {type:"number", optional:true}
+        }
     }
+
 
     async getAll(userId) {
         const operationResult = await Operations.securedOperations(userId, 1);
@@ -41,6 +54,13 @@ class CihazlarService {
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        var check = this.v.compile(this.schema);
+        var validatorResult = check(obj);
+        if (Array.isArray(validatorResult)) {
+            return validatorResult;
+        }
+
         var result = await this.dal.add(obj);
         return result;
     }
@@ -50,6 +70,13 @@ class CihazlarService {
         if (operationResult.success === false) {
             return operationResult;
         }
+
+        var check = this.v.compile(this.schema);
+        var validatorResult = check(obj);
+        if (Array.isArray(validatorResult)) {
+            return validatorResult;
+        }
+
         var result = await this.dal.update(obj);
         return result;
     }
@@ -68,6 +95,7 @@ class CihazlarService {
         if (operationResult.success === false) {
             return operationResult;
         }
+
         var result = await this.dal.delete(id);
         return result;
     }
