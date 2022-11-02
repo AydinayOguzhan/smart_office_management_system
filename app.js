@@ -12,7 +12,7 @@ var winLog = require("../api/core/logger/winston_logger");
 
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
-
+ 
 var parcaKategorilerRouter = require('./routes/parca_kategoriler');
 var parcalarRouter = require("./routes/parca");
 var cihazlarRouter = require("./routes/cihazlar");

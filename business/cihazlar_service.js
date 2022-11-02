@@ -13,11 +13,10 @@ class CihazlarService {
         this.schema = {
             adi: {type:"string", min:3, optional:false},
             kat: {type:"number", optional:false},
-            mekan_id: {type:"number", optional:false},
-            bina_id: {type:"number", optional:false},
-            kampus_id: {type:"number", optional:false},
-            universite_id: {type:"number", optional:true},
-            veri_gonderme_sikligi: {type:"number", optional:true}
+            mekanId: {type:"number", optional:false},
+            binaId: {type:"number", optional:false},
+            kampusId: {type:"number", optional:false},
+            veriGondermeSikligi: {type:"number", optional:true}
         }
     }
 
@@ -55,6 +54,7 @@ class CihazlarService {
             return operationResult;
         }
 
+        console.log(obj);
         var check = this.v.compile(this.schema);
         var validatorResult = check(obj);
         if (Array.isArray(validatorResult)) {
