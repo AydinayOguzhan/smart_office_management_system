@@ -29,19 +29,19 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *           type: number
  *           description: Ölçümün ait olduğu cihazın Id numarası.
  *         isik_siddeti:
- *           type: string
+ *           type: number
  *           description: Cihazın bulunduğu ortamdaki ışık şiddeti değeri.
  *         sicaklik:
- *           type: string
+ *           type: number
  *           description: Cihazın bulunduğu ortamdaki sıcaklık değeri.
  *         karbondioksit_miktari:
- *           type: string
+ *           type: number
  *           description: Cihazın bulunduğu ortamdaki karbondioksit miktarı değeri.
  *         nem:
- *           type: string
+ *           type: number
  *           description: Cihazın bulunduğu ortamdaki nem miktarı değeri.
  *         gurultu:
- *           type: string
+ *           type: number
  *           description: Cihazın bulunduğu bulunduğu ortamdaki gürültü miktarı değeri.
  *         eklenme_tarihi:
  *           type: string
