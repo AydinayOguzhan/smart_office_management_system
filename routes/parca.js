@@ -46,56 +46,56 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /parca/{userId}:
+ * /parca/{email}:
  *   get:
  *     summary: Tüm parçaları getirir
  *     tags: [parcalar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/:userId", async function (req, res, next) {
+router.get("/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new ParcaService();
-    const response = await service.getAll(req.params.userId);
+    const response = await service.getAll(req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /parca/without_durum/{userId}:
+ * /parca/without_durum/{email}:
  *   get:
  *     summary: Sistemdeki silinmiş parçalar dahil bütün parçaları getirir
  *     tags: [parcalar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/without_durum/:userId", async function (req, res, next) {
+ router.get("/without_durum/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new ParcaService();
-    const response = await service.getAllByWithoutDurum(req.params.userId);
+    const response = await service.getAllByWithoutDurum(req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/{id}/{userId}:
+ * /parca/{id}/{email}:
  *   get:
  *     summary: Parçanın Id numarasına göre parçayı getir
  *     tags: [parcalar]
@@ -107,37 +107,37 @@ router.get("/:userId", async function (req, res, next) {
  *         required: true
  *         description: Parçaya ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/:id/:userId', async function (req, res, next) {
+router.get('/:id/:email', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new ParcaService();
-    var response = await service.getById(req.params.id, req.params.userId);
+    var response = await service.getById(req.params.id, req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/{userId}:
+ * /parca/{email}:
  *   post:
  *      summary: Parçalar tablosuna yeni parça ekle
  *      tags: [parcalar]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -148,7 +148,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.post("/:userId", urlencodedParser, async function (req, res, next) {
+router.post("/:email", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
     const parcaObj = {
         cihazId: req.body.cihazId,
@@ -156,24 +156,24 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
         parcaAdi: req.body.parcaAdi,
     };
 
-    var result = await service.add(parcaObj, req.params.userId);
+    var result = await service.add(parcaObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /parca/{userId}:
+ * /parca/{email}:
  *   put:
  *      summary: Parçalar tablosundaki bir parçayı güncelle
  *      tags: [parcalar]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -184,7 +184,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.put("/:userId", urlencodedParser, async function (req, res, next) {
+router.put("/:email", urlencodedParser, async function (req, res, next) {
     var service = new ParcaService();
     const parcaObj = {
         id: req.body.id,
@@ -194,14 +194,14 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
         durum: req.body.durum,
     };
 
-    var result = await service.update(parcaObj, req.params.userId);
+    var result = await service.update(parcaObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /parca/{id}/{userId}:
+ * /parca/{id}/{email}:
  *   delete:
  *     summary: Parçayı sil
  *     tags: [parcalar]
@@ -213,25 +213,25 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         required: true
  *         description: Parçaya ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.delete("/:id/:userId", async function (req, res, next) {
+router.delete("/:id/:email", async function (req, res, next) {
     var service = new ParcaService();
-    var result = await service.delete(req.params.id, req.params.userId);
+    var result = await service.delete(req.params.id, req.params.email);
     res.send(result);
 })
 
 
 /**
  * @swagger
- * /parca/durum/{durum}/{userId}:
+ * /parca/durum/{durum}/{email}:
  *   get:
  *     summary: İsteğe göre silinmiş veya silinmemiş parçaları getir
  *     tags: [parcalar]
@@ -243,25 +243,25 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Parçaya ait durum bilgisi
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/durum/:durum/:userId', async function (req, res, next) {
+router.get('/durum/:durum/:email', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByDurum(req.params.durum, req.params.userId);
+    var response = await service.getAllByDurum(req.params.durum, req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /parca/tarih/{startDate}/{endDate}/{userId}:
+ * /parca/tarih/{startDate}/{endDate}/{email}:
  *   get:
  *     summary: Tarih aralığına göre parçaları getir
  *     tags: [parcalar]
@@ -279,24 +279,24 @@ router.get('/durum/:durum/:userId', async function (req, res, next) {
  *         required: true
  *         description: Parçaya ait eklenme tarihi bilgisi
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next) {
+router.get('/tarih/:startDate/:endDate/:email', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByDate(req.params.startDate, req.params.endDate, req.params.userId);
+    var response = await service.getAllByDate(req.params.startDate, req.params.endDate, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /parca/kategori/{kategoriId}/{userId}:
+ * /parca/kategori/{kategoriId}/{email}:
  *   get:
  *     summary: Seçilen kategoriye göre parçaları getir
  *     tags: [parcalar]
@@ -308,24 +308,24 @@ router.get('/tarih/:startDate/:endDate/:userId', async function (req, res, next)
  *         required: true
  *         description: Parçaya ait kategori Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
+router.get('/kategori/:kategoriId/:email', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByCategory(req.params.kategoriId, req.params.userId);
+    var response = await service.getAllByCategory(req.params.kategoriId, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /parca/cihaz/{cihazId}/{userId}:
+ * /parca/cihaz/{cihazId}/{email}:
  *   get:
  *     summary: Cihazın Id numarasına göre üzerinde takılı parçaları getir
  *     tags: [parcalar]
@@ -337,18 +337,18 @@ router.get('/kategori/:kategoriId/:userId', async function (req, res, next) {
  *         required: true
  *         description: Parçaya ait cihaz Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
+router.get('/cihaz/:cihazId/:email', async function (req, res, next) {
     var service = new ParcaService();
-    var response = await service.getAllByCihaz(req.params.cihazId, req.params.userId);
+    var response = await service.getAllByCihaz(req.params.cihazId, req.params.email);
     res.send(response);
 });
 

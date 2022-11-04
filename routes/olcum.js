@@ -60,57 +60,57 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /olcum/{userId}:
+ * /olcum/{email}:
  *   get:
  *     summary: Tüm ölçümleri getir
  *     tags: [olcumler]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/:userId", async function (req, res, next) {
+router.get("/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new OlcumService();
-    const response = await service.getAll(req.params.userId);
+    const response = await service.getAll(req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /olcum/without_durum/{userId}:
+ * /olcum/without_durum/{email}:
  *   get:
  *     summary: Sistemdeki silinmiş ölçümler dahil bütün ölçümleri getir
  *     tags: [olcumler]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/without_durum/:userId", async function (req, res, next) {
+ router.get("/without_durum/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new OlcumService();
-    const response = await service.getAllByWithoutDurum(req.params.userId);
+    const response = await service.getAllByWithoutDurum(req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /olcum/{id}/{userId}:
+ * /olcum/{id}/{email}:
  *   get:
  *     summary: Ölçümün Id numarasına göre ölçümü getirir
  *     tags: [olcumler]
@@ -122,37 +122,37 @@ router.get("/:userId", async function (req, res, next) {
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/:id/:userId', async function (req, res, next) {
+router.get('/:id/:email', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new OlcumService();
-    var response = await service.getById(req.params.id, req.params.userId);
+    var response = await service.getById(req.params.id, req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /olcum/{userId}:
+ * /olcum/{email}:
  *   post:
  *      summary: Ölçümler tablosuna yeni ölçüm ekle
  *      tags: [olcumler]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -163,7 +163,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.post("/:userId", urlencodedParser, async function (req, res, next) {
+router.post("/:email", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
     const olcumObj = {
         cihaz_id: req.body.cihaz_id,
@@ -174,24 +174,24 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
         gurultu: req.body.gurultu,
     };
 
-    var result = await service.add(olcumObj, req.params.userId);
+    var result = await service.add(olcumObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /olcum/{userId}:
+ * /olcum/{email}:
  *   put:
  *      summary: Ölçümler tablosundaki bir ölçümü güncelle
  *      tags: [olcumler]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -202,7 +202,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.put("/:userId", urlencodedParser, async function (req, res, next) {
+router.put("/:email", urlencodedParser, async function (req, res, next) {
     var service = new OlcumService();
     const olcumObj = {
         id: req.body.id,
@@ -214,14 +214,14 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
         gurultu: req.body.gurultu,
     };
 
-    var result = await service.update(olcumObj, req.params.userId);
+    var result = await service.update(olcumObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /olcum/{id}/{userId}:
+ * /olcum/{id}/{email}:
  *   delete:
  *     summary: Ölçümü sil
  *     tags: [olcumler]
@@ -233,24 +233,24 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.delete("/:id/:userId", async function (req, res, next) {
+router.delete("/:id/:email", async function (req, res, next) {
     var service = new OlcumService();
-    var result = await service.delete(req.params.id, req.params.userId);
+    var result = await service.delete(req.params.id, req.params.email);
     res.send(result);
 })
 
 /**
  * @swagger
- * /olcum/durum/{durum}/{userId}:
+ * /olcum/durum/{durum}/{email}:
  *   get:
  *     summary: İsteğe göre silinmiş veya silinmemiş verileri getirir
  *     tags: [olcumler]
@@ -262,24 +262,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Aktiflik durumu. 1-Aktif 2-Deaktif
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/durum/:durum/:userId', async function (req, res, next) {
+ router.get('/durum/:durum/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByDurum(req.params.durum, req.params.userId);
+    var response = await service.getAllByDurum(req.params.durum, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/cihaz/{cihazId}/{userId}:
+ * /olcum/cihaz/{cihazId}/{email}:
  *   get:
  *     summary: Cihazın Id numarasına göre cihaza ait ölçümleri getirir
  *     tags: [olcumler]
@@ -291,24 +291,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Cihazın Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/cihaz/:cihazId/:userId', async function (req, res, next) {
+ router.get('/cihaz/:cihazId/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByCihazId(req.params.cihazId, req.params.userId);
+    var response = await service.getAllByCihazId(req.params.cihazId, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/isikSiddeti/{loverLimit}/{upperLimit}/{userId}:
+ * /olcum/isikSiddeti/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre ışık şiddeti ölçümlerini getirir
  *     tags: [olcumler]
@@ -326,24 +326,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Işık şiddetinin üst limiti
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/isikSiddeti/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
+ router.get('/isikSiddeti/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByIsikSiddeti(req.params.loverLimit, req.params.upperLimit, req.params.userId);
+    var response = await service.getAllByIsikSiddeti(req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/sicaklik/{loverLimit}/{upperLimit}/{userId}:
+ * /olcum/sicaklik/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre sıcaklık ölçümlerini getirir
  *     tags: [olcumler]
@@ -361,24 +361,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Sıcaklığın üst limiti
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/sicaklik/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
+ router.get('/sicaklik/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllBySicaklik(req.params.loverLimit, req.params.upperLimit, req.params.userId);
+    var response = await service.getAllBySicaklik(req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/karbondioksitMiktari/{loverLimit}/{upperLimit}/{userId}:
+ * /olcum/karbondioksitMiktari/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre karbondioksit miktarı ölçümlerini getirir
  *     tags: [olcumler]
@@ -396,24 +396,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Karbondioksit miktarının üst limiti
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/karbondioksitMiktari/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
+ router.get('/karbondioksitMiktari/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByKarbondioksitMiktari(req.params.loverLimit, req.params.upperLimit, req.params.userId);
+    var response = await service.getAllByKarbondioksitMiktari(req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/nem/{loverLimit}/{upperLimit}/{userId}:
+ * /olcum/nem/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre nem ölçümlerini getirir
  *     tags: [olcumler]
@@ -431,24 +431,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Nemin üst limiti
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/nem/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
+ router.get('/nem/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByNem(req.params.loverLimit, req.params.upperLimit, req.params.userId);
+    var response = await service.getAllByNem(req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /olcum/gurultu/{loverLimit}/{upperLimit}/{userId}:
+ * /olcum/gurultu/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre gürültü ölçümlerini getirir
  *     tags: [olcumler]
@@ -466,18 +466,18 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *         required: true
  *         description: Gürültünün üst limiti
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get('/gurultu/:loverLimit/:upperLimit/:userId', async function (req, res, next) {
+ router.get('/gurultu/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
-    var response = await service.getAllByGurultu(req.params.loverLimit, req.params.upperLimit, req.params.userId);
+    var response = await service.getAllByGurultu(req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 

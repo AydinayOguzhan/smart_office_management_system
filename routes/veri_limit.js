@@ -56,55 +56,55 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /veri_limit/{userId}:
+ * /veri_limit/{email}:
  *   get:
  *     summary: Tüm veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: Tüm data döner
  */
-router.get("/:userId", async function (req, res, next) {
+router.get("/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new VeriLimitService();
-    const response = await service.getAll(req.params.userId);
+    const response = await service.getAll(req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /veri_limit/without_durum/{userId}:
+ * /veri_limit/without_durum/{email}:
  *   get:
  *     summary: Sistemdeki silinmiş veri limitleri dahil bütün veri limitlerini getir
  *     tags: [limitler]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
  *          type: number
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/without_durum/:userId", async function (req, res, next) {
+ router.get("/without_durum/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new VeriLimitService();
-    const response = await service.getAllByWithoutDurum(req.params.userId);
+    const response = await service.getAllByWithoutDurum(req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /veri_limit/cihaz/{cihazId}/{userId}:
+ * /veri_limit/cihaz/{cihazId}/{email}:
  *   get:
  *     summary: Cihazın Id numarasına göre veri limitlerini getir
  *     tags: [limitler]
@@ -116,19 +116,19 @@ router.get("/:userId", async function (req, res, next) {
  *        required: true
  *        description: Cihaza ait Id numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/cihaz/:cihazId/:userId", async function (req, res, next) {
+ router.get("/cihaz/:cihazId/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new VeriLimitService();
-    const response = await service.getAllByCihazId(req.params.cihazId, req.params.userId);
+    const response = await service.getAllByCihazId(req.params.cihazId, req.params.email);
     res.send(response);
 });
 
@@ -136,7 +136,7 @@ router.get("/:userId", async function (req, res, next) {
 
 /**
  * @swagger
- * /veri_limit/kategori/{kategoriId}/{userId}:
+ * /veri_limit/kategori/{kategoriId}/{email}:
  *   get:
  *     summary: Kategori Id numarasına göre tüm veri limitlerini getir
  *     tags: [limitler]
@@ -148,19 +148,19 @@ router.get("/:userId", async function (req, res, next) {
  *        required: true
  *        description: Limitin kategorisine ait Id numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/kategori/:kategoriId/:userId", async function (req, res, next) {
+ router.get("/kategori/:kategoriId/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new VeriLimitService();
-    const response = await service.getAllByKategoriId(req.params.kategoriId, req.params.userId);
+    const response = await service.getAllByKategoriId(req.params.kategoriId, req.params.email);
     res.send(response);
 });
 
@@ -168,7 +168,7 @@ router.get("/:userId", async function (req, res, next) {
 
 /**
  * @swagger
- * /veri_limit/{id}/{userId}:
+ * /veri_limit/{id}/{email}:
  *   get:
  *     summary: Veri limiti Id numarasına göre veri limiti getir
  *     tags: [limitler]
@@ -180,37 +180,37 @@ router.get("/:userId", async function (req, res, next) {
  *         required: true
  *         description: Limite ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/:id/:userId', async function (req, res, next) {
+router.get('/:id/:email', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new VeriLimitService();
-    var response = await service.getById(req.params.id, req.params.userId);
+    var response = await service.getById(req.params.id, req.params.email);
     res.send(response);
 });
 
 
 /**
  * @swagger
- * /veri_limit/{userId}:
+ * /veri_limit/{email}:
  *   post:
  *      summary: Yeni bir veri limiti ekle
  *      tags: [limitler]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -221,7 +221,7 @@ router.get('/:id/:userId', async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.post("/:userId", urlencodedParser, async function (req, res, next) {
+router.post("/:email", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = {
         cihazId: req.body.cihazId,
@@ -231,24 +231,24 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
         ustLimit: req.body.ustLimit,
     };
 
-    var result = await service.add(limitObj, req.params.userId);
+    var result = await service.add(limitObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /veri_limit/{userId}:
+ * /veri_limit/{email}:
  *   put:
  *      summary: Veri limitleri tablosundaki bir veri limitini güncelle
  *      tags: [limitler]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *      requestBody:
  *          required: true
  *          content:
@@ -259,7 +259,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı
  */
-router.put("/:userId", urlencodedParser, async function (req, res, next) {
+router.put("/:email", urlencodedParser, async function (req, res, next) {
     var service = new VeriLimitService();
     const limitObj = {
         id: req.body.id,
@@ -270,14 +270,14 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
         ustLimit: req.body.ustLimit,
     };
 
-    var result = await service.update(limitObj, req.params.userId);
+    var result = await service.update(limitObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /veri_limit/{id}/{userId}:
+ * /veri_limit/{id}/{email}:
  *   delete:
  *     summary: Veri limiti sil
  *     tags: [limitler]
@@ -289,18 +289,18 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         required: true
  *         description: Limite ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.delete("/:id/:userId", async function (req, res, next) {
+router.delete("/:id/:email", async function (req, res, next) {
     var service = new VeriLimitService();
-    var result = await service.delete(req.params.id, req.params.userId);
+    var result = await service.delete(req.params.id, req.params.email);
     res.send(result);
 })
 

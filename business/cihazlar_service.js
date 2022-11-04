@@ -21,39 +21,22 @@ class CihazlarService {
     }
 
 
-    async getAll(userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAll() {
         var result = await this.dal.getAll();
         return result;
     }
 
-    async getAllByWithoutDurum(userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByWithoutDurum() {
         var result = await this.dal.getAllByWithoutDurum();
         return result;
     }
 
-    async getById(id, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getById(id) {
         var result = await this.dal.getById(id);
         return result;
     }
 
-    async add(obj, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async add(obj) {
         console.log(obj);
         var check = this.v.compile(this.schema);
         var validatorResult = check(obj);
@@ -65,12 +48,7 @@ class CihazlarService {
         return result;
     }
 
-    async update(obj, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async update(obj) {
         var check = this.v.compile(this.schema);
         var validatorResult = check(obj);
         if (Array.isArray(validatorResult)) {
@@ -81,66 +59,37 @@ class CihazlarService {
         return result;
     }
 
-    async updateIpAddress(id, ipAddress, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async updateIpAddress(id, ipAddress) {
         var result = await this.dal.updateIpAddress(id, ipAddress);
         return result;
     }
 
-    async delete(id, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async delete(id) {
         var result = await this.dal.delete(id);
         return result;
     }
 
-    async getAllByMekan(mekanId, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByMekan(mekanId) {
         var result = await this.dal.getAllByMekan(mekanId);
         return result;
     }
 
-    async getAllByBina(binaId, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByBina(binaId) {
         var result = await this.dal.getAllByBina(binaId);
         return result;
     }
 
-    async getAllByKampus(kampusId, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByKampus(kampusId) {
         var result = await this.dal.getAllByKampus(kampusId);
         return result;
     }
 
-    async getAllByAktif(aktif, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByAktif(aktif) {
         var result = await this.dal.getAllByAktif(aktif);
         return result;
     }
 
-    async getAllByDurum(durum, userId) {
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByDurum(durum) {
         var result = await this.dal.getAllByDurum(durum);
         return result;
     }

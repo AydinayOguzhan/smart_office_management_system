@@ -7,7 +7,7 @@ class NotificationService {
         this.logService = new LogService();
     }
 
-    async getServerLogCount(userId=1) {
+    async getServerLogCount() {
         var count = await this.logService.getServerLogCount();
         return count;
     } 

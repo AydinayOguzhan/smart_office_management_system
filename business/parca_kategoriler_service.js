@@ -12,30 +12,17 @@ class ParcaKategorilerService{
         }
     }
 
-    async getAll(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAll(){
         const result = await this.dal.getAll();
         return result;
     }
 
-    async getById(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getById(id){
         const result = await this.dal.getById(id);
         return result;
     }
 
-    async add(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async add(obj){
         const check = this.v.compile(this.schema);
         var validationResult = check(obj);
         if (Array.isArray(validationResult)) {
@@ -46,12 +33,7 @@ class ParcaKategorilerService{
         return result;
     }
 
-    async update(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async update(obj){
         const check = this.v.compile(this.schema);
         var validationResult = check(obj);
         if (Array.isArray(validationResult)) {
@@ -62,11 +44,7 @@ class ParcaKategorilerService{
         return result;
     }
 
-    async delete(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async delete(id){
         const result = await this.dal.delete(id);
         return result;
     }

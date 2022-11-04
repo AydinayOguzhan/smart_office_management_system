@@ -45,7 +45,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        // url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
+        url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
       }
     ]
   },

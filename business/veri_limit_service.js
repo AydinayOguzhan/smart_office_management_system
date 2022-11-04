@@ -16,57 +16,32 @@ class VeriLimitService{
         }
     }
 
-    async getAll(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAll(){
         var result = await this.dal.getAll();
         return result;
     }
 
-    async getAllByWithoutDurum(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByWithoutDurum(){
         var result = await this.dal.getAllByWithoutDurum();
         return result;
     }
 
-    async getAllByCihazId(cihazId,userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByCihazId(cihazId){
         var result = await this.dal.getAllByCihazId(cihazId);
         return result;
     }
 
-    async getAllByKategoriId(kategoriId,userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByKategoriId(kategoriId){
         var result = await this.dal.getAllByKategoriId(kategoriId);
         return result;
     }
 
-    async getById(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getById(id){
         var result = await this.dal.getById(id);
         return result;
     }
 
-    async add(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async add(obj){
         const check = this.v.compile(this.schema);
         var validationResult = check(obj);
         if (Array.isArray(validationResult)) {
@@ -77,12 +52,7 @@ class VeriLimitService{
         return result;
     }
 
-    async update(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async update(obj){
         const check = this.v.compile(this.schema);
         var validationResult = check(obj);
         if (Array.isArray(validationResult)) {
@@ -93,11 +63,7 @@ class VeriLimitService{
         return result;
     }
 
-    async delete(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async delete(id){
         var result = await this.dal.delete(id);
         return result;
     }

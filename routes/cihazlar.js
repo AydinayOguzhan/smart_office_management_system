@@ -68,24 +68,24 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /cihaz/{userId}:
+ * /cihaz/{email}:
  *   get:
  *     summary: Tüm cihazları getir.
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/:userId", async function (req, res, next) {
+router.get("/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAll(req.params.userId);
+    const response = await service.getAll(req.params.email);
     res.send(response);
 });
 
@@ -116,24 +116,24 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/without_durum/{userId}:
+ * /cihaz/without_durum/{email}:
  *   get:
  *     summary: Sistemdeki silinmiş cihazlar dahil bütün cihazları getir. 
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: email
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/without_durum/:userId", async function (req, res, next) {
+ router.get("/without_durum/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByWithoutDurum(req.params.userId);
+    const response = await service.getAllByWithoutDurum(req.params.email);
     res.send(response);
 });
 
@@ -141,7 +141,7 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/id/{id}/{userId}:
+ * /cihaz/id/{id}/{email}:
  *   get:
  *     summary: Cihazın Id numarasına göre cihazı getir.
  *     tags: [cihazlar]
@@ -153,20 +153,20 @@ router.get("/check/is_working/:timeOut", async function (req, res, next) {
  *         required: true
  *         description: Cihaza ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get('/id/:id/:userId', async function (req, res, next) {
+router.get('/id/:id/:email', async function (req, res, next) {
     // res.render('index', { title: 'Express' });
     // res.send(req.params.id)
     var service = new CihazlarService();
-    var response = await service.getById(req.params.id, req.params.userId);
+    var response = await service.getById(req.params.id, req.params.email);
     res.send(response);
 });
 
@@ -174,15 +174,15 @@ router.get('/id/:id/:userId', async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/{userId}:
+ * /cihaz/{email}:
  *   post:
  *      summary: Sisteme yeni cihaz bilgisi ekle.
  *      tags: [cihazlar]
  *      parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: Kullanıcıya ait Id numarası
  *      requestBody:
@@ -195,7 +195,7 @@ router.get('/id/:id/:userId', async function (req, res, next) {
  *          200:
  *              description: İşlem başarılı.
  */
-router.post("/:userId", urlencodedParser, async function (req, res, next) {
+router.post("/:email", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = {
         adi: req.body.adi,
@@ -206,22 +206,22 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
         veriGondermeSikligi: req.body.veri_gonderme_sikligi,
     };
 
-    var result = await service.add(cihazObj, req.params.userId);
+    var result = await service.add(cihazObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /cihaz/{userId}:
+ * /cihaz/{email}:
  *   put:
  *     summary: Cihazların Id numarasına göre cihazları güncelle
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
  *        description: Kullanıcıya ait Id numarası
  *     requestBody:
@@ -234,7 +234,7 @@ router.post("/:userId", urlencodedParser, async function (req, res, next) {
  *       200:
  *         description: İşlem başarılı
  */
-router.put("/:userId", urlencodedParser, async function (req, res, next) {
+router.put("/:email", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = {
         id: req.body.id,
@@ -247,14 +247,14 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
         aktif: req.body.aktif,
     };
 
-    var result = await service.update(cihazObj, req.params.userId);
+    var result = await service.update(cihazObj, req.params.email);
     res.send(result);
 });
 
 
 /**
  * @swagger
- * /cihaz/ip/{id}/{ipAddress}/{userId}:
+ * /cihaz/ip/{id}/{ipAddress}/{email}:
  *   put:
  *     summary: Id numarasına göre cihazların Ip adreslerini güncelle
  *     tags: [cihazlar]
@@ -272,18 +272,18 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *        required: false
  *        description: Cihaza ait Ip numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: Data başarıyla güncellendi
  */
- router.put("/ip/:id/:ipAddress/:userId", urlencodedParser, async function (req, res, next) {
+ router.put("/ip/:id/:ipAddress/:email", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
-    var result = await service.updateIpAddress(req.params.id, req.params.ipAddress, req.params.userId);
+    var result = await service.updateIpAddress(req.params.id, req.params.ipAddress, req.params.email);
     res.send(result);
 });
 
@@ -291,7 +291,7 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/{id}/{userId}:
+ * /cihaz/{id}/{email}:
  *   delete:
  *     summary: Cihazı sil
  *     tags: [cihazlar]
@@ -303,25 +303,25 @@ router.put("/:userId", urlencodedParser, async function (req, res, next) {
  *         required: true
  *         description: Cihaza ait Id numarası
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: Kullanıcıya ait Id numarası
+ *         description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: Veri başarıyla silindi
  */
-router.delete("/:id/:userId", async function (req, res, next) {
+router.delete("/:id/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    var result = await service.delete(req.params.id, req.params.userId);
+    var result = await service.delete(req.params.id, req.params.email);
     res.send(result);
 })
 
 
 /**
  * @swagger
- * /cihaz/mekan/{mekanId}/{userId}:
+ * /cihaz/mekan/{mekanId}/{email}:
  *   get:
  *     summary: Bulundukları mekana göre cihazları getir.
  *     tags: [cihazlar]
@@ -333,24 +333,24 @@ router.delete("/:id/:userId", async function (req, res, next) {
  *        required: true
  *        description: Cihazın bulunduğu mekana ait Id numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: İşlem başarılı 
  */
-router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
+router.get("/mekan/:mekanId/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByMekan(req.params.mekanId, req.params.userId);
+    const response = await service.getAllByMekan(req.params.mekanId, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/bina/{binaId}/{userId}:
+ * /cihaz/bina/{binaId}/{email}:
  *   get:
  *     summary: Bulundukları binaya göre cihazları getir.
  *     tags: [cihazlar]
@@ -362,24 +362,24 @@ router.get("/mekan/:mekanId/:userId", async function (req, res, next) {
  *        required: true
  *        description: Cihazın bulunduğu binaya ait Id numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı 
  */
-router.get("/bina/:binaId/:userId", async function (req, res, next) {
+router.get("/bina/:binaId/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByBina(req.params.binaId, req.params.userId);
+    const response = await service.getAllByBina(req.params.binaId, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/kampus/{kampusId}/{userId}:
+ * /cihaz/kampus/{kampusId}/{email}:
  *   get:
  *     summary: Bulundukları kampüse göre cihazları getir. 
  *     tags: [cihazlar]
@@ -391,24 +391,24 @@ router.get("/bina/:binaId/:userId", async function (req, res, next) {
  *        required: false
  *        description: Cihazın bulunduğu kampüse ait Id numarası
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
  *          type: number
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
+router.get("/kampus/:kampusId/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByKampus(req.params.kampusId, req.params.userId);
+    const response = await service.getAllByKampus(req.params.kampusId, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/aktif/{aktif}/{userId}:
+ * /cihaz/aktif/{aktif}/{email}:
  *   get:
  *     summary: Aktiflik durumlarına göre cihazları getir. 
  *     tags: [cihazlar]
@@ -420,24 +420,24 @@ router.get("/kampus/:kampusId/:userId", async function (req, res, next) {
  *        required: false
  *        description: Cihazın aktiflik durumu. 1-Aktif 2-Deaktif
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/aktif/:aktif/:userId", async function (req, res, next) {
+router.get("/aktif/:aktif/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByAktif(req.params.aktif, req.params.userId);
+    const response = await service.getAllByAktif(req.params.aktif, req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /cihaz/durum/{durum}/{userId}:
+ * /cihaz/durum/{durum}/{email}:
  *   get:
  *     summary: İsteğe göre silinmiş veya silinmemiş cihazları getir
  *     tags: [cihazlar]
@@ -449,18 +449,18 @@ router.get("/aktif/:aktif/:userId", async function (req, res, next) {
  *        required: false
  *        description: Cihazın durumu. 1-Aktif 2-Deaktif
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
  *        description: Kullanıcıya ait Id numarası
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/durum/:durum/:userId", async function (req, res, next) {
+router.get("/durum/:durum/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByDurum(req.params.durum, req.params.userId);
+    const response = await service.getAllByDurum(req.params.durum, req.params.email);
     res.send(response);
 });
 

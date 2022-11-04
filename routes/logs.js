@@ -74,73 +74,73 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 /**
  * @swagger
- * /loglar/server/{userId}:
+ * /loglar/server/{email}:
  *   get:
  *     summary: Tüm server loglarını getirir
  *     tags: [loglar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
-router.get("/server/:userId", async function (req, res, next) {
+router.get("/server/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new LogService();
-    const response = await service.getAllServerLogs(req.params.userId);
+    const response = await service.getAllServerLogs(req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /loglar/exception/{userId}:
+ * /loglar/exception/{email}:
  *   get:
  *     summary: Tüm exception loglarını getirir
  *     tags: [loglar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/exception/:userId", async function (req, res, next) {
+ router.get("/exception/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new LogService();
-    const response = await service.getAllExceptionLogs(req.params.userId);
+    const response = await service.getAllExceptionLogs(req.params.email);
     res.send(response);
 });
 
 /**
  * @swagger
- * /loglar/rejection/{userId}:
+ * /loglar/rejection/{email}:
  *   get:
  *     summary: Tüm rejection loglarını getirir
  *     tags: [loglar]
  *     parameters:
  *      - in: path
- *        name: userId
+ *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Kullanıcıya ait Id numarası
+ *        description: Kullanıcıya ait email
  *     responses:
  *       200:
  *         description: İşlem başarılı
  */
- router.get("/rejection/:userId", async function (req, res, next) {
+ router.get("/rejection/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
     var service = new LogService();
-    const response = await service.getAllRejectionLogs(req.params.userId);
+    const response = await service.getAllRejectionLogs(req.params.email);
     res.send(response);
 });
 

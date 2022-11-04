@@ -14,39 +14,22 @@ class ParcaService{
         }
     }
 
-    async getAll(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAll(){
         var result = await this.dal.getAll();
         return result;
     }
 
-    async getAllByWithoutDurum(userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByWithoutDurum(){
         var result = await this.dal.getAllByWithoutDurum();
         return result;
     }
 
-    async getById(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getById(id){
         var result = await this.dal.getById(id);
         return result;
     }
 
-    async add(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async add(obj){
         const check = this.v.compile(this.schema);
         var validateResult = check(obj);
         if (Array.isArray(validateResult)) {
@@ -57,12 +40,7 @@ class ParcaService{
         return result;
     }
 
-    async update(obj, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
-
+    async update(obj){
         const check = this.v.compile(this.schema);
         var validateResult = check(obj);
         if (Array.isArray(validateResult)) {
@@ -73,47 +51,27 @@ class ParcaService{
         return result;
     }
 
-    async delete(id, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async delete(id){
         var result = await this.dal.delete(id);
         return result;
     }
 
-    async getAllByDurum(durum, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByDurum(durum){
         var result = await this.dal.getAllByDurum(durum);
         return result;
     }
 
-    async getAllByDate(startDate,endDate, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByDate(startDate,endDate){
         var result = await this.dal.getAllByDate(startDate,endDate);
         return result;
     }
 
-    async getAllByCategory(kategoriId, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByCategory(kategoriId){
         var result = await this.dal.getAllByCategory(kategoriId);
         return result;
     }
 
-    async getAllByCihaz(cihazId, userId){
-        const operationResult = await Operations.securedOperations(userId, 1);
-        if (operationResult.success === false) {
-            return operationResult;
-        }
+    async getAllByCihaz(cihazId){
         var result = await this.dal.getAllByCihaz(cihazId);
         return result;
     }
