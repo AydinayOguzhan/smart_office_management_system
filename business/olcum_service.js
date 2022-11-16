@@ -1,5 +1,4 @@
 const OlcumDal = require("../data_access/olcum_dal");
-const Operations = require("../core/utilities/secured_operations/secured_operations");
 var winLog = require("../core/logger/winston_logger");
 const Validator = require("../node_modules/fastest-validator");
 

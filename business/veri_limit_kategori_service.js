@@ -1,4 +1,3 @@
-const Operations = require("../core/utilities/secured_operations/secured_operations");
 const VeriLimitKategoriDal = require("../data_access/veri_limit_kategori_dal");
 const Validator = require("../node_modules/fastest-validator");
 

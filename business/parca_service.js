@@ -1,5 +1,4 @@
 const ParcaDal = require("../data_access/parca_dal");
-const Operations = require("../core/utilities/secured_operations/secured_operations");
 const Validator = require("../node_modules/fastest-validator");
 
 class ParcaService{

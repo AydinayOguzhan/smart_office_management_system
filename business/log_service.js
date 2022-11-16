@@ -1,4 +1,3 @@
-const Operations = require("../core/utilities/secured_operations/secured_operations");
 // var winLog = require("../core/logger/winston_logger");
 const LogDal = require("../data_access/log_dal");
 const dateFormat = require("date-and-time");

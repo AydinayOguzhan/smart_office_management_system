@@ -18,8 +18,8 @@ var parcalarRouter = require("./routes/parca");
 var cihazlarRouter = require("./routes/cihazlar");
 var veriLimitleriRouter = require("./routes/veri_limit");
 var olcumlerRouter = require("./routes/olcum");
-var veriLimitKategori = require("./routes/veri_limit_kategori");
-var loglar = require("./routes/logs");
+var veriLimitKategoriRouter = require("./routes/veri_limit_kategori");
+var loglarRouter = require("./routes/logs");
 
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
@@ -85,8 +85,8 @@ app.use('/parca', parcalarRouter);
 app.use('/cihaz', cihazlarRouter);
 app.use('/veri_limit', veriLimitleriRouter);
 app.use('/olcum', olcumlerRouter);
-app.use('/veri_limit_kategori', veriLimitKategori);
-app.use('/loglar', loglar);
+app.use('/veri_limit_kategori', veriLimitKategoriRouter);
+app.use('/loglar', loglarRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

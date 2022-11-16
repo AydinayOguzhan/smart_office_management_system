@@ -1,5 +1,4 @@
 const CihazlarDal = require("../data_access/cihazlar_dal");
-const Operations = require("../core/utilities/secured_operations/secured_operations");
 const logger = require("../core/logger/winston_logger");
 var winLog = require("../core/logger/winston_logger");
 const RaspBerryServerAdapter = require("./adapters/raspberry_server_adapter");

@@ -1,5 +1,4 @@
 var winston = require("winston");
-const UserOperationClaimDal = require("../../data_access/user_operation_claim_dal");
 const { combine, timestamp, json, errors } = winston.format;
 const CustomTransport = require("./customTransport");
 
