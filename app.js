@@ -8,7 +8,7 @@ require('dotenv').config();
 
 var cors = require("cors");
 
-var winLog = require("../api/core/logger/winston_logger");
+var winLog = require("./core/logger/winston_logger");
 
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
@@ -45,7 +45,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
+        url: `${process.env.PROD_HOST}:${PORT}`
       }
     ]
   },
@@ -56,9 +56,12 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 
 //LOG
 app.use((req, res, next) => {
@@ -77,9 +80,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/notifications', notifications.Server);
-// app.use(notifications.Server);
 
-// app.use('/users', usersRouter);
 app.use('/parca_kategoriler', parcaKategorilerRouter);
 app.use('/parca', parcalarRouter);
 app.use('/cihaz', cihazlarRouter);
@@ -107,7 +108,7 @@ app.use(function (err, req, res, next) {
 
 
 app.listen(PORT, () => {
-  console.log(`Working on localhost:${PORT}/api-docs`)
+  console.log(`Working on ${process.env.PROD_HOST}:${PORT}/api-docs`)
 })
 
 

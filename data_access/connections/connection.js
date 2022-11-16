@@ -1,7 +1,8 @@
 const mysql = require("mysql");
 const Messages = require("../../core/utilities/constants/messages");
 const ErrorResult = require("../../core/utilities/results/error_result");
-require('dotenv').config() 
+require('dotenv').config()
+
 
 const connection = mysql.createConnection({
     host: process.env.HOST,
@@ -10,8 +11,17 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE
 });
 
-connection.connect((err)=>{
-    if(err) return new ErrorResult(Messages.databaseConnectionError);
+// const connection = mysql.createConnection({
+//     host: process.env.PROD_HOST,
+//     user: process.env.PROD_USER,
+//     password: process.env.PROD_PASSWORD,
+//     database: process.env.PROD_DATABASE
+// });
+
+
+
+connection.connect((err) => {
+    if (err) return new ErrorResult(Messages.databaseConnectionError);
     console.log("Connected");
 });
 
