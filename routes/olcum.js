@@ -23,7 +23,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         - gurultu
  *       properties:
  *         id:
- *           type: number
+ *           type: string
  *           description: Ölçümün Id numarası. Otomatik oluşturulur.
  *         cihaz_id:
  *           type: number
@@ -118,7 +118,7 @@ router.get("/:email", async function (req, res, next) {
  *       - in: path
  *         name: id
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path
@@ -229,7 +229,7 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
  *       - in: path
  *         name: id
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path

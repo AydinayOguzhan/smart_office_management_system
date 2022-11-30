@@ -9,6 +9,7 @@ class OlcumService{
 
     async getAll(){
         var result = await this.dal.getAll();
+        // console.log(result);
         return result;
     }
 
