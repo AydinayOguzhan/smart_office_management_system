@@ -21,6 +21,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         - karbondioksit_miktari
  *         - nem
  *         - gurultu
+ *         - kat
+ *         - mekan_id
+ *         - bina_id
+ *         - kampus_id
  *       properties:
  *         id:
  *           type: string
@@ -49,6 +53,18 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         durum:
  *           type: boolean
  *           description: Verinin aktif olup olmadığını gösteren alan. Otomatik atanır. 
+ *         kat:
+ *           type: number
+ *           description: Cihazın bulunduğu kat.
+ *         mekan_id:
+ *           type: number
+ *           description: Cihazın bulunduğu mekanın Id numarası.
+ *         bina_id:
+ *           type: number
+ *           description: Cihazın bulunduğu binanın Id numarası.
+ *         kampus_id:
+ *           type: number
+ *           description: Cihazın bulunduğu kampüsün Id numarası.
  */
 
 /**
@@ -172,8 +188,11 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
         karbondioksit_miktari: req.body.karbondioksit_miktari,
         nem: req.body.nem,
         gurultu: req.body.gurultu,
+        kat: req.body.kat,
+        mekan_id: req.body.mekan_id,
+        bina_id: req.body.bina_id,
+        kampus_id: req.body.kampus_id
     };
-
     var result = await service.add(olcumObj, req.params.email);
     res.send(result);
 });
