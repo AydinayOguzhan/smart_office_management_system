@@ -4,6 +4,7 @@ const connection = require("../data_access/connections/connection");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
 const { MongoClient, ObjectId } = require("mongodb");
+const { options } = require("../app");
 
 
 class OlcumDal {
@@ -16,7 +17,7 @@ class OlcumDal {
 
     async getAll() {
         try {
-            const query = {};
+            const query = {durum:1};
 
             const cursor = await this.olcumlerCol.find(query);
 
@@ -44,24 +45,38 @@ class OlcumDal {
         // });
     }
 
-    getAllByWithoutDurum() {
-        return new Promise((resolve, reject) => {
-            connection.connect((successResponse) => {
-                connection.query("SELECT * FROM olcumler", (err, result) => {
-                    if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...olcumler] = result;
-                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
-                });
-            }, (errorResponse) => {
-                reject(errorResponse);
-            })
-        });
+    async getAllByWithoutDurum() {
+        try {
+            const query = {};
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+
+            return new SuccessDataResult(Messages.Successful, olcumler);
+        } catch (error) {
+            console.log(error);
+        }finally{
+            await this.client.close();
+        }
+        // return new Promise((resolve, reject) => {
+        //     connection.connect((successResponse) => {
+        //         connection.query("SELECT * FROM olcumler", (err, result) => {
+        //             if (err) resolve(new ErrorResult(err));
+        //             if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+        //             const [...olcumler] = result;
+        //             resolve(new SuccessDataResult(Messages.Successful, olcumler));
+        //         });
+        //     }, (errorResponse) => {
+        //         reject(errorResponse);
+        //     })
+        // });
     }
 
     async getById(id) {
         try {
-            const query = {"_id": ObjectId(id)};
+            const query = { "_id": ObjectId(id) };
 
             const data = await this.olcumlerCol.findOne(query);
 
@@ -69,7 +84,7 @@ class OlcumDal {
 
         } catch (error) {
             console.log(error);
-        }finally{
+        } finally {
             await this.client.close();
         }
 
@@ -90,10 +105,10 @@ class OlcumDal {
     async add(obj) {
         try {
             obj.durum = 1;
-            obj.eklenme_tarihi = new Date();
+            obj.eklenme_tarihi = new Date().toLocaleDateString();
             const result = await this.olcumlerCol.insertOne(obj);
 
-            console.log(result)
+            // console.log(result);
             return new Promise((resolve, reject) => {
                 if (result.insertedId == undefined) {
                     resolve(new ErrorResult(Messages.Unsuccessful));
@@ -126,37 +141,25 @@ class OlcumDal {
         // });
     }
 
-    update(obj) {
-        return new Promise((resolve, reject) => {
-            connection.connect((successResponse) => {
-                connection.query(`UPDATE olcumler SET cihaz_id=${obj.cihaz_id} , isik_siddeti='${obj.isik_siddeti}', 
-                sicaklik='${obj.sicaklik}', karbondioksit_miktari = '${obj.karbondioksit_miktari}', nem = '${obj.nem}', 
-                gurultu = '${obj.gurultu}', eklenme_tarihi = '${obj.eklenmeTarihi}' 
-                WHERE id=${obj.id}`, (err, result) => {
-
-                    if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
-                });
-            }, (errorResponse) => {
-                reject(errorResponse);
-            });
-        });
-    }
-
+    
     async delete(id) {
         try {
-            const query = { "_id": ObjectId(id) };
-            const result = await this.olcumlerCol.deleteOne(query);
+            const filter = { "_id": ObjectId(id) };
+            const options = {upsert:true};
+            const updateDoc = {
+                $set:{durum:0},
+            };
 
-            return new Promise((resolve, reject) => {
-                if (result.deletedCount !== 1) {
+            var result = await this.olcumlerCol.updateOne(filter,updateDoc, options);
+            
+            return new Promise((resolve,reject)=>{
+                if (result.matchedCount <= 0) {
                     resolve(new ErrorResult(Messages.DataNotFound));
+                }else if (result.modifiedCount <= 0) {
+                    resolve(new ErrorResult(Messages.Unsuccessful));
+                }else{
+                    resolve(new SuccessResult(Messages.Successful));
                 }
-                resolve(new SuccessResult(Messages.Successful));
             });
         } catch (error) {
             console.log(error);
@@ -180,34 +183,35 @@ class OlcumDal {
         // })
     }
 
-    getAllByDurum(durum) {
-        return new Promise((resolve, reject) => {
-            connection.connect((successResponse) => {
-                connection.query(`select * from olcumler where durum=${durum} and durum = 1`, (err, result) => {
-                    if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...olcumler] = result;
-                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
-                });
-            }, (errorResponse) => {
-                reject(errorResponse);
-            });
-        });
-    }
+    async getAllByCihazId(cihazId) {
+        try {
+            const query = { "cihaz_id": Number(cihazId) };
 
-    getAllByCihazId(cihazId) {
-        return new Promise((resolve, reject) => {
-            connection.connect((successResponse) => {
-                connection.query(`select * from olcumler where cihaz_id=${cihazId} and durum = 1`, (err, result) => {
-                    if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...olcumler] = result;
-                    resolve(new SuccessDataResult(Messages.Successful, olcumler));
-                });
-            }, (errorResponse) => {
-                reject(errorResponse);
-            });
-        });
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
+        
+        // return new Promise((resolve, reject) => {
+        //     connection.connect((successResponse) => {
+        //         connection.query(`select * from olcumler where cihaz_id=${cihazId} and durum = 1`, (err, result) => {
+        //             if (err) resolve(new ErrorResult(err));
+        //             if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+        //             const [...olcumler] = result;
+        //             resolve(new SuccessDataResult(Messages.Successful, olcumler));
+        //         });
+        //     }, (errorResponse) => {
+        //         reject(errorResponse);
+        //     });
+        // });
     }
 
     getAllByIsikSiddeti(loverLimit, upperLimit) {

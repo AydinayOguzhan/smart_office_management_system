@@ -30,18 +30,8 @@ class OlcumService{
         return result;
     }
 
-    async update(obj){
-        var result = await this.dal.update(obj);
-        return result;
-    }
-
     async delete(id){
         var result = await this.dal.delete(id);
-        return result;
-    }
-
-    async getAllByDurum(durum){
-        var result = await this.dal.getAllByDurum(durum);
         return result;
     }
 

@@ -179,45 +179,6 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
 });
 
 
-/**
- * @swagger
- * /olcum/{email}:
- *   put:
- *      summary: Ölçümler tablosundaki bir ölçümü güncelle
- *      tags: [olcumler]
- *      parameters:
- *       - in: path
- *         name: email
- *         schema:
- *           type: string
- *         required: true
- *         description: Kullanıcıya ait email
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *               schema:
- *                  $ref: '#/components/schemas/Olcum'
- *      responses:
- *          200:
- *              description: İşlem başarılı
- */
-router.put("/:email", urlencodedParser, async function (req, res, next) {
-    var service = new OlcumService();
-    const olcumObj = {
-        id: req.body.id,
-        cihaz_id: req.body.cihaz_id,
-        isik_siddeti: req.body.isik_siddeti,
-        sicaklik: req.body.sicaklik,
-        karbondioksit_miktari: req.body.karbondioksit_miktari,
-        nem: req.body.nem,
-        gurultu: req.body.gurultu,
-    };
-
-    var result = await service.update(olcumObj, req.params.email);
-    res.send(result);
-});
-
 
 /**
  * @swagger
@@ -248,34 +209,6 @@ router.delete("/:id/:email", async function (req, res, next) {
     res.send(result);
 })
 
-/**
- * @swagger
- * /olcum/durum/{durum}/{email}:
- *   get:
- *     summary: İsteğe göre silinmiş veya silinmemiş verileri getirir
- *     tags: [olcumler]
- *     parameters:
- *       - in: path
- *         name: durum
- *         schema:
- *           type: boolean
- *         required: true
- *         description: Aktiflik durumu. 1-Aktif 2-Deaktif
- *       - in: path
- *         name: email
- *         schema:
- *           type: string
- *         required: true
- *         description: Kullanıcıya ait email
- *     responses:
- *       200:
- *         description: İşlem başarılı
- */
- router.get('/durum/:durum/:email', async function (req, res, next) {
-    var service = new OlcumService();
-    var response = await service.getAllByDurum(req.params.durum, req.params.email);
-    res.send(response);
-});
 
 /**
  * @swagger
