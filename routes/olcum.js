@@ -21,8 +21,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         - karbondioksit_miktari
  *         - nem
  *         - gurultu
- *         - kat
- *         - mekan_id
+ *         - meksis_kod
  *         - bina_id
  *         - kampus_id
  *       properties:
@@ -53,17 +52,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         durum:
  *           type: boolean
  *           description: Verinin aktif olup olmadığını gösteren alan. Otomatik atanır. 
- *         kat:
- *           type: number
- *           description: Cihazın bulunduğu kat.
- *         mekan_id:
- *           type: number
- *           description: Cihazın bulunduğu mekanın Id numarası.
+ *         meksis_kod:
+ *           type: string
+ *           description: Meksis kod.
  *         bina_id:
- *           type: number
+ *           type: string
  *           description: Cihazın bulunduğu binanın Id numarası.
  *         kampus_id:
- *           type: number
+ *           type: string
  *           description: Cihazın bulunduğu kampüsün Id numarası.
  */
 
@@ -188,8 +184,7 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
         karbondioksit_miktari: req.body.karbondioksit_miktari,
         nem: req.body.nem,
         gurultu: req.body.gurultu,
-        kat: req.body.kat,
-        mekan_id: req.body.mekan_id,
+        meksis_kod: req.body.meksis_kod,
         bina_id: req.body.bina_id,
         kampus_id: req.body.kampus_id
     };
@@ -430,6 +425,49 @@ router.delete("/:id/:email", async function (req, res, next) {
  router.get('/gurultu/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
     var response = await service.getAllByGurultu(req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+
+/**
+ * @swagger
+ * /olcum/meksis/{meksis_kod}/{bina_id}/{kampus_id}/{email}:
+ *   get:
+ *     summary: Meksis koda göre ölçüm getirme
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Kampus ait Id numarası
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksis/:meksis_kod/:bina_id/:kampus_id/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    // console.log("endpoint",req.params.meksis_kod, req.params.bina_id, req.params.kampus_id);
+    var response = await service.getAllByMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id, req.params.email);
     res.send(response);
 });
 
