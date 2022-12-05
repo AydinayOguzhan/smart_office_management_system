@@ -51,6 +51,22 @@ class CihazlarDal {
         });
     }
 
+    getAllByKategoriId(kategoriId) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`select * from cihazlar where kategori_id=${kategoriId} and durum = 1`, (err, result) => {
+                    if (err) resolve(new ErrorResult(err));
+                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    //array destructuring
+                    const [...cihazObj] = result;
+                    resolve(new SuccessDataResult(Messages.Successful, cihazObj));
+                });
+            }, (errorResponse) => {
+                reject(errorResponse);
+            });
+        });
+    }
+
     add(obj) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {

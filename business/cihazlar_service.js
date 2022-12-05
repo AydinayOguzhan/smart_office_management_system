@@ -35,6 +35,12 @@ class CihazlarService {
         return result;
     }
 
+    async getAllByKategoriId(kategoriId){
+        // console.log(kategoriId);
+        var result = await this.dal.getAllByKategoriId(kategoriId);
+        return result;
+    }
+
     async add(obj) {
         console.log(obj);
         var check = this.v.compile(this.schema);

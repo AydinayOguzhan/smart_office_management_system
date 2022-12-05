@@ -170,6 +170,35 @@ router.get('/id/:id/:email', async function (req, res, next) {
     res.send(response);
 });
 
+/**
+ * @swagger
+ * /cihaz/kategori/{kategori_id}/{email}:
+ *   get:
+ *     summary: Kategori Id numarasına göre cihazları getir.
+ *     tags: [cihazlar]
+ *     parameters:
+ *       - in: path
+ *         name: kategori_id
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Cihazın kategorisine ait Id numarası
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/kategori/:kategori_id/:email', async function (req, res, next) {
+    var service = new CihazlarService();
+    var response = await service.getAllByKategoriId(req.params.kategori_id, req.params.email);
+    res.send(response);
+});
+
 
 
 /**
