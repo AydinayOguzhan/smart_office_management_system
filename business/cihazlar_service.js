@@ -11,10 +11,9 @@ class CihazlarService {
         this.v = new Validator();
         this.schema = {
             adi: {type:"string", min:3, optional:false},
-            kat: {type:"number", optional:false},
-            mekanId: {type:"number", optional:false},
-            binaId: {type:"number", optional:false},
-            kampusId: {type:"number", optional:false},
+            meksisKod: {type:"string", optional:false},
+            binaId: {type:"string", optional:false},
+            kampusId: {type:"string", optional:false},
             veriGondermeSikligi: {type:"number", optional:true}
         }
     }
@@ -68,8 +67,8 @@ class CihazlarService {
         return result;
     }
 
-    async getAllByMekan(mekanId) {
-        var result = await this.dal.getAllByMekan(mekanId);
+    async getAllByMeksis(meksisKod) {
+        var result = await this.dal.getAllByMeksis(meksisKod);
         return result;
     }
 

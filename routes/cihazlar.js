@@ -16,8 +16,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       type: object
  *       required:
  *         - adi
- *         - kat
- *         - mekan_id
+ *         - meksis_kod
  *         - bina_id
  *         - kampus_id
  *       properties:
@@ -27,17 +26,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         adi:
  *           type: string
  *           description: Cihazın adı.
- *         kat:
- *           type: number
- *           description: Cihazın bulunduğu kat.
- *         mekan_id:
- *           type: number
- *           description: Cihazın bulunduğu mekanın Id numarası.
+ *         meksis_kod:
+ *           type: string
+ *           description: Cihazın bulunduğu yerin meksis kodu.
  *         bina_id:
- *           type: number
+ *           type: string
  *           description: Cihazın bulunduğu binanın Id numarası.
  *         kampus_id:
- *           type: number
+ *           type: string
  *           description: Cihazın bulunduğu kampüsün Id numarası.
  *         universite_id:
  *           type: number
@@ -200,7 +196,7 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
     const cihazObj = {
         adi: req.body.adi,
         kat: req.body.kat,
-        mekanId: req.body.mekan_id,
+        meksisKod: req.body.meksis_kod,
         binaId: req.body.bina_id,
         kampusId: req.body.kampus_id,
         veriGondermeSikligi: req.body.veri_gonderme_sikligi,
@@ -240,7 +236,7 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
         id: req.body.id,
         adi: req.body.adi,
         kat: req.body.kat,
-        mekanId: req.body.mekan_id,
+        meksisKod: req.body.meksis_kod,
         binaId: req.body.bina_id,
         kampusId: req.body.kampus_id,
         veriGondermeSikligi: req.body.veri_gonderme_sikligi,
@@ -321,17 +317,17 @@ router.delete("/:id/:email", async function (req, res, next) {
 
 /**
  * @swagger
- * /cihaz/mekan/{mekanId}/{email}:
+ * /cihaz/meksis/{meksis_kod}/{email}:
  *   get:
- *     summary: Bulundukları mekana göre cihazları getir.
+ *     summary: Meksis koduna göre cihazları getirir.
  *     tags: [cihazlar]
  *     parameters:
  *      - in: path
- *        name: mekanId
+ *        name: meksis_kod
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
- *        description: Cihazın bulunduğu mekana ait Id numarası
+ *        description: Cihazın bulunduğu mekanın meksis kodu
  *      - in: path
  *        name: email
  *        schema:
@@ -342,9 +338,9 @@ router.delete("/:id/:email", async function (req, res, next) {
  *       200:
  *         description: İşlem başarılı 
  */
-router.get("/mekan/:mekanId/:email", async function (req, res, next) {
+router.get("/meksis/:meksis_kod/:email", async function (req, res, next) {
     var service = new CihazlarService();
-    const response = await service.getAllByMekan(req.params.mekanId, req.params.email);
+    const response = await service.getAllByMeksis(req.params.meksis_kod, req.params.email);
     res.send(response);
 });
 

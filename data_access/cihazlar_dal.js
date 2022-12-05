@@ -55,8 +55,8 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`INSERT INTO cihazlar(adi, kat, mekan_id, bina_id, kampus_id, veri_gonderme_sikligi) 
-                VALUES ('${obj.adi}', ${obj.kat}, ${obj.mekanId}, ${obj.binaId}, ${obj.kampusId}, 
+                connection.query(`INSERT INTO cihazlar(adi, meksis_kod, bina_id, kampus_id, veri_gonderme_sikligi) 
+                VALUES ('${obj.adi}', '${obj.meksisKod}', '${obj.binaId}', '${obj.kampusId}', 
                     ${obj.veriGondermeSikligi})`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
@@ -76,8 +76,8 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`UPDATE cihazlar SET adi='${obj.adi}' , kat=${obj.kat}, mekan_id=${obj.mekanId}, 
-                bina_id = ${obj.binaId}, kampus_id = ${obj.kampusId},
+                connection.query(`UPDATE cihazlar SET adi='${obj.adi}' , meksis_kod='${obj.meksisKod}', 
+                bina_id = '${obj.binaId}', kampus_id = '${obj.kampusId}',
                 veri_gonderme_sikligi = ${obj.veriGondermeSikligi}, aktif = ${obj.aktif}
                 WHERE id=${obj.id}`, (err, result) => {
 
@@ -147,10 +147,10 @@ class CihazlarDal {
         })
     }
 
-    getAllByMekan(mekanId) {
+    getAllByMeksis(meksisKod) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`SELECT * FROM cihazlar where mekan_id = ${mekanId} and durum = 1`, (err, result) => {
+                connection.query(`SELECT * FROM cihazlar where meksis_kod = '${meksisKod}' and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
