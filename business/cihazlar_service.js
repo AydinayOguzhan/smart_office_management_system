@@ -11,6 +11,7 @@ class CihazlarService {
         this.v = new Validator();
         this.schema = {
             adi: {type:"string", min:3, optional:false},
+            kategoriId: {type:"number", optional:false},
             meksisKod: {type:"string", optional:false},
             binaId: {type:"string", optional:false},
             kampusId: {type:"string", optional:false},

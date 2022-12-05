@@ -16,6 +16,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       type: object
  *       required:
  *         - adi
+ *         - kategori_id
  *         - meksis_kod
  *         - bina_id
  *         - kampus_id
@@ -23,6 +24,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         id:
  *           type: number
  *           description: Cihazın Id numarası. Otomatik oluşturulur.
+ *         kategori_id:
+ *           type: number
+ *           description: Cihazın kategorisine ait Id numarası.
  *         adi:
  *           type: string
  *           description: Cihazın adı.
@@ -195,7 +199,7 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = {
         adi: req.body.adi,
-        kat: req.body.kat,
+        kategoriId: req.body.kategori_id,
         meksisKod: req.body.meksis_kod,
         binaId: req.body.bina_id,
         kampusId: req.body.kampus_id,
@@ -234,8 +238,8 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
     var service = new CihazlarService();
     const cihazObj = {
         id: req.body.id,
+        kategoriId: req.body.kategori_id,
         adi: req.body.adi,
-        kat: req.body.kat,
         meksisKod: req.body.meksis_kod,
         binaId: req.body.bina_id,
         kampusId: req.body.kampus_id,

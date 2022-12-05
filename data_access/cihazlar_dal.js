@@ -55,8 +55,8 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`INSERT INTO cihazlar(adi, meksis_kod, bina_id, kampus_id, veri_gonderme_sikligi) 
-                VALUES ('${obj.adi}', '${obj.meksisKod}', '${obj.binaId}', '${obj.kampusId}', 
+                connection.query(`INSERT INTO cihazlar(kategori_id, adi, meksis_kod, bina_id, kampus_id, veri_gonderme_sikligi) 
+                VALUES (${obj.kategoriId},'${obj.adi}', '${obj.meksisKod}', '${obj.binaId}', '${obj.kampusId}', 
                     ${obj.veriGondermeSikligi})`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
@@ -76,7 +76,7 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`UPDATE cihazlar SET adi='${obj.adi}' , meksis_kod='${obj.meksisKod}', 
+                connection.query(`UPDATE cihazlar SET kategori_id='${obj.kategoriId}', adi='${obj.adi}' , meksis_kod='${obj.meksisKod}', 
                 bina_id = '${obj.binaId}', kampus_id = '${obj.kampusId}',
                 veri_gonderme_sikligi = ${obj.veriGondermeSikligi}, aktif = ${obj.aktif}
                 WHERE id=${obj.id}`, (err, result) => {
