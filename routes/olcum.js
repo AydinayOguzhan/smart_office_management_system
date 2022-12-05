@@ -21,9 +21,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         - karbondioksit_miktari
  *         - nem
  *         - gurultu
+ *         - meksis_kod
+ *         - bina_id
+ *         - kampus_id
  *       properties:
  *         id:
- *           type: number
+ *           type: string
  *           description: Ölçümün Id numarası. Otomatik oluşturulur.
  *         cihaz_id:
  *           type: number
@@ -49,6 +52,15 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         durum:
  *           type: boolean
  *           description: Verinin aktif olup olmadığını gösteren alan. Otomatik atanır. 
+ *         meksis_kod:
+ *           type: string
+ *           description: Meksis kod.
+ *         bina_id:
+ *           type: string
+ *           description: Cihazın bulunduğu binanın Id numarası.
+ *         kampus_id:
+ *           type: string
+ *           description: Cihazın bulunduğu kampüsün Id numarası.
  */
 
 /**
@@ -118,7 +130,7 @@ router.get("/:email", async function (req, res, next) {
  *       - in: path
  *         name: id
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path
@@ -172,51 +184,14 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
         karbondioksit_miktari: req.body.karbondioksit_miktari,
         nem: req.body.nem,
         gurultu: req.body.gurultu,
+        meksis_kod: req.body.meksis_kod,
+        bina_id: req.body.bina_id,
+        kampus_id: req.body.kampus_id
     };
-
     var result = await service.add(olcumObj, req.params.email);
     res.send(result);
 });
 
-
-/**
- * @swagger
- * /olcum/{email}:
- *   put:
- *      summary: Ölçümler tablosundaki bir ölçümü güncelle
- *      tags: [olcumler]
- *      parameters:
- *       - in: path
- *         name: email
- *         schema:
- *           type: string
- *         required: true
- *         description: Kullanıcıya ait email
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *               schema:
- *                  $ref: '#/components/schemas/Olcum'
- *      responses:
- *          200:
- *              description: İşlem başarılı
- */
-router.put("/:email", urlencodedParser, async function (req, res, next) {
-    var service = new OlcumService();
-    const olcumObj = {
-        id: req.body.id,
-        cihaz_id: req.body.cihaz_id,
-        isik_siddeti: req.body.isik_siddeti,
-        sicaklik: req.body.sicaklik,
-        karbondioksit_miktari: req.body.karbondioksit_miktari,
-        nem: req.body.nem,
-        gurultu: req.body.gurultu,
-    };
-
-    var result = await service.update(olcumObj, req.params.email);
-    res.send(result);
-});
 
 
 /**
@@ -229,7 +204,7 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
  *       - in: path
  *         name: id
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: Ölçüme ait Id numarası
  *       - in: path
@@ -248,34 +223,6 @@ router.delete("/:id/:email", async function (req, res, next) {
     res.send(result);
 })
 
-/**
- * @swagger
- * /olcum/durum/{durum}/{email}:
- *   get:
- *     summary: İsteğe göre silinmiş veya silinmemiş verileri getirir
- *     tags: [olcumler]
- *     parameters:
- *       - in: path
- *         name: durum
- *         schema:
- *           type: boolean
- *         required: true
- *         description: Aktiflik durumu. 1-Aktif 2-Deaktif
- *       - in: path
- *         name: email
- *         schema:
- *           type: string
- *         required: true
- *         description: Kullanıcıya ait email
- *     responses:
- *       200:
- *         description: İşlem başarılı
- */
- router.get('/durum/:durum/:email', async function (req, res, next) {
-    var service = new OlcumService();
-    var response = await service.getAllByDurum(req.params.durum, req.params.email);
-    res.send(response);
-});
 
 /**
  * @swagger
@@ -343,7 +290,61 @@ router.delete("/:id/:email", async function (req, res, next) {
 
 /**
  * @swagger
- * /olcum/sicaklik/{loverLimit}/{upperLimit}/{email}:
+ * /olcum/meksisIsikSiddeti/{meksis_kod}/{bina_id}/{kampus_id}/{loverLimit}/{upperLimit}/{email}:
+ *   get:
+ *     summary: Belirlenen aralığa ve meksis koda göre ışık şiddeti ölçümlerini getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Binaya ait Id numarası
+*       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kampüse ait Id numarası
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Işık şiddetinin alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Işık şiddetinin üst limiti
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksisIsikSiddeti/:meksis_kod/:bina_id/:kampus_id/:loverLimit/:upperLimit/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByIsikSiddetiMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id 
+        ,req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/sicaklik/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre sıcaklık ölçümlerini getirir
  *     tags: [olcumler]
@@ -373,6 +374,60 @@ router.delete("/:id/:email", async function (req, res, next) {
  router.get('/sicaklik/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
     var response = await service.getAllBySicaklik(req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/meksisSicaklik/{meksis_kod}/{bina_id}/{kampus_id}/{loverLimit}/{upperLimit}/{email}:
+ *   get:
+ *     summary: Belirlenen aralığa ve meksis koda göre sıcaklık ölçümlerini getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kampüse ait Id numarası
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Sıcaklığın alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Sıcaklığın üst limiti
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksisSicaklik/:meksis_kod/:bina_id/:kampus_id/:loverLimit/:upperLimit/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllBySicaklikMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id,
+        req.params.loverLimit, req.params.upperLimit, req.params.email);
     res.send(response);
 });
 
@@ -413,6 +468,60 @@ router.delete("/:id/:email", async function (req, res, next) {
 
 /**
  * @swagger
+ * /olcum/meksisKarbondioksitMiktari/{meksis_kod}/{bina_id}/{kampus_id}/{loverLimit}/{upperLimit}/{email}:
+ *   get:
+ *     summary: Belirlenen aralığa ve meksis koda göre karbondioksit miktarı ölçümlerini getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kampüse ait Id numarası
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Karbondioksit miktarının alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Karbondioksit miktarının üst limiti
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksisKarbondioksitMiktari/:meksis_kod/:bina_id/:kampus_id/:loverLimit/:upperLimit/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByKarbondioksitMiktariMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id,
+        req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+/**
+ * @swagger
  * /olcum/nem/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre nem ölçümlerini getirir
@@ -448,6 +557,60 @@ router.delete("/:id/:email", async function (req, res, next) {
 
 /**
  * @swagger
+ * /olcum/meksisNem/{meksis_kod}/{bina_id}/{kampus_id}/{loverLimit}/{upperLimit}/{email}:
+ *   get:
+ *     summary: Belirlenen aralığa ve meksis koda göre nem ölçümlerini getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kampüse ait Id numarası
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Nemin alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Nemin üst limiti
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksisNem/:meksis_kod/:bina_id/:kampus_id/:loverLimit/:upperLimit/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByNemMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id,
+        req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+/**
+ * @swagger
  * /olcum/gurultu/{loverLimit}/{upperLimit}/{email}:
  *   get:
  *     summary: Belirlenen aralığa göre gürültü ölçümlerini getirir
@@ -478,6 +641,103 @@ router.delete("/:id/:email", async function (req, res, next) {
  router.get('/gurultu/:loverLimit/:upperLimit/:email', async function (req, res, next) {
     var service = new OlcumService();
     var response = await service.getAllByGurultu(req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+/**
+ * @swagger
+ * /olcum/meksisGurultu/{meksis_kod}/{bina_id}/{kampus_id}/{loverLimit}/{upperLimit}/{email}:
+ *   get:
+ *     summary: Belirlenen aralığa ve meksis koda göre gürültü ölçümlerini getirir
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kampüse ait Id numarası
+ *       - in: path
+ *         name: loverLimit
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: Gürültünün alt limiti
+ *       - in: path
+ *         name: upperLimit
+ *         schema:
+ *            type: number
+ *         required: true
+ *         description: Gürültünün üst limiti
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksisGurultu/:meksis_kod/:bina_id/:kampus_id/:loverLimit/:upperLimit/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    var response = await service.getAllByGurultuMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id,
+        req.params.loverLimit, req.params.upperLimit, req.params.email);
+    res.send(response);
+});
+
+
+/**
+ * @swagger
+ * /olcum/meksis/{meksis_kod}/{bina_id}/{kampus_id}/{email}:
+ *   get:
+ *     summary: Meksis koda göre ölçüm getirme
+ *     tags: [olcumler]
+ *     parameters:
+ *       - in: path
+ *         name: meksis_kod
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Meksis kod
+ *       - in: path
+ *         name: bina_id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Binaya ait Id numarası
+ *       - in: path
+ *         name: kampus_id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Kampus ait Id numarası
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get('/meksis/:meksis_kod/:bina_id/:kampus_id/:email', async function (req, res, next) {
+    var service = new OlcumService();
+    // console.log("endpoint",req.params.meksis_kod, req.params.bina_id, req.params.kampus_id);
+    var response = await service.getAllByMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id, req.params.email);
     res.send(response);
 });
 
