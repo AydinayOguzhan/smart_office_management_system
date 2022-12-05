@@ -222,7 +222,7 @@ class OlcumDal {
 
             var olcumler = new Array();
             await cursor.forEach(olcum => olcumler.push(olcum));
-            console.log(olcumler)
+            // console.log(olcumler)
             return new SuccessDataResult(Messages.Successful, olcumler);
 
         } catch (error) {
@@ -245,6 +245,27 @@ class OlcumDal {
         // });
     }
 
+    async getAllByIsikSiddetiMeksis(meksisKod, binaId, kampusId, loverLimit, upperLimit) {
+        try {
+            const query = {
+                meksis_kod: meksisKod, bina_id: binaId, kampus_id: kampusId,
+                isik_siddeti: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1
+            };
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+            // console.log(olcumler)
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
+    }
+
     async getAllBySicaklik(loverLimit, upperLimit) {
         try {
             const query = { sicaklik: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1 };
@@ -253,7 +274,7 @@ class OlcumDal {
 
             var olcumler = new Array();
             await cursor.forEach(olcum => olcumler.push(olcum));
-            console.log(olcumler)
+            // console.log(olcumler)
             return new SuccessDataResult(Messages.Successful, olcumler);
 
         } catch (error) {
@@ -274,6 +295,29 @@ class OlcumDal {
         //         reject(errorResponse);
         //     });
         // });
+    }
+
+    async getAllBySicaklikMeksis(meksisKod, binaId, kampusId, loverLimit, upperLimit) {
+        try {
+            // console.log(meksisKod, binaId, kampusId, loverLimit, upperLimit);
+
+            const query = {
+                meksis_kod: meksisKod, bina_id: binaId, kampus_id: kampusId,
+                sicaklik: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1
+            };
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+            // console.log(olcumler)
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
     }
 
     async getAllByKarbondioksitMiktari(loverLimit, upperLimit) {
@@ -307,6 +351,28 @@ class OlcumDal {
         // });
     }
 
+    async getAllByKarbondioksitMiktariMeksis(meksisKod, binaId, kampusId, loverLimit, upperLimit) {
+        try {
+            // console.log(meksisKod, binaId, kampusId, loverLimit, upperLimit);
+            const query = {
+                meksis_kod: meksisKod, bina_id: binaId, kampus_id: kampusId,
+                karbondioksit_miktari: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1
+            };
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+            console.log(olcumler)
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
+    }
+
     async getAllByNem(loverLimit, upperLimit) {
         try {
             const query = { nem: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1 };
@@ -336,6 +402,27 @@ class OlcumDal {
         //         reject(errorResponse);
         //     });
         // });
+    }
+
+    async getAllByNemMeksis(meksisKod, binaId, kampusId, loverLimit, upperLimit) {
+        try {
+            const query = {
+                meksis_kod: meksisKod, bina_id: binaId, kampus_id: kampusId,
+                nem: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1
+            };
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+            console.log(olcumler)
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
     }
 
     async getAllByGurultu(loverLimit, upperLimit) {
@@ -369,9 +456,27 @@ class OlcumDal {
         // });
     }
 
+    async getAllByGurultuMeksis(meksisKod, binaId, kampusId, loverLimit, upperLimit) {
+        try {
+            const query = {meksis_kod:meksisKod, bina_id:binaId, kampus_id:kampusId, 
+                gurultu: { $gt: Number(loverLimit), $lt: Number(upperLimit) }, durum: 1 };
+
+            const cursor = await this.olcumlerCol.find(query);
+
+            var olcumler = new Array();
+            await cursor.forEach(olcum => olcumler.push(olcum));
+            return new SuccessDataResult(Messages.Successful, olcumler);
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            await this.client.close();
+        }
+    }
+
     async getAllByMeksis(args) {
         try {
-            console.log(args)
+            // console.log(args)
             var cursor = await this.olcumlerCol.find(args);
 
             var olcumler = new Array();
