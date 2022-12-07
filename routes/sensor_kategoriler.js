@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const { response } = require('../app');
-const ParcaKategorilerService = require('../business/parca_kategoriler_service');
+const SensorKategorilerService = require('../business/sensor_kategoriler_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -11,11 +11,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * components:
  *   schemas:
- *     Parca_Kategori:
+ *     sensor_kategori:
  *       type: object
  *       required:
  *         - id
  *         - adi
+ *         - durum
  *       properties:
  *         id:
  *           type: number
@@ -23,24 +24,24 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         adi:
  *           type: string
  *           description: Kategorinin adı
- *       example:
- *         id: 12
- *         adi: sensör
+ *         durum:
+ *           type: number
+ *           description: Verinin silinip-silinmeme durumu
  */
 
 /**
  * @swagger
  * tags:
- *   name: ParcaKategoriler
- *   description: Parca Kategoriler
+ *   name: SensorKategoriler
+ *   description: Sensor Kategoriler
  */
 
 /**
  * @swagger
- * /parca_kategoriler/{email}:
+ * /sensor_kategoriler/{email}:
  *   get:
- *     summary: Tüm parça kategorilerini getir
- *     tags: [ParcaKategoriler]
+ *     summary: Tüm sensör kategorilerini getir
+ *     tags: [SensorKategoriler]
  *     parameters:
  *      - in: path
  *        name: email
@@ -54,25 +55,49 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/:email", async function(req, res, next){
   // res.render('index', { title: 'Express' }); 
-  var service = new ParcaKategorilerService();
+  var service = new SensorKategorilerService();
   const response = await service.getAll(req.params.email);
   res.send(response);
 });
 
+/**
+ * @swagger
+ * /sensor_kategoriler/without_durum/{email}:
+ *   get:
+ *     summary: Silinenler dahil tüm sensör kategorilerini getir
+ *     tags: [SensorKategoriler]
+ *     parameters:
+ *      - in: path
+ *        name: email
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: Kullanıcıya ait email
+ *     responses:
+ *       200:
+ *         description: İşlem başarılı
+ */
+ router.get("/without_durum/:email", async function(req, res, next){
+  // res.render('index', { title: 'Express' }); 
+  var service = new SensorKategorilerService();
+  const response = await service.getAllWithoutDurum(req.params.email);
+  res.send(response);
+})
+
 
 /**
  * @swagger
- * /parca_kategoriler/{id}/{email}:
+ * /sensor_kategoriler/{id}/{email}:
  *   get:
- *     summary: Parça kategorisinin Id numarasına göre parça kategorisini getir
- *     tags: [ParcaKategoriler]
+ *     summary: Sensör kategorisinin Id numarasına göre parça kategorisini getir
+ *     tags: [SensorKategoriler]
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
  *         required: true
- *         description: Parçanın kategorisine ait Id numarası
+ *         description: Sensörün kategorisine ait Id numarası
  *       - in: path
  *         name: email
  *         schema:
@@ -86,7 +111,7 @@ router.get("/:email", async function(req, res, next){
 router.get('/:id/:email', async function (req, res, next) {
   // res.render('index', { title: 'Express' });
   // res.send(req.params.id)
-  var service = new ParcaKategorilerService();
+  var service = new SensorKategorilerService();
   var response = await service.getById(req.params.id, req.params.email);
   res.send(response);
 });
@@ -94,10 +119,10 @@ router.get('/:id/:email', async function (req, res, next) {
 
 /**
  * @swagger
- * /parca_kategoriler/{email}:
+ * /sensor_kategoriler/{email}:
  *   post:
- *      summary: Yeni bir parça kategorisi ekle
- *      tags: [ParcaKategoriler]
+ *      summary: Yeni bir sensör kategorisi ekle
+ *      tags: [SensorKategoriler]
  *      parameters:
  *       - in: path
  *         name: string
@@ -110,13 +135,13 @@ router.get('/:id/:email', async function (req, res, next) {
  *          content:
  *              application/json:
  *               schema:
- *                  $ref: '#/components/schemas/Parca_Kategori'
+ *                  $ref: '#/components/schemas/sensor_kategori'
  *      responses:
  *          200:
  *              description: Ekleme işlemi başarılı
  */
 router.post("/:email", urlencodedParser, async function (req, res, next) {
-  var service = new ParcaKategorilerService();
+  var service = new SensorKategorilerService();
   data = {
     adi: req.body.adi
   }
@@ -126,10 +151,10 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
 
 /**
  * @swagger
- * /parca_kategoriler/{email}:
+ * /sensor_kategoriler/{email}:
  *   put:
- *      summary: Parça kategoriler tablosundaki bir parça kategorisini güncelle
- *      tags: [ParcaKategoriler]
+ *      summary: Sensör kategoriler tablosundaki bir parça kategorisini güncelle
+ *      tags: [SensorKategoriler]
  *      parameters:
  *       - in: path
  *         name: email
@@ -142,13 +167,13 @@ router.post("/:email", urlencodedParser, async function (req, res, next) {
  *          content:
  *              application/json:
  *               schema:
- *                  $ref: '#/components/schemas/Parca_Kategori'
+ *                  $ref: '#/components/schemas/sensor_kategori'
  *      responses:
  *          200:
  *              description: Ekleme işlemi başarılı
  */
 router.put("/:email", urlencodedParser, async function (req, res, next) {
-  var service = new ParcaKategorilerService();
+  var service = new SensorKategorilerService();
   data = {
     id: req.body.id,
     adi: req.body.adi
@@ -160,10 +185,10 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
 
 /**
  * @swagger
- * /parca_kategoriler/{id}/{email}:
+ * /sensor_kategoriler/{id}/{email}:
  *   delete:
- *     summary: Bir parça kategorisini sil
- *     tags: [ParcaKategoriler]
+ *     summary: Bir sensör kategorisini sil
+ *     tags: [SensorKategoriler]
  *     parameters:
  *       - in: path
  *         name: id
@@ -182,7 +207,7 @@ router.put("/:email", urlencodedParser, async function (req, res, next) {
  *         description: işlem başarılı
  */
 router.delete("/:id/:email", async function (req, res, next) {
-  var service = new ParcaKategorilerService();
+  var service = new SensorKategorilerService();
   var result = await service.delete(req.params.id, req.params.email);
   res.send(result);
 })

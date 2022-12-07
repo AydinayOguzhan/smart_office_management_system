@@ -1,9 +1,9 @@
-const ParcaKategorilerDal = require("../data_access/parca_kategoriler_dal");
-const Validator = require("../node_modules/fastest-validator");
+const SensorKategorilerDal = require("../data_access/sensor_kategoriler_dal");
+const Validator = require("fastest-validator");
 
-class ParcaKategorilerService{
+class SensorKategorilerService{
     constructor(){
-        this.dal = new ParcaKategorilerDal();
+        this.dal = new SensorKategorilerDal();
 
         this.v = new Validator();
         this.schema = {
@@ -13,6 +13,11 @@ class ParcaKategorilerService{
 
     async getAll(){
         const result = await this.dal.getAll();
+        return result;
+    }
+
+    async getAllWithoutDurum(){
+        const result = await this.dal.getAllWithoutDurum();
         return result;
     }
 
@@ -49,4 +54,4 @@ class ParcaKategorilerService{
     }
 }
 
-module.exports = ParcaKategorilerService;
+module.exports = SensorKategorilerService;

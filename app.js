@@ -13,7 +13,7 @@ var winLog = require("./core/logger/winston_logger");
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
  
-var parcaKategorilerRouter = require('./routes/parca_kategoriler');
+var sensorKategorilerRouter = require('./routes/sensor_kategoriler');
 var sensorlerRouter = require("./routes/sensor");
 var cihazlarRouter = require("./routes/cihazlar");
 var veriLimitleriRouter = require("./routes/veri_limit");
@@ -82,7 +82,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/notifications', notifications.Server);
 
-app.use('/parca_kategoriler', parcaKategorilerRouter);
+app.use('/sensor_kategoriler', sensorKategorilerRouter);
 app.use('/sensor', sensorlerRouter);
 app.use('/cihaz', cihazlarRouter);
 app.use('/veri_limit', veriLimitleriRouter);
