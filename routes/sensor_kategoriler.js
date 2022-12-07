@@ -125,9 +125,9 @@ router.get('/:id/:email', async function (req, res, next) {
  *      tags: [SensorKategoriler]
  *      parameters:
  *       - in: path
- *         name: string
+ *         name: email
  *         schema:
- *           type: email
+ *           type: string
  *         required: true
  *         description: Kullanıcıya ait email
  *      requestBody:
