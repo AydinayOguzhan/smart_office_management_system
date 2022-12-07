@@ -1,9 +1,9 @@
-const ParcaDal = require("../data_access/parca_dal");
-const Validator = require("../node_modules/fastest-validator");
+const SensorDal = require("../data_access/sensor_dal");
+const Validator = require("fastest-validator");
 
-class ParcaService{
+class SensorService{
     constructor(){
-        this.dal = new ParcaDal();
+        this.dal = new SensorDal();
 
         this.v = new Validator();
         this.schema = {
@@ -76,4 +76,4 @@ class ParcaService{
     }
 }
 
-module.exports = ParcaService;
+module.exports = SensorService;

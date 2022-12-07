@@ -14,7 +14,7 @@ var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
  
 var parcaKategorilerRouter = require('./routes/parca_kategoriler');
-var parcalarRouter = require("./routes/parca");
+var sensorlerRouter = require("./routes/sensor");
 var cihazlarRouter = require("./routes/cihazlar");
 var veriLimitleriRouter = require("./routes/veri_limit");
 var olcumlerRouter = require("./routes/olcum");
@@ -83,7 +83,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/notifications', notifications.Server);
 
 app.use('/parca_kategoriler', parcaKategorilerRouter);
-app.use('/parca', parcalarRouter);
+app.use('/sensor', sensorlerRouter);
 app.use('/cihaz', cihazlarRouter);
 app.use('/veri_limit', veriLimitleriRouter);
 app.use('/olcum', olcumlerRouter);
