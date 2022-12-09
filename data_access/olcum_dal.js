@@ -5,14 +5,15 @@ const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
 const { MongoClient, ObjectId } = require("mongodb");
 const { options } = require("../app");
+require('dotenv').config()
 
 
 class OlcumDal {
     constructor() {
-        this.uri = "mongodb://127.0.0.1:27017";
+        this.uri = process.env.MONGODB_URI;
         this.client = new MongoClient(this.uri);
-        this.db = this.client.db("deu");
-        this.olcumlerCol = this.db.collection("olcumler");
+        this.db = this.client.db(process.env.MONGODB_DB_NAME);
+        this.olcumlerCol = this.db.collection(process.env.MONGODB_OLCUMLER_COLLECTION);
     }
 
     async getAll() {
