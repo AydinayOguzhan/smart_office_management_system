@@ -51,7 +51,7 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./routes/*.js'], // files containing annotations as above
+  apis: [`${__dirname}/routes/*.js`], // files containing annotations as above
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
