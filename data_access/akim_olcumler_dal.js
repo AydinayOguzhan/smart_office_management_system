@@ -4,7 +4,6 @@ const connection = require("../data_access/connections/connection");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
 const { MongoClient, ObjectId } = require("mongodb");
-const { options } = require("../app");
 require('dotenv').config()
 
 class AkimOlcumlerDal {

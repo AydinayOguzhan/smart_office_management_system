@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const { response } = require('../app');
 const AkimOlcumService = require("../business/akim_olcumler_service");
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })

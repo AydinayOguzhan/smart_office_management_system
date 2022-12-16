@@ -47,7 +47,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        url: `${process.env.PROD_HOST}:${PORT}`
+        // url: `${process.env.PROD_HOST}:${PORT}`
       }
     ]
   },
@@ -64,6 +64,10 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
+process.on('warning', e => {
+  console.warn(e.stack);
+});
 
 //LOG
 app.use((req, res, next) => {

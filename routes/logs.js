@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const { response } = require('../app');
 const LogService = require('../business/log_service');
 
 

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const { response } = require('../app');
 const OlcumService = require('../business/olcum_service');
 
 
@@ -740,5 +739,7 @@ router.delete("/:id/:email", async function (req, res, next) {
     var response = await service.getAllByMeksis(req.params.meksis_kod, req.params.bina_id, req.params.kampus_id, req.params.email);
     res.send(response);
 });
+
+
 
 module.exports = router;

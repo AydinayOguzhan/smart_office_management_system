@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const { response } = require('../app');
 const CihazlarService = require('../business/cihazlar_service');
-const ErrorResult = require('../core/utilities/results/error_result');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
