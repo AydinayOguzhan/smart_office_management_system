@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
-require('dotenv').config();
+require('dotenv').config({path: path.join(__dirname, "./.env")});
 
 var cors = require("cors");
 
