@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 });
 
 // const connection = mysql.createConnection({
-//     host: process.env.PROD_HOST,
+//     host: process.env.PROD_DB_HOST,
 //     user: process.env.PROD_USER,
 //     password: process.env.PROD_PASSWORD,
 //     database: process.env.PROD_DATABASE

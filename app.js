@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // var bodyParser = require('body-parser');
-require('dotenv').config();
+require('dotenv').config({path: path.join(__dirname, "./.env")});
 
 var cors = require("cors");
 
@@ -42,12 +42,12 @@ const swaggerOptions = {
     openapi: "3.0.0",
     info: {
       title: 'Sensor API',
-      version: '0.1.0',
+      version: '1.0.0',
     },
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        // url: `${process.env.PROD_HOST}:${PORT}`
+        url: `${process.env.PROD_HOST}:${PORT}`
       }
     ]
   },
@@ -55,9 +55,7 @@ const swaggerOptions = {
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs))
-
-
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 // view engine setup
