@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const { response } = require('../app');
 const SensorKategorilerService = require('../business/sensor_kategoriler_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
