@@ -33,6 +33,7 @@ class SensorKategorilerService{
             return validationResult;
         }
 
+        obj.durum = 1;
         const result = await this.dal.add(obj);
         return result;
     }

@@ -53,7 +53,7 @@ class SensorKategorilerDal {
     add(obj) {
         return new Promise((resolve,reject)=>{
             connection.connect((successResponse)=>{
-                connection.query(`INSERT INTO sensor_kategoriler(adi) VALUES ("${obj.adi}")`, (err,result)=>{
+                connection.query(`INSERT INTO sensor_kategoriler(adi, durum) VALUES ("${obj.adi}", ${obj.durum})`, (err,result)=>{
                     if(err) resolve(new ErrorResult(err));
                     if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
                     else resolve(new ErrorResult(Messages.Unsuccessful));
