@@ -53,8 +53,8 @@ class SensorDal {
     async add(obj) {
         return new Promise((resolve,reject)=>{
             connection.connect((successResponse)=>{
-                connection.query(`INSERT INTO sensorler(cihaz_id, kategori_id, parca_adi) 
-                VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}')`, (err,result)=>{
+                connection.query(`INSERT INTO sensorler(cihaz_id, kategori_id, parca_adi, eklenme_tarihi) 
+                VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}', '${obj.eklenme_tarihi}')`, (err,result)=>{
                     if(err) resolve(new ErrorResult(err));
                     if(result !== undefined){    
                         if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));

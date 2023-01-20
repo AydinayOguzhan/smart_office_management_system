@@ -3,6 +3,8 @@ const logger = require("../core/logger/winston_logger");
 var winLog = require("../core/logger/winston_logger");
 const RaspBerryServerAdapter = require("./adapters/raspberry_server_adapter");
 const Validator = require("../node_modules/fastest-validator");
+const dateFormat = require("date-and-time");
+
 
 class CihazlarService {
     constructor() {
@@ -22,6 +24,7 @@ class CihazlarService {
 
     async getAll() {
         var result = await this.dal.getAll();
+        // console.log(result);
         return result;
     }
 
@@ -42,13 +45,15 @@ class CihazlarService {
     }
 
     async add(obj) {
-        console.log(obj);
+        // console.log(obj);
         var check = this.v.compile(this.schema);
         var validatorResult = check(obj);
         if (Array.isArray(validatorResult)) {
             return validatorResult;
         }
 
+        let date = new Date();
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
         var result = await this.dal.add(obj);
         return result;
     }

@@ -8,7 +8,7 @@ class CihazlarDal {
     getAll() {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query("SELECT * FROM cihazlar where durum = 1", (err, result) => {
+                connection.query("select * from cihazlar where durum = 1", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...cihazlar] = result;
@@ -31,7 +31,7 @@ class CihazlarDal {
                 });
             }, (errorResponse) => {
                 reject(errorResponse);
-            })
+            });
         });
     }
 
@@ -71,9 +71,9 @@ class CihazlarDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 // console.log(obj);
-                connection.query(`INSERT INTO cihazlar(kategori_id, adi, meksis_kod, bina_id, kampus_id, veri_gonderme_sikligi) 
+                connection.query(`INSERT INTO cihazlar(kategori_id, adi, meksis_kod, bina_id, kampus_id, veri_gonderme_sikligi, eklenme_tarihi) 
                 VALUES (${obj.kategoriId},'${obj.adi}', '${obj.meksisKod}', '${obj.binaId}', '${obj.kampusId}', 
-                    ${obj.veriGondermeSikligi})`, (err, result) => {
+                    ${obj.veriGondermeSikligi}, '${obj.eklenme_tarihi}')`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
                     if (result !== undefined) {

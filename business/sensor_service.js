@@ -1,5 +1,6 @@
 const SensorDal = require("../data_access/sensor_dal");
 const Validator = require("fastest-validator");
+const dateFormat = require("date-and-time");
 
 class SensorService{
     constructor(){
@@ -31,10 +32,14 @@ class SensorService{
     async add(obj){
         const check = this.v.compile(this.schema);
         var validateResult = check(obj);
+
         if (Array.isArray(validateResult)) {
             return validateResult;
         }
 
+        let date = new Date();
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
+        // console.log(obj.eklenme_tarihi);
         var result = await this.dal.add(obj);
         return result;
     }
