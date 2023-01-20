@@ -15,7 +15,7 @@ class VeriLimitDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class VeriLimitDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -45,7 +45,7 @@ class VeriLimitDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -60,7 +60,7 @@ class VeriLimitDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -75,7 +75,7 @@ class VeriLimitDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimit));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -96,7 +96,7 @@ class VeriLimitDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -115,7 +115,7 @@ class VeriLimitDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -129,7 +129,7 @@ class VeriLimitDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         })
     }
