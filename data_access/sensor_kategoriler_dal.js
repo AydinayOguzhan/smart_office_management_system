@@ -15,7 +15,7 @@ class SensorKategorilerDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorKategorilerObj));
                 });  
             },(errorResponse) =>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class SensorKategorilerDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorKategorilerObj));
                 });  
             },(errorResponse) =>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -45,7 +45,7 @@ class SensorKategorilerDal {
                     resolve(new SuccessDataResult(Messages.Successful,sensorKategorilerObj));
                 });
             },(errorResponse) =>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -59,7 +59,7 @@ class SensorKategorilerDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -73,7 +73,7 @@ class SensorKategorilerDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -87,7 +87,7 @@ class SensorKategorilerDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         })
     }
