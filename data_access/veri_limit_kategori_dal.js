@@ -15,7 +15,7 @@ class VeriLimitKategoriDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class VeriLimitKategoriDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -45,7 +45,7 @@ class VeriLimitKategoriDal {
                     resolve(new SuccessDataResult(Messages.Successful, veriLimit));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -66,7 +66,7 @@ class VeriLimitKategoriDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -84,7 +84,7 @@ class VeriLimitKategoriDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -98,7 +98,7 @@ class VeriLimitKategoriDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         })
     }
