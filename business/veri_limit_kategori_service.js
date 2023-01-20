@@ -1,5 +1,7 @@
 const VeriLimitKategoriDal = require("../data_access/veri_limit_kategori_dal");
 const Validator = require("../node_modules/fastest-validator");
+const dateFormat = require("date-and-time");
+
 
 class VeriLimitKategoriService{
     constructor(){
@@ -33,6 +35,8 @@ class VeriLimitKategoriService{
             return validationResult;
         }
 
+        let date = new Date();
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
         var result = await this.dal.add(obj);
         return result;
     }
