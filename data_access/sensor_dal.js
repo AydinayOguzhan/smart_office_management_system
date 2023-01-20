@@ -15,7 +15,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -45,7 +45,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -63,7 +63,7 @@ class SensorDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -82,7 +82,7 @@ class SensorDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -100,7 +100,7 @@ class SensorDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             },(errorResponse)=>{
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -115,7 +115,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -133,7 +133,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -149,7 +149,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -166,7 +166,7 @@ class SensorDal {
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
