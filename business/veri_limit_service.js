@@ -1,5 +1,6 @@
 const VeriLimitDal = require("../data_access/veri_limit_dal");
 const Validator = require("../node_modules/fastest-validator");
+const dateFormat = require("date-and-time");
 
 class VeriLimitService{
     constructor(){
@@ -47,6 +48,8 @@ class VeriLimitService{
             return validationResult;
         }
 
+        let date = new Date();
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
         var result = await this.dal.add(obj);
         return result;
     }

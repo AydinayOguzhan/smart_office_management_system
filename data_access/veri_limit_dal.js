@@ -84,8 +84,8 @@ class VeriLimitDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 console.log(obj);
-                connection.query(`INSERT INTO veri_limitleri(cihaz_id, kategori_id, adi, alt_limit, ust_limit) 
-                    VALUES ('${obj.cihazId}','${obj.kategoriId}','${obj.adi}', ${obj.altLimit}, ${obj.ustLimit})`, 
+                connection.query(`INSERT INTO veri_limitleri(cihaz_id, kategori_id, adi, alt_limit, ust_limit, eklenme_tarihi) 
+                    VALUES ('${obj.cihazId}','${obj.kategoriId}','${obj.adi}', ${obj.altLimit}, ${obj.ustLimit}, '${obj.eklenme_tarihi}')`,
                     (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
