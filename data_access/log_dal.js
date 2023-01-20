@@ -15,7 +15,7 @@ class LogDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class LogDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -45,7 +45,7 @@ class LogDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -79,7 +79,7 @@ class LogDal {
                     resolve(new SuccessDataResult(Messages.Successful, count));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -99,7 +99,7 @@ class LogDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -119,7 +119,7 @@ class LogDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -139,7 +139,7 @@ class LogDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
