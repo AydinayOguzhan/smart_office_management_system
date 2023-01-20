@@ -15,7 +15,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -30,7 +30,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -46,7 +46,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -62,7 +62,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazObj));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -83,7 +83,7 @@ class CihazlarDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -105,7 +105,7 @@ class CihazlarDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -125,7 +125,7 @@ class CihazlarDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -144,7 +144,7 @@ class CihazlarDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         });
     }
@@ -158,7 +158,7 @@ class CihazlarDal {
                     else resolve(new ErrorResult(Messages.Unsuccessful));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             });
         })
     }
@@ -173,7 +173,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -188,7 +188,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -203,7 +203,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -218,7 +218,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
@@ -233,7 +233,7 @@ class CihazlarDal {
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
-                reject(errorResponse);
+                reject(new ErrorResult(errorResponse));
             })
         });
     }
