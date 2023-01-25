@@ -5,6 +5,9 @@ const CihazlarService = require('../business/cihazlar_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+const methodInterceptor = require("../core/method_interceptor/method_interceptor");
+const securityAspect = require("../core/aspects/security_aspect");
+const extractToken = require("../core/utilities/security/extract_token");
 
 /**
  * @swagger
@@ -82,8 +85,13 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         description: İşlem başarılı
  */
 router.get("/:email", async function (req, res, next) {
-    var service = new CihazlarService();
-    const response = await service.getAll(req.params.email);
+    let service = new CihazlarService();
+    let extractResponse = extractToken(req.headers.authorization);
+    if (extractResponse.success === false) res.send(extractResponse);
+    //Aspect
+    methodInterceptor.inject(service, securityAspect, "before", "method", "getAll");
+
+    const response = await service.getAll(req.params.email, extractResponse.data, "getAll");
     res.send(response);
 });
 

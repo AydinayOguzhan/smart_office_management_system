@@ -22,6 +22,7 @@ var veriLimitKategoriRouter = require("./routes/veri_limit_kategori");
 var loglarRouter = require("./routes/logs");
 var cihazKategorilerRouter = require("./routes/cihaz_kategoriler");
 var akimOlcumlerRouter = require("./routes/akim_olcumler");
+const authRouter = require("./routes/auth_route");
 
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
@@ -68,6 +69,7 @@ process.on('warning', e => {
 });
 
 //LOG
+//TODO: Bu kodu aspect olarak yaz.
 app.use((req, res, next) => {
   const urlArr = req.url.split("/");
   const userId = urlArr[urlArr.length - 1];
@@ -94,6 +96,7 @@ app.use('/veri_limit_kategori', veriLimitKategoriRouter);
 app.use('/loglar', loglarRouter);
 app.use('/cihaz_kategoriler', cihazKategorilerRouter);
 app.use('/akim_olcum', akimOlcumlerRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
