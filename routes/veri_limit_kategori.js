@@ -73,7 +73,7 @@ router.get("/:email", async function (req, res, next) {
  *      - in: path
  *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
  *        description: Kullanıcıya ait email
  *     responses:
@@ -82,7 +82,6 @@ router.get("/:email", async function (req, res, next) {
  */
  router.get("/without_durum/:email", async function (req, res, next) {
     // res.render('index', { title: 'Express' }); 
-    console.log("çalıştı");
     var service = new VeriLimitKategoriService();
     const response = await service.getAllByWithoutDurum(req.params.email);
     res.send(response);

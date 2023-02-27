@@ -11,7 +11,8 @@ class VeriLimitKategoriDal {
                 connection.query("SELECT * FROM veri_limit_kategoriler where durum = 1", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...veriLimitleri] = result;
+                    const [...veriLimitleri] = result.rows;
+                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
@@ -26,7 +27,8 @@ class VeriLimitKategoriDal {
                 connection.query("SELECT * FROM veri_limit_kategoriler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...veriLimitleri] = result;
+                    const [...veriLimitleri] = result.rows;
+                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
@@ -41,7 +43,8 @@ class VeriLimitKategoriDal {
                 connection.query(`select * from veri_limit_kategoriler where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
                     if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [veriLimit] = result;
+                    const [veriLimit] = result.rows;
+                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimit));
                 });
             }, (errorResponse) => {
@@ -54,16 +57,11 @@ class VeriLimitKategoriDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 console.log(obj);
-                connection.query(`INSERT INTO veri_limit_kategoriler(adi, eklenme_tarihi) 
-                    VALUES ('${obj.adi}', '${obj.eklenme_tarihi}')`,
+                connection.query(`INSERT INTO veri_limit_kategoriler(adi, eklenme_tarihi, durum) 
+                    VALUES ('${obj.adi}', '${obj.eklenme_tarihi}', 1)`,
                     (err, result) => {
-
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -75,13 +73,8 @@ class VeriLimitKategoriDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query(`UPDATE veri_limit_kategoriler SET adi='${obj.adi}' WHERE id=${obj.id}`, (err, result) => {
-
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -92,10 +85,9 @@ class VeriLimitKategoriDal {
     delete(id) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`UPDATE veri_limit_kategoriler SET durum=false WHERE id = ${id}`, (err, result) => {
+                connection.query(`UPDATE veri_limit_kategoriler SET durum=0 WHERE id = ${id}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
