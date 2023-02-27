@@ -10,9 +10,8 @@ class VeriLimitKategoriDal {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM veri_limit_kategoriler where durum = 1", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    if (result.rowCount <= 0) resolve(new SuccessResult(Messages.DataNotFound));
                     const [...veriLimitleri] = result.rows;
-                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
@@ -26,9 +25,8 @@ class VeriLimitKategoriDal {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM veri_limit_kategoriler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    if (result.rowCount <= 0) resolve(new SuccessResult(Messages.DataNotFound));
                     const [...veriLimitleri] = result.rows;
-                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimitleri));
                 });
             }, (errorResponse) => {
@@ -42,9 +40,8 @@ class VeriLimitKategoriDal {
             connection.connect((successResponse) => {
                 connection.query(`select * from veri_limit_kategoriler where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    if (result.rowCount <= 0) resolve(new SuccessResult(Messages.DataNotFound));
                     const [veriLimit] = result.rows;
-                    //TODO: Veri bulunamadığında başarılı yerine veri bulunamadı mesajı döndürsün
                     resolve(new SuccessDataResult(Messages.Successful, veriLimit));
                 });
             }, (errorResponse) => {
