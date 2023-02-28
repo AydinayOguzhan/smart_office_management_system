@@ -45,7 +45,6 @@ class CihazlarService {
     }
 
     async add(obj) {
-        // console.log(obj);
         var check = this.v.compile(this.schema);
         var validatorResult = check(obj);
         if (Array.isArray(validatorResult)) {
@@ -53,7 +52,7 @@ class CihazlarService {
         }
 
         let date = new Date();
-        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-M-DD");
         var result = await this.dal.add(obj);
         return result;
     }

@@ -10,8 +10,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query("select * from cihazlar where durum = 1", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -25,8 +25,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM cihazlar", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -40,9 +40,9 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`select * from cihazlar where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     //array destructuring
-                    const [cihazObj] = result;
+                    const [cihazObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazObj));
                 });
             }, (errorResponse) => {
@@ -56,9 +56,9 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`select * from cihazlar where kategori_id=${kategoriId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     //array destructuring
-                    const [...cihazObj] = result;
+                    const [...cihazObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazObj));
                 });
             }, (errorResponse) => {
@@ -76,11 +76,7 @@ class CihazlarDal {
                     ${obj.veriGondermeSikligi}, '${obj.eklenme_tarihi}')`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -98,11 +94,7 @@ class CihazlarDal {
                 WHERE id=${obj.id}`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -118,11 +110,7 @@ class CihazlarDal {
                 WHERE id=${id}`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -137,11 +125,7 @@ class CihazlarDal {
                 WHERE id=${id}`, (err, result) => {
 
                     if (err) resolve(new ErrorResult(err));
-                    if (result !== undefined) {
-                        if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -154,8 +138,7 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`UPDATE cihazlar SET durum=false WHERE id = ${id}`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -168,8 +151,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where meksis_kod = '${meksisKod}' and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -183,8 +166,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where bina_id = ${binaId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -198,8 +181,8 @@ class CihazlarDal {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where kampus_id = ${kampusId} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -208,13 +191,13 @@ class CihazlarDal {
         });
     }
 
-    getAllByAktif(aktif){
+    getAllByAktif(aktif) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where aktif = ${aktif} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
@@ -223,13 +206,13 @@ class CihazlarDal {
         });
     }
 
-    getAllByDurum(durum){
+    getAllByDurum(durum) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM cihazlar where durum = ${durum} durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...cihazlar] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...cihazlar] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, cihazlar));
                 });
             }, (errorResponse) => {
