@@ -87,7 +87,7 @@ router.get("/:email", async function (req, res, next) {
  *      - in: path
  *        name: email
  *        schema:
- *          type: number
+ *          type: string
  *        required: true
  *        description: Kullanıcıya ait email
  *     responses:

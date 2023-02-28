@@ -9,7 +9,7 @@ class SensorDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM sensorler where durum = 1", (err, result) => {
-                    console.log(result);
+                    // console.log(result);
                     if (err) resolve(new ErrorResult(err));
                     if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
                     const [...sensorlerObj] = result.rows;

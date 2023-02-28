@@ -49,7 +49,7 @@ class VeriLimitService{
         }
 
         let date = new Date();
-        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-MM-DD");
+        obj.eklenme_tarihi = dateFormat.format(date, "YYYY-M-DD");
         var result = await this.dal.add(obj);
         return result;
     }
