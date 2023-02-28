@@ -9,9 +9,10 @@ class SensorDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM sensorler where durum = 1", (err, result) => {
+                    console.log(result);
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
@@ -25,8 +26,8 @@ class SensorDal {
             connection.connect((successResponse) => {
                 connection.query("SELECT * FROM sensorler", (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
@@ -40,8 +41,8 @@ class SensorDal {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM sensorler where id=${id} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [sensorObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [sensorObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorObj));
                 });
             }, (errorResponse) => {
@@ -53,14 +54,10 @@ class SensorDal {
     async add(obj) {
         return new Promise((resolve,reject)=>{
             connection.connect((successResponse)=>{
-                connection.query(`INSERT INTO sensorler(cihaz_id, kategori_id, parca_adi, eklenme_tarihi) 
-                VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}', '${obj.eklenme_tarihi}')`, (err,result)=>{
-                    if(err) resolve(new ErrorResult(err));
-                    if(result !== undefined){    
-                        if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                connection.query(`INSERT INTO sensorler(cihaz_id, kategori_id, parca_adi, eklenme_tarihi, durum) 
+                VALUES (${obj.cihazId}, ${obj.kategoriId}, '${obj.parcaAdi}', '${obj.eklenme_tarihi}', 1)`, (err,result)=>{
+                    if (err) resolve(new ErrorResult(err));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             },(errorResponse)=>{
                 reject(new ErrorResult(errorResponse));
@@ -74,12 +71,8 @@ class SensorDal {
                 connection.query(`UPDATE sensorler SET cihaz_id=${obj.cihazId}, kategori_id=${obj.kategoriId},
                 parca_adi='${obj.parcaAdi}', eklenme_tarihi='${obj.eklenmeTarihi}', durum=${obj.durum} WHERE id = ${obj.id}`, 
                 (err,result)=>{
-                    if(err) resolve(new ErrorResult(err));
-                    if(result !== undefined){    
-                        if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    if (err) resolve(new ErrorResult(err));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             },(errorResponse)=>{
                 reject(new ErrorResult(errorResponse));
@@ -90,14 +83,10 @@ class SensorDal {
     async delete(id) {
         return new Promise((resolve,reject)=>{
             connection.connect((successResponse)=>{
-                connection.query(`UPDATE sensorler SET durum=false WHERE id = ${id}`, 
+                connection.query(`UPDATE sensorler SET durum=0 WHERE id = ${id}`, 
                 (err,result)=>{
-                    if(err) resolve(new ErrorResult(err));
-                    if(result !== undefined){    
-                        if(result.protocol41 === true) resolve(new SuccessResult(Messages.Successful));
-                        else resolve(new ErrorResult(Messages.Unsuccessful));
-                    }
-                    else resolve(new ErrorResult(Messages.Unsuccessful));
+                    if (err) resolve(new ErrorResult(err));
+                    else resolve(new SuccessResult(Messages.Successful));
                 });
             },(errorResponse)=>{
                 reject(new ErrorResult(errorResponse));
@@ -110,8 +99,8 @@ class SensorDal {
             connection.connect((successResponse) => {
                 connection.query(`SELECT * FROM sensorler where durum = ${durum} and durum = 1`, (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
@@ -128,8 +117,8 @@ class SensorDal {
                 connection.query(`SELECT * FROM sensorler WHERE (eklenme_tarihi BETWEEN '${startDate}' AND '${endDate}' and durum = 1)`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
@@ -144,8 +133,8 @@ class SensorDal {
                 connection.query(`SELECT * FROM sensorler WHERE kategori_id = ${kategoriId} and durum = 1`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
@@ -161,8 +150,8 @@ class SensorDal {
                 connection.query(`SELECT * FROM sensorler WHERE cihaz_id = ${cihazId} and durum = 1`, 
                 (err, result) => {
                     if (err) resolve(new ErrorResult(err));
-                    if (result.length <= 0) resolve(new ErrorResult(Messages.DataNotFound));
-                    const [...sensorlerObj] = result;
+                    if (result.rowCount <= 0) resolve(new ErrorResult(Messages.DataNotFound));
+                    const [...sensorlerObj] = result.rows;
                     resolve(new SuccessDataResult(Messages.Successful, sensorlerObj));
                 });
             }, (errorResponse) => {
