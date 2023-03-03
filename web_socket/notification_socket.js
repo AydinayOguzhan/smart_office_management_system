@@ -3,7 +3,7 @@ const NotificationService = require('../business/notification_service');
 const { Server } = require("ws");
 const { json } = require('stream/consumers');
 
-const sockserver = new Server({ port: 443 });
+const sockserver = new Server({ port: 5001 });
 
 //When new client connected
 sockserver.on("connection", (ws) => {
@@ -12,6 +12,7 @@ sockserver.on("connection", (ws) => {
     for (const client of sockserver.clients) {
         client.send(JSON.stringify({status:"True"}));
     }
+    ws.on("message", (data)=> { console.log(data) });
     ws.on("close", () => console.log("client has disconnected!"));
 });
 
