@@ -19,25 +19,25 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       properties:
  *         id:
  *           type: string
- *           description: Id numarası. Otomatik oluşturulur.
+ *           description: Id number. Automatic generated.
  *         device_id:
  *           type: number
- *           description: Cihaza ait id numarası.
+ *           description: Device Id.
  *         device_name:
  *           type: string
- *           description: Cihaza verilen isim
+ *           description: Device name
  *         temperature:
  *           type: number
- *           description: Cihazın bulunduğu ortamdaki sıcaklık değeri.
+ *           description: Temperature value from device.
  *         humidity:
  *           type: number
- *           description: Cihazın bulunduğu ortamdaki nem miktarı değeri.
+ *           description: Humidity value from device.
  *         voice:
  *           type: number
- *           description: Cihazın bulunduğu bulunduğu ortamdaki gürültü miktarı değeri.
+ *           description: Voice value from device.
  *         timestamp:
  *           type: string
- *           description: Ölçümün sisteme eklendiği tarih. Otomatik atanır.
+ *           description: Timestamp. Automatic generated.
  */
 
 /**
@@ -52,22 +52,22 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       properties:
  *         id:
  *           type: string
- *           description: Id numarası. Otomatik oluşturulur.
+ *           description: Id number. Automatic generated.
  *         device_id:
  *           type: number
- *           description: Cihaza ait id numarası.
+ *           description: Device Id.
  *         device_name:
  *           type: string
- *           description: Cihaza verilen isim
+ *           description: Device name
  *         temperature:
  *           type: number
- *           description: Cihazın bulunduğu ortamdaki sıcaklık değeri.
+ *           description: Temperature value from device.
  *         humidity:
  *           type: number
- *           description: Cihazın bulunduğu ortamdaki nem miktarı değeri.
+ *           description: Humidity value from device.
  *         timestamp:
  *           type: string
- *           description: Ölçümün sisteme eklendiği tarih. Otomatik atanır.
+ *           description: Timestamp. Automatic generated.
  */
 
 
@@ -110,7 +110,7 @@ router.get("/get_devices", async function (req, res, next) {
  *        description: Device Id
  *     responses:
  *       200:
- *         description: İşlem başarılı
+ *         description: Successful
  */
  router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
     var service = new ReadingService();
@@ -134,7 +134,7 @@ router.get("/get_devices", async function (req, res, next) {
  *         description: Device Id
  *     responses:
  *       200:
- *         description: İşlem başarılı
+ *         description: Successful
  */
 router.get('/get_humidities_by_device/:deviceId', async function (req, res, next) {
     var service = new ReadingService();
@@ -156,7 +156,7 @@ router.get('/get_humidities_by_device/:deviceId', async function (req, res, next
  *                  $ref: '#/components/schemas/ReadingsAdd'
  *      responses:
  *          200:
- *              description: İşlem başarılı
+ *              description: Successful
  */
 router.post("/", urlencodedParser, async function (req, res, next) {
     var service = new ReadingService();
@@ -187,7 +187,7 @@ router.post("/", urlencodedParser, async function (req, res, next) {
  *         description: Cihazın Id numarası
  *     responses:
  *       200:
- *         description: İşlem başarılı
+ *         description: Successful
  */
  router.get('/get_voices_by_device/:deviceId', async function (req, res, next) {
     var service = new ReadingService();

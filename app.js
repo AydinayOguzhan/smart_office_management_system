@@ -13,17 +13,18 @@ var winLog = require("./core/logger/winston_logger");
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
  
-var sensorKategorilerRouter = require('./routes/sensor_kategoriler');
-var sensorlerRouter = require("./routes/sensor");
-var cihazlarRouter = require("./routes/cihazlar");
-var veriLimitleriRouter = require("./routes/veri_limit");
-var olcumlerRouter = require("./routes/olcum");
-var veriLimitKategoriRouter = require("./routes/veri_limit_kategori");
-var loglarRouter = require("./routes/logs");
-var cihazKategorilerRouter = require("./routes/cihaz_kategoriler");
-var akimOlcumlerRouter = require("./routes/akim_olcumler");
+// var sensorKategorilerRouter = require('./routes/sensor_kategoriler');
+// var sensorlerRouter = require("./routes/sensor");
+// var cihazlarRouter = require("./routes/cihazlar");
+// var veriLimitleriRouter = require("./routes/veri_limit");
+// var olcumlerRouter = require("./routes/olcum");
+// var veriLimitKategoriRouter = require("./routes/veri_limit_kategori");
+// var loglarRouter = require("./routes/logs");
+// var cihazKategorilerRouter = require("./routes/cihaz_kategoriler");
+// var akimOlcumlerRouter = require("./routes/akim_olcumler");
 
 const readingsRouter = require("./routes/readings");
+const authRouter = require("./routes/auth");
 
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
@@ -89,6 +90,7 @@ app.use('/notifications', notifications.Server);
 
 
 app.use("/readings", readingsRouter);
+app.use("/auth", authRouter);
 // app.use('/sensor_kategoriler', sensorKategorilerRouter);
 // app.use('/sensor', sensorlerRouter);
 // app.use('/cihaz', cihazlarRouter);
