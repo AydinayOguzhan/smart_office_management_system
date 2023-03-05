@@ -23,6 +23,8 @@ var loglarRouter = require("./routes/logs");
 var cihazKategorilerRouter = require("./routes/cihaz_kategoriler");
 var akimOlcumlerRouter = require("./routes/akim_olcumler");
 
+const readingsRouter = require("./routes/readings");
+
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
 
@@ -59,8 +61,8 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 
 process.on('warning', e => {
@@ -85,15 +87,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/notifications', notifications.Server);
 
-app.use('/sensor_kategoriler', sensorKategorilerRouter);
-app.use('/sensor', sensorlerRouter);
-app.use('/cihaz', cihazlarRouter);
-app.use('/veri_limit', veriLimitleriRouter);
-app.use('/olcum', olcumlerRouter);
-app.use('/veri_limit_kategori', veriLimitKategoriRouter);
-app.use('/loglar', loglarRouter);
-app.use('/cihaz_kategoriler', cihazKategorilerRouter);
-app.use('/akim_olcum', akimOlcumlerRouter);
+
+app.use("/readings", readingsRouter);
+// app.use('/sensor_kategoriler', sensorKategorilerRouter);
+// app.use('/sensor', sensorlerRouter);
+// app.use('/cihaz', cihazlarRouter);
+// app.use('/veri_limit', veriLimitleriRouter);
+// app.use('/olcum', olcumlerRouter);
+// app.use('/veri_limit_kategori', veriLimitKategoriRouter);
+// app.use('/loglar', loglarRouter);
+// app.use('/cihaz_kategoriler', cihazKategorilerRouter);
+// app.use('/akim_olcum', akimOlcumlerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -101,15 +105,15 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = process.env.STATUS === 'development' ? err : {};
+// app.use(function (err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = process.env.STATUS === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 app.listen(PORT, () => {
   console.log(`Working on ${process.env.PROD_HOST}:${PORT}/api-docs`)
