@@ -1,11 +1,10 @@
 const AuthDal = require("../data_access/auth_dal");
-const Validator = require("../node_modules/fastest-validator");
-const dateFormat = require("date-and-time");
 const MyValidator = require("../core/utilities/my_validator/validator");
 const HashingHelper = require("../core/utilities/security/hashing/hashing_helper");
 const SuccessResult = require("../core/utilities/results/success_result");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
+// const dateFormat = require("date-and-time");
 
 class AuthService {
     constructor() {
@@ -45,6 +44,9 @@ class AuthService {
         const userResult = await this.dal.login(obj.email);
         if(userResult.success === false) return userResult;
         const verifyHash = await this.hashingHelper.VerifyPasswordHash(obj.password, userResult.data.password_hash);
+
+        //TODO: Add jwt 
+
         return verifyHash? new SuccessResult(Messages.Successful): new ErrorResult(Messages.Unsuccessful);
     }
 

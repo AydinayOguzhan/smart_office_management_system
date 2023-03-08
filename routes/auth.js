@@ -157,6 +157,7 @@ router.post("/login", urlencodedParser, async function (req, res, next) {
     res.send(result);
 });
 
+//TODO: Consider adding forgot password and changing password normally
 
 
 module.exports = router;

@@ -11,39 +11,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  * @swagger
  * components:
  *   schemas:
- *     Readings:
- *       type: object
- *       required:
- *         - device_id
- *         - device_name
- *       properties:
- *         id:
- *           type: string
- *           description: Id number. Automatic generated.
- *         device_id:
- *           type: number
- *           description: Device Id.
- *         device_name:
- *           type: string
- *           description: Device name
- *         temperature:
- *           type: number
- *           description: Temperature value from device.
- *         humidity:
- *           type: number
- *           description: Humidity value from device.
- *         voice:
- *           type: number
- *           description: Voice value from device.
- *         timestamp:
- *           type: string
- *           description: Timestamp. Automatic generated.
- */
-
-/**
- * @swagger
- * components:
- *   schemas:
  *     ReadingsAdd:
  *       type: object
  *       required:
@@ -168,31 +135,6 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     };
     var result = await service.addReading(readingsObj);
     res.send(result);
-});
-
-
-
-/**
- * @swagger
- * /readings/get_voices_by_device/{deviceId}:
- *   get:
- *     summary: Get device voices
- *     tags: [readings]
- *     parameters:
- *       - in: path
- *         name: deviceId
- *         schema:
- *           type: number
- *         required: true
- *         description: Cihazın Id numarası
- *     responses:
- *       200:
- *         description: Successful
- */
- router.get('/get_voices_by_device/:deviceId', async function (req, res, next) {
-    var service = new ReadingService();
-    var response = await service.getVoicesByDevice(req.params.deviceId);
-    res.send(response);
 });
 
 

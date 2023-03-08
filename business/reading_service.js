@@ -38,10 +38,6 @@ class ReadingService{
         const result = await this.dal.getHumiditiesByDevice(deviceId);
         return result;
     }
-
-    async getVoicesByDevice(){
-        //Get voices
-    }
    
     // async add(obj){
     //     const check = this.v.compile(this.schema);
