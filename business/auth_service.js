@@ -14,6 +14,8 @@ class AuthService {
         this.saltRounds = 10;
         this.hashingHelper = new HashingHelper();
 
+        this.jwtAdapter = new JwtAdapter();
+
         this.registerSchema = {
             first_name: { type: "string", optional: false },
             last_name: { type: "string", optional: false },
@@ -46,9 +48,12 @@ class AuthService {
         if(userResult.success === false) return userResult;
         const verifyHash = await this.hashingHelper.VerifyPasswordHash(obj.password, userResult.data.password_hash);
 
-        //TODO: Add jwt 
-        // const token = this.jwtAdapter.CreateToken(email,operationClaims);
+        //TODO: Veritabanından operationClaims'i almak için dal katmanı yaz
+        const operationClaims = {};
+        const token = this.jwtAdapter.CreateToken(obj.email,operationClaims);
+        console.log(token);
 
+        //TODO: verifyHash true ise token üretsin. Eğer verifyHash false ise token üretmesine gerek yok.
         return verifyHash? new SuccessResult(Messages.Successful): new ErrorResult(Messages.Unsuccessful);
     }
 
