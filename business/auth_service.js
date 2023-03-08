@@ -4,6 +4,7 @@ const HashingHelper = require("../core/utilities/security/hashing/hashing_helper
 const SuccessResult = require("../core/utilities/results/success_result");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
+const JwtAdapter = require("../core/utilities/security/jwt/jwt_adapter");
 // const dateFormat = require("date-and-time");
 
 class AuthService {
@@ -46,9 +47,11 @@ class AuthService {
         const verifyHash = await this.hashingHelper.VerifyPasswordHash(obj.password, userResult.data.password_hash);
 
         //TODO: Add jwt 
+        // const token = this.jwtAdapter.CreateToken(email,operationClaims);
 
         return verifyHash? new SuccessResult(Messages.Successful): new ErrorResult(Messages.Unsuccessful);
     }
+
 
 }
 

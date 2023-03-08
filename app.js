@@ -13,6 +13,7 @@ var winLog = require("./core/logger/winston_logger");
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
  
+
 // var sensorKategorilerRouter = require('./routes/sensor_kategoriler');
 // var sensorlerRouter = require("./routes/sensor");
 // var cihazlarRouter = require("./routes/cihazlar");
@@ -25,6 +26,7 @@ var swaggerUI = require("swagger-ui-express");
 
 const readingsRouter = require("./routes/readings");
 const authRouter = require("./routes/auth");
+
 
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
@@ -71,6 +73,7 @@ process.on('warning', e => {
 });
 
 //LOG
+//TODO: Bu kodu aspect olarak yaz.
 app.use((req, res, next) => {
   const urlArr = req.url.split("/");
   const userId = urlArr[urlArr.length - 1];
@@ -100,6 +103,7 @@ app.use("/auth", authRouter);
 // app.use('/loglar', loglarRouter);
 // app.use('/cihaz_kategoriler', cihazKategorilerRouter);
 // app.use('/akim_olcum', akimOlcumlerRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
