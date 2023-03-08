@@ -44,8 +44,8 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: 'Sensor API',
-      version: '1.0.0', 
+      title: 'Smart Office Management System API',
+      version: '0.1.0', 
     },
     servers: [
       {
