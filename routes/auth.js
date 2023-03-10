@@ -29,7 +29,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *           type: string
  *           description: User's last name. 
  *         email:
- *           type: email
+ *           type: string
  *           description: User's email.
  *         password:
  *           type: string
@@ -47,7 +47,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *          password
  *       properties:
  *         email:
- *           type: email
+ *           type: string
  *           description: User's email.
  *         password:
  *           type: string
