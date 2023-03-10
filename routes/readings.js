@@ -5,6 +5,7 @@ const ReadingService = require("../business/reading_service");
 const methodInterceptor = require("../core/method_interceptor/method_interceptor");
 const securityAspect = require("../core/aspects/security_aspect");
 const extractToken = require("../core/utilities/security/extract_token");
+const OperationOperationClaimService = require('../business/operation_operation_claim_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -59,13 +60,16 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/get_devices", async function (req, res, next) {
     var service = new ReadingService();
+    let operationOperationClaimService = new OperationOperationClaimService();
+    const methodName = "getDevices";
     
     const extractResponse = extractToken(req.headers.authorization);
     if(extractResponse.success === false) return res.send(extractResponse);
 
-    methodInterceptor.inject(service, securityAspect, "before", "method", "getDevices");
+    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
 
-    const response = await service.getDevices(extractResponse.data, "getDevices", [{yetki:"user"}, {yetki:"admin"}]);
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
+    const response = await service.getDevices(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[]);
     res.send(response);
 });
 

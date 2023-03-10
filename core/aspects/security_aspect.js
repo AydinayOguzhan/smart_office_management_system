@@ -9,9 +9,10 @@ function securityAspect(token, methodName, canOpenOperationClaims=[]){
     if (result.success === false){
         return result;
     }
+
     const userOperationClaims = result.operationClaims;
     for (let i = 0; i < canOpenOperationClaims.length; i++) {
-        let canOpenOperationClaim = canOpenOperationClaims[i].yetki;
+        let canOpenOperationClaim = canOpenOperationClaims[i].operation_claim_name;
         for (let j = 0; j < userOperationClaims.length; j++) {
             let userOperationClaim = userOperationClaims[j].name;
             if (canOpenOperationClaim === userOperationClaim) return;
