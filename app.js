@@ -54,7 +54,19 @@ const swaggerOptions = {
         url: `${process.env.LOCALHOST1}:${PORT}`,
         // url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
       }
-    ]
+    ],
+    components: {
+      securitySchemes:{
+        bearerAuth:{
+          type:'http',
+          scheme:'bearer',
+          bearerFormat:'JWT',
+        }
+      }
+    },
+    security:[{
+      bearerAuth:[]
+    }]
   },
   apis: [`${__dirname}/routes/*.js`], // files containing annotations as above
 };

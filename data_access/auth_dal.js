@@ -55,6 +55,25 @@ class AuthDal {
         });
     }
 
+    getUserClaimsById(userId) {
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT uoc.user_id, uoc.operation_claim_id, oc.name 
+                FROM public."UserOperationClaims" as uoc inner join public."OperationClaims" as oc on 
+                uoc.operation_claim_id = oc.id
+                where user_id = ${userId};`,
+                    (err, result) => {
+                        if (err) resolve(new ErrorResult(err));
+                        if (result.rowCount <= 0) resolve(new ErrorResult(Messages.UserNotFound));
+                        const [...user] = result.rows;
+                        resolve(new SuccessDataResult(Messages.Successful, user));
+                    });
+            }, (errorResponse) => {
+                reject(new ErrorResult(errorResponse));
+            });
+        });
+    }
+
 
 }
 

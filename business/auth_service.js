@@ -5,16 +5,17 @@ const SuccessResult = require("../core/utilities/results/success_result");
 const Messages = require("../core/utilities/constants/messages");
 const ErrorResult = require("../core/utilities/results/error_result");
 const JwtAdapter = require("../core/utilities/security/jwt/jwt_adapter");
+const SuccessDataResult = require("../core/utilities/results/success_data_result");
 // const dateFormat = require("date-and-time");
 
 class AuthService {
     constructor() {
         this.dal = new AuthDal();
         this.myValidator = new MyValidator();
-        this.saltRounds = 10;
         this.hashingHelper = new HashingHelper();
-
         this.jwtAdapter = new JwtAdapter();
+        
+        this.saltRounds = 10;
 
         this.registerSchema = {
             first_name: { type: "string", optional: false },
@@ -48,13 +49,12 @@ class AuthService {
         if(userResult.success === false) return userResult;
         const verifyHash = await this.hashingHelper.VerifyPasswordHash(obj.password, userResult.data.password_hash);
 
-        //TODO: Veritabanından operationClaims'i almak için dal katmanı yaz
-        const operationClaims = {};
-        const token = this.jwtAdapter.CreateToken(obj.email,operationClaims);
-        console.log(token);
+        const userOperationClaims = await this.dal.getUserClaimsById(userResult.data.id);
+        console.log(userOperationClaims)
+        const token = this.jwtAdapter.CreateToken(obj.email,userOperationClaims.data);
 
         //TODO: verifyHash true ise token üretsin. Eğer verifyHash false ise token üretmesine gerek yok.
-        return verifyHash? new SuccessResult(Messages.Successful): new ErrorResult(Messages.Unsuccessful);
+        return verifyHash? new SuccessDataResult(Messages.Successful, token): new ErrorResult(Messages.Unsuccessful);
     }
 
 

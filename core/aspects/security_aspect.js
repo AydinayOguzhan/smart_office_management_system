@@ -1,27 +1,23 @@
 const jwtAdapter = require("../utilities/security/jwt/jwt_adapter");
 const ErrorResult = require("../utilities/results/error_result");
 const SuccessResult = require("../utilities/results/success_result");
+const Messages = require("../utilities/constants/messages");
 
-function securityAspect(email, token, methodName){
+function securityAspect(token, methodName, canOpenOperationClaims=[]){
     let adapter = new jwtAdapter();
     let result = adapter.VerifyToken(token);
     if (result.success === false){
         return result;
     }
-
-    //TODO: Veritabanından belirtilen methodName'e hangi yetkiler erişebilir getir.
-    const canOpenOperationClaims = [{id:1, yetki:"admin"},{id:2, yetki:"yönetici"}, {id:3, yetki:"kullanıcı"}];
     const userOperationClaims = result.operationClaims;
-    console.log(userOperationClaims)
-
     for (let i = 0; i < canOpenOperationClaims.length; i++) {
         let canOpenOperationClaim = canOpenOperationClaims[i].yetki;
         for (let j = 0; j < userOperationClaims.length; j++) {
-            let userOperationClaim = userOperationClaims[j].yetki;
+            let userOperationClaim = userOperationClaims[j].name;
             if (canOpenOperationClaim === userOperationClaim) return;
         }
     }
-    return new ErrorResult("Yetki reddedildi");
+    return new ErrorResult(Messages.AuthorizationDenied);
 }
 
 module.exports = securityAspect;

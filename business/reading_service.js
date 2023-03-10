@@ -12,6 +12,7 @@ class ReadingService{
             device_id:{type:"number", optional:false},
             device_name:{type:"string", optional: false}
         }
+
     }
 
     async addReading(obj){
