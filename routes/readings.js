@@ -6,6 +6,7 @@ const methodInterceptor = require("../core/method_interceptor/method_interceptor
 const securityAspect = require("../core/aspects/security_aspect");
 const extractToken = require("../core/utilities/security/extract_token");
 const OperationOperationClaimService = require('../business/operation_operation_claim_service');
+const SecurityAspectHelper = require('../core/utilities/security/securityAspectHelper');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -60,16 +61,13 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/get_devices", async function (req, res, next) {
     const service = new ReadingService();
-    const operationOperationClaimService = new OperationOperationClaimService();
+    const securityAspectHelper = new SecurityAspectHelper();
     const methodName = "getDevices";
-    
-    const extractResponse = extractToken(req.headers.authorization);
-    if(extractResponse.success === false) res.send(extractResponse);
 
-    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
+    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    if (result.success === false) return res.send(result);
 
-    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
-    const response = await service.getDevices(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[]);
+    const response = await service.getDevices(result.extractResponse.data, methodName, result.operationOperationClaims.data);
     res.send(response);
 });
 
@@ -91,19 +89,15 @@ router.get("/get_devices", async function (req, res, next) {
  *       200:
  *         description: Successful
  */
- router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
+router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
     const service = new ReadingService();
-    const operationOperationClaimService = new OperationOperationClaimService();
+    const securityAspectHelper = new SecurityAspectHelper();
     const methodName = "getTemperaturesByDevice";
 
-    const extractResponse = extractToken(req.headers.authorization);
-    if(extractResponse.success === false) res.send(extractResponse); 
+    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    if (result.success === false) return res.send(result);
 
-    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
-
-    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
-
-    const response = await service.getTemperaturesByDevice(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[], req.params.deviceId);
+    const response = await service.getTemperaturesByDevice(result.extractResponse.data, methodName, result.operationOperationClaims.data, req.params.deviceId);
     res.send(response);
 });
 
@@ -126,18 +120,14 @@ router.get("/get_devices", async function (req, res, next) {
  *         description: Successful
  */
 router.get('/get_humidities_by_device/:deviceId', async function (req, res, next) {
-    var service = new ReadingService();
-    const operationOperationClaimService = new OperationOperationClaimService();
+    const service = new ReadingService();
+    const securityAspectHelper = new SecurityAspectHelper();
     const methodName = "getHumiditiesByDevice";
 
-    const extractResponse = extractToken(req.headers.authorization);
-    if(extractResponse.success === false) res.send(extractResponse); 
-
-    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
+    const result = securityAspectHelper.help(service, methodName, req.headers.authorization);
+    if (result.success === false) return res.send(result);
     
-    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
-
-    var response = await service.getHumiditiesByDevice(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[], req.params.deviceId);
+    var response = await service.getHumiditiesByDevice(result.extractResponse.data, methodName, result.operationOperationClaims.data, req.params.deviceId);
     res.send(response);
 });
 
