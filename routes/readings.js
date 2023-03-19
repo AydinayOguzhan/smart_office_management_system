@@ -59,12 +59,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         description: Successful
  */
 router.get("/get_devices", async function (req, res, next) {
-    var service = new ReadingService();
-    let operationOperationClaimService = new OperationOperationClaimService();
+    const service = new ReadingService();
+    const operationOperationClaimService = new OperationOperationClaimService();
     const methodName = "getDevices";
     
     const extractResponse = extractToken(req.headers.authorization);
-    if(extractResponse.success === false) return res.send(extractResponse);
+    if(extractResponse.success === false) res.send(extractResponse);
 
     const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
 
@@ -92,8 +92,18 @@ router.get("/get_devices", async function (req, res, next) {
  *         description: Successful
  */
  router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
-    var service = new ReadingService();
-    const response = await service.getTemperaturesByDevice(req.params.deviceId);
+    const service = new ReadingService();
+    const operationOperationClaimService = new OperationOperationClaimService();
+    const methodName = "getTemperaturesByDevice";
+
+    const extractResponse = extractToken(req.headers.authorization);
+    if(extractResponse.success === false) res.send(extractResponse); 
+
+    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
+
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
+
+    const response = await service.getTemperaturesByDevice(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[], req.params.deviceId);
     res.send(response);
 });
 
@@ -117,7 +127,17 @@ router.get("/get_devices", async function (req, res, next) {
  */
 router.get('/get_humidities_by_device/:deviceId', async function (req, res, next) {
     var service = new ReadingService();
-    var response = await service.getHumiditiesByDevice(req.params.deviceId);
+    const operationOperationClaimService = new OperationOperationClaimService();
+    const methodName = "getHumiditiesByDevice";
+
+    const extractResponse = extractToken(req.headers.authorization);
+    if(extractResponse.success === false) res.send(extractResponse); 
+
+    const operationOperationClaims = await operationOperationClaimService.getOperationOperationClaimsByName(methodName);
+    
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
+
+    var response = await service.getHumiditiesByDevice(extractResponse.data, methodName, operationOperationClaims.success?operationOperationClaims.data:[], req.params.deviceId);
     res.send(response);
 });
 
