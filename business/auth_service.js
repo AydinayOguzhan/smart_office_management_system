@@ -1,5 +1,5 @@
 const AuthDal = require("../data_access/auth_dal");
-const MyValidator = require("../core/utilities/my_validator/validator");
+const ValidatorAdapter = require("../core/utilities/validatorAdapter/validatorAdapter");
 const HashingHelper = require("../core/utilities/security/hashing/hashing_helper");
 const SuccessResult = require("../core/utilities/results/success_result");
 const Messages = require("../core/utilities/constants/messages");
@@ -11,7 +11,7 @@ const SuccessDataResult = require("../core/utilities/results/success_data_result
 class AuthService {
     constructor() {
         this.dal = new AuthDal();
-        this.myValidator = new MyValidator();
+        this.validatorAdapter = new ValidatorAdapter();
         this.hashingHelper = new HashingHelper();
         this.jwtAdapter = new JwtAdapter();
         
@@ -31,7 +31,7 @@ class AuthService {
     }
 
     async register(obj) {
-        const validatorResult = this.myValidator.validate(this.registerSchema, obj);
+        const validatorResult = this.validatorAdapter.validate(this.registerSchema, obj);
         if (validatorResult !== true) return validatorResult;
 
         const {salt,hash} = await this.hashingHelper.CreatePasswordHash(obj.password, this.saltRounds);
@@ -42,7 +42,7 @@ class AuthService {
     }
 
     async login(obj) {
-        const validatorResult = this.myValidator.validate(this.loginSchema, obj);
+        const validatorResult = this.validatorAdapter.validate(this.loginSchema, obj);
         if (validatorResult !== true) return validatorResult;
 
         const userResult = await this.dal.login(obj.email);

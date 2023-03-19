@@ -1,6 +1,6 @@
 const Validator = require("fastest-validator");
 
-class MyValidator{
+class ValidatorAdapter{
     constructor(){
         this.v = new Validator();
     }
@@ -15,4 +15,4 @@ class MyValidator{
     }
 }
 
-module.exports = MyValidator;
+module.exports = ValidatorAdapter;

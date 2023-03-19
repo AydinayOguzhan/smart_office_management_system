@@ -1,12 +1,11 @@
 const ReadingDal = require("../data_access/reading_dal");
-const Validator = require("../node_modules/fastest-validator");
 const dateFormat = require("date-and-time");
-const MyValidator = require("../core/utilities/my_validator/validator");
+const ValidatorAdapter = require("../core/utilities/validatorAdapter/validatorAdapter");
 
 class ReadingService{
     constructor(){
         this.dal = new ReadingDal();
-        this.myValidator = new MyValidator();
+        this.validatorAdapter = new ValidatorAdapter();
 
         this.schema = {
             device_id:{type:"number", optional:false},
@@ -16,7 +15,7 @@ class ReadingService{
     }
 
     async addReading(obj){
-        const validatorResult = this.myValidator.validate(this.schema, obj);
+        const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
 
         let date = new Date();

@@ -1,12 +1,12 @@
 const Validator = require("../node_modules/fastest-validator");
 const dateFormat = require("date-and-time");
-const MyValidator = require("../core/utilities/my_validator/validator");
+const ValidatorAdapter = require("../core/utilities/validatorAdapter/validatorAdapter");
 const OperationOperationClaimDal = require("../data_access/operation_operation_claim_dal");
 
 class OperationOperationClaimService {
     constructor() {
         this.dal = new OperationOperationClaimDal();
-        this.myValidator = new MyValidator();
+        this.validatorAdapter = new ValidatorAdapter();
 
         this.schema = {
             operation_id: { type: "number", optional: false },
@@ -32,7 +32,7 @@ class OperationOperationClaimService {
     }
 
     async addOperationOperationClaim(obj){
-        const validatorResult = this.myValidator.validate(this.schema, obj);
+        const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
 
         const result = await this.dal.addOperationOperationClaim(obj);
