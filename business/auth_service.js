@@ -21,7 +21,7 @@ class AuthService {
             first_name: { type: "string", optional: false },
             last_name: { type: "string", optional: false },
             email: { type: "email", optional: false },
-            password: { type: "string", optional: false }
+            password: { type: "string", optional: false, min:8 }
         }
 
         this.loginSchema = {
