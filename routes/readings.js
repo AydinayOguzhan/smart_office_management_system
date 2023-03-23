@@ -66,8 +66,9 @@ router.get("/get_devices", async function (req, res, next) {
 
     const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
     if (result.success === false) return res.send(result);
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
 
-    const response = await service.getDevices(result.extractResponse.data, methodName, result.operationOperationClaims.data);
+    const response = await service.getDevices(result.extractResponse.data, result.operationOperationClaims.data);
     res.send(response);
 });
 
@@ -96,8 +97,9 @@ router.get("/get_temperatures_by_device/:deviceId", async function (req, res, ne
 
     const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
     if (result.success === false) return res.send(result);
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
 
-    const response = await service.getTemperaturesByDevice(result.extractResponse.data, methodName, result.operationOperationClaims.data, req.params.deviceId);
+    const response = await service.getTemperaturesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
     res.send(response);
 });
 
@@ -124,9 +126,10 @@ router.get('/get_humidities_by_device/:deviceId', async function (req, res, next
     const securityAspectHelper = new SecurityAspectHelper();
     const methodName = "getHumiditiesByDevice";
 
-    const result = securityAspectHelper.help(service, methodName, req.headers.authorization);
+    const result = await securityAspectHelper.help(methodName, req.headers.authorization);
     if (result.success === false) return res.send(result);
-    
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
+
     var response = await service.getHumiditiesByDevice(result.extractResponse.data, methodName, result.operationOperationClaims.data, req.params.deviceId);
     res.send(response);
 });
@@ -149,14 +152,21 @@ router.get('/get_humidities_by_device/:deviceId', async function (req, res, next
  */
 router.post("/", urlencodedParser, async function (req, res, next) {
     var service = new ReadingService();
+    const securityAspectHelper = new SecurityAspectHelper();
+    const methodName = "addReading";
+
+    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    if (result.success === false) return res.send(result);
+    methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
+
     const readingsObj = {
         device_id: req.body.device_id,
         device_name: req.body.device_name,
         temperature: req.body.temperature,
         humidity: req.body.humidity
     };
-    var result = await service.addReading(readingsObj);
-    res.send(result);
+    var response = await service.addReading(result.extractResponse.data, result.operationOperationClaims.data, readingsObj);
+    res.send(response);
 });
 
 

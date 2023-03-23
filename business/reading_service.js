@@ -15,6 +15,7 @@ class ReadingService{
     }
 
     async addReading(obj){
+        console.log(obj)
         const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
 
@@ -30,11 +31,13 @@ class ReadingService{
     }
 
     async getTemperaturesByDevice(deviceId){
+        console.log(deviceId)
         const result = await this.dal.getTemperaturesByDevice(deviceId);
         return result;
     }
 
     async getHumiditiesByDevice(deviceId){
+        console.log(deviceId)
         const result = await this.dal.getHumiditiesByDevice(deviceId);
         return result;
     }
