@@ -25,7 +25,6 @@ class ReadingDal {
                 resolve(new SuccessResult(Messages.Successful));
             });
         } catch (error) {
-            // console.log(error);
             return new ErrorResult(error.message);
         } finally {
             await this.client.close();
@@ -40,7 +39,6 @@ class ReadingDal {
             await cursor.forEach(device => devices.push(device));
             return new SuccessDataResult(Messages.Successful, devices);
         } catch (error) {
-            // console.log(error);
             return new ErrorResult(error.message);
         } finally {
             await this.client.close();

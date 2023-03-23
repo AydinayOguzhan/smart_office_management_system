@@ -137,7 +137,6 @@ router.post("/", urlencodedParser, async function (req, res, next) {
     
     const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
     if (result.success === false) return res.send(result);
-    console.log("route")
 
     const motionObj = {
         device_id: req.body.device_id,

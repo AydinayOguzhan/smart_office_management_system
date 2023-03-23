@@ -17,7 +17,6 @@ class MotionSensorDal {
 
     async addMotion(obj) {
         try {
-            console.log("dal")
             const result = await this.motionsCol.insertOne(obj);
             return new Promise((resolve, reject) => {
                 if (result.insertedId == undefined) {
