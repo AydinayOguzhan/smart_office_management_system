@@ -3,7 +3,7 @@ const ErrorResult = require("../utilities/results/error_result");
 const SuccessResult = require("../utilities/results/success_result");
 const Messages = require("../utilities/constants/messages");
 
-function securityAspect(token, methodName, canOpenOperationClaims=[]){
+function securityAspect(token, canOpenOperationClaims=[]){
     let adapter = new jwtAdapter();
     let result = adapter.VerifyToken(token);
     if (result.success === false){

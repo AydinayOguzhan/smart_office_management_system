@@ -14,7 +14,8 @@ class ReadingService{
 
     }
 
-    async addReading(obj){
+    async addReading(...args){
+        const [,,obj] = args;
         console.log(obj)
         const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
@@ -30,28 +31,20 @@ class ReadingService{
         return result;
     }
 
-    async getTemperaturesByDevice(deviceId){
+    async getTemperaturesByDevice(...args){
+        const [,,deviceId] = args;
         console.log(deviceId)
         const result = await this.dal.getTemperaturesByDevice(deviceId);
         return result;
     }
 
-    async getHumiditiesByDevice(deviceId){
+    async getHumiditiesByDevice(...args){
+        const [,,deviceId] = args;
         console.log(deviceId)
         const result = await this.dal.getHumiditiesByDevice(deviceId);
         return result;
     }
-   
-    // async add(obj){
-    //     const check = this.v.compile(this.schema);
-    //     var validationResult = check(obj);
-    //     if (Array.isArray(validationResult)) {
-    //         return validationResult;
-    //     }
 
-    //     var result = await this.dal.add(obj);
-    //     return result;
-    // }
 }
 
 module.exports = ReadingService;
