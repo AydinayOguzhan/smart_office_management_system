@@ -6,6 +6,7 @@ class Messages{
     static AuthorizationDenied = "Yetkilendirme reddedildi";
     static UserNotFound = "Kullanıcı bulunamadı";
     static FillEmptyPlaces = "Lütfen boş alanları doldurunuz";
+    static NotFoundClaimForThisOperation = "Bu operasyon için bir yetki bulunamadı";
 }
 
 module.exports = Messages;

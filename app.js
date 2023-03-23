@@ -28,6 +28,7 @@ const readingsRouter = require("./routes/readings");
 const authRouter = require("./routes/auth");
 const operationOperationClaimsRouter = require("./routes/operation_operation_claims");
 const operationsRouter = require("./routes/operations");
+const motionSensorsRouter = require("./routes/motion_sensors");
 
 
 var notifications = require("./web_socket/notification_socket");
@@ -110,6 +111,7 @@ app.use("/readings", readingsRouter);
 app.use("/auth", authRouter);
 app.use("/operationOperationClaims", operationOperationClaimsRouter);
 app.use("/operations", operationsRouter);
+app.use("/motions", motionSensorsRouter);
 // app.use('/sensor_kategoriler', sensorKategorilerRouter);
 // app.use('/sensor', sensorlerRouter);
 // app.use('/cihaz', cihazlarRouter);
