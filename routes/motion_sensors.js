@@ -51,13 +51,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/get_motion_devices", async function (req, res, next) {
     const service = new MotionSensorService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getMotionDevices";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getMotionDevices";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    const response = await service.getMotionDevices(result.extractResponse.data, result.operationOperationClaims.data);
+    // const response = await service.getMotionDevices(result.extractResponse.data, result.operationOperationClaims.data);
+    const response = await service.getMotionDevices();
     res.send(response);
 });
 
@@ -74,13 +75,14 @@ router.get("/get_motion_devices", async function (req, res, next) {
  */
 router.get("/get_all_motions", async function (req, res, next) {
     const service = new MotionSensorService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getAllMotions";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getAllMotions";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    const response = await service.getAllMotions(result.extractResponse.data, result.operationOperationClaims.data);
+    // const response = await service.getAllMotions(result.extractResponse.data, result.operationOperationClaims.data);
+    const response = await service.getAllMotions();
     res.send(response);
 });
 
@@ -104,13 +106,14 @@ router.get("/get_all_motions", async function (req, res, next) {
  */
 router.get('/get_all_motions_by_device/:deviceId', async function (req, res, next) {
     const service = new MotionSensorService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getAllMotionsByDevice";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getAllMotionsByDevice";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    var response = await service.getAllMotionsByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    // var response = await service.getAllMotionsByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    var response = await service.getAllMotionsByDevice("","", req.params.deviceId);
     res.send(response);
 });
 
