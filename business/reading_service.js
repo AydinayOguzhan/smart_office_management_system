@@ -1,6 +1,7 @@
 const ReadingDal = require("../data_access/reading_dal");
 const dateFormat = require("date-and-time");
 const ValidatorAdapter = require("../core/utilities/validatorAdapter/validatorAdapter");
+const { randomInt } = require("crypto");
 
 class ReadingService{
     constructor(){
@@ -14,13 +15,22 @@ class ReadingService{
 
     }
 
+    randDate(){
+        let date = new Date();
+        let day = randomInt(0,15);
+        date.setDate(date.getDate() - day)
+        return dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
+    }
+
     async addReading(...args){
         const [,,obj] = args;
         const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
 
         let date = new Date();
-        obj.timestamp = dateFormat.format(date, "YYYY/MM/DD HH:mm:sse");
+        obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
+        // obj.timestamp = this.randDate();
+
         const result = await this.dal.addReading(obj);
         return result;
     }
