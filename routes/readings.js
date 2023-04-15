@@ -61,13 +61,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/get_devices", async function (req, res, next) {
     const service = new ReadingService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getDevices";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getDevices";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    const response = await service.getDevices(result.extractResponse.data, result.operationOperationClaims.data);
+    // const response = await service.getDevices(result.extractResponse.data, result.operationOperationClaims.data);
+    const response = await service.getDevices();
     res.send(response);
 });
 
@@ -91,13 +92,15 @@ router.get("/get_devices", async function (req, res, next) {
  */
 router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
     const service = new ReadingService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getTemperaturesByDevice";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getTemperaturesByDevice";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    const response = await service.getTemperaturesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    // const response = await service.getTemperaturesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    
+    const response = await service.getTemperaturesByDevice("","", req.params.deviceId);
     res.send(response);
 });
 
@@ -121,13 +124,14 @@ router.get("/get_temperatures_by_device/:deviceId", async function (req, res, ne
  */
 router.get('/get_humidities_by_device/:deviceId', async function (req, res, next) {
     const service = new ReadingService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "getHumiditiesByDevice";
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getHumiditiesByDevice";
 
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
 
-    var response = await service.getHumiditiesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    // var response = await service.getHumiditiesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    var response = await service.getHumiditiesByDevice("", "", req.params.deviceId);
     res.send(response);
 });
 
