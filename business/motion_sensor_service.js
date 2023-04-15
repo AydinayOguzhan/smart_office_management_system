@@ -22,7 +22,7 @@ class MotionSensorService{
         if(validatorResult !== true) return validatorResult;
 
         let date = new Date();
-        obj.timestamp = dateFormat.format(date, "YYYY/MM/DD HH:mm:sse");
+        obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
 
         const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.timestamp} tarihinde yeni bir hareket algılandı`);
         if(mailResult.success === false) return mailResult;
