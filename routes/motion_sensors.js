@@ -119,6 +119,29 @@ router.get('/get_all_motions_by_device/:deviceId', async function (req, res, nex
 
 /**
  * @swagger
+ * /motions/get_all_motion_sensor_statistics:
+ *   get:
+ *     summary: Get all motion sensor statistics
+ *     tags: [motionSensors]
+ *     responses:
+ *       200:
+ *         description: Successful
+ */
+router.get('/get_all_motion_sensor_statistics', async function (req, res, next) {
+    const service = new MotionSensorService();
+    // const securityAspectHelper = new SecurityAspectHelper();
+    // const methodName = "getAllMotionsByDevice";
+
+    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
+    // if (result.success === false) return res.send(result);
+
+    // var response = await service.getAllMotionsByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
+    var response = await service.getAllMotionSensorStatistics();
+    res.send(response);
+});
+
+/**
+ * @swagger
  * /motions:
  *   post:
  *      summary: Add new motion

@@ -47,6 +47,11 @@ class MotionSensorService{
         return result;
     }
 
+    async getAllMotionSensorStatistics(){
+        const result = await this.dal.getAllMotionSensorStatistics();
+        return result;
+    }
+
 }
 
 module.exports = MotionSensorService;

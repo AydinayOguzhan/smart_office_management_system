@@ -75,6 +75,21 @@ class MotionSensorDal {
         }
     }
 
+    async getAllMotionSensorStatistics(){
+        try {
+            const cursor = await this.motionsCol.aggregate([{$group: {_id:'$device_id', count:{$sum:1}}}]);
+            
+            var readings = new Array();
+            await cursor.forEach(reading => readings.push(reading));
+
+            return new SuccessDataResult(Messages.Successful, readings);
+        }catch(error){
+            return new ErrorResult(error.message);
+        }finally{
+            await this.client.close();
+        }
+    }
+
 }
 
 module.exports = MotionSensorDal;
