@@ -50,11 +50,11 @@ class AuthService {
         const verifyHash = await this.hashingHelper.VerifyPasswordHash(obj.password, userResult.data.password_hash);
 
         const userOperationClaims = await this.dal.getUserClaimsById(userResult.data.id);
-        console.log(userOperationClaims)
-        const token = this.jwtAdapter.CreateToken(obj.email,userOperationClaims.data);
+        // console.log(userOperationClaims)
+        const {token, expireDate} = this.jwtAdapter.CreateToken(obj.email,userOperationClaims.data);
 
         //TODO: verifyHash true ise token üretsin. Eğer verifyHash false ise token üretmesine gerek yok.
-        return verifyHash? new SuccessDataResult(Messages.Successful, token): new ErrorResult(Messages.Unsuccessful);
+        return verifyHash? new SuccessDataResult(Messages.Successful, {token, expireDate}): new ErrorResult(Messages.Unsuccessful);
     }
 
 

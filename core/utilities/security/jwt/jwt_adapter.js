@@ -1,13 +1,16 @@
 const jwt = require("jsonwebtoken");
 const ErrorResult = require("../../results/error_result");
-require('dotenv').config()
+const dateFormat = require("date-and-time");
+require('dotenv').config();
 
 
 class JwtAdapter {
 
     CreateToken(email, operationClaims) {
         let token = jwt.sign({user: email, operationClaims}, process.env.JWT_SECRET_KEY, {expiresIn: "600000"});
-        return token;
+        let expireDate = dateFormat.addMilliseconds(new Date(), 600000);
+        expireDate = dateFormat.format(expireDate, "YYYY-MM-DD HH:mm:ss");
+        return {token, expireDate};
     }
 
     VerifyToken(token) {
