@@ -8,9 +8,9 @@ class JwtAdapter {
 
     CreateToken(email, operationClaims) {
         let token = jwt.sign({user: email, operationClaims}, process.env.JWT_SECRET_KEY, {expiresIn: "600000"});
-        let expireDate = dateFormat.addMilliseconds(new Date(), 600000);
-        expireDate = dateFormat.format(expireDate, "YYYY-MM-DD HH:mm:ss");
-        return {token, expireDate};
+        let expirationDate = dateFormat.addMilliseconds(new Date(), 600000);
+        expirationDate = dateFormat.format(expirationDate, "YYYY-MM-DD HH:mm:ss");
+        return {token, expirationDate};
     }
 
     VerifyToken(token) {
