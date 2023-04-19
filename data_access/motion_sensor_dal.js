@@ -50,42 +50,58 @@ class MotionSensorDal {
     async getAllMotions() {
         try {
             const query = {};
-            const cursor = await this.motionsCol.find(query);
+            const cursor = await this.motionsCol.find(query).sort({'device_id':1, 'timestamp':1});
+
             var readings = new Array();
             await cursor.forEach(reading => readings.push(reading));
             return new SuccessDataResult(Messages.Successful, readings);
-        }catch(error){
+        } catch (error) {
             return new ErrorResult(error.message);
-        }finally{
+        } finally {
             await this.client.close();
         }
     }
 
     async getAllMotionsByDevice(deviceId) {
         try {
-            const query = {device_id: Number(deviceId)};
+            const query = { device_id: Number(deviceId) };
             const cursor = await this.motionsCol.find(query);
             var readings = new Array();
             await cursor.forEach(reading => readings.push(reading));
             return new SuccessDataResult(Messages.Successful, readings);
-        }catch(error){
+        } catch (error) {
             return new ErrorResult(error.message);
-        }finally{
+        } finally {
             await this.client.close();
         }
     }
 
-    async getAllMotionSensorStatistics(){
+    async getAllMotionSensorStatistics() {
         try {
-            const cursor = await this.motionsCol.aggregate([{$group: {_id:'$device_id', count:{$sum:1}}}]);
-            
+            const cursor = await this.motionsCol.aggregate([
+                {
+                    $group: {
+                        _id: "$device_id",
+                        data: { $first: '$$ROOT' },
+                        count: {$sum: 1}
+                    },
+                },
+                {
+                    $replaceRoot: {
+                        "newRoot": { $mergeObjects: [{count: '$count'}, '$data']}
+                    }
+                }
+
+            ]
+            )
+
             var readings = new Array();
             await cursor.forEach(reading => readings.push(reading));
 
             return new SuccessDataResult(Messages.Successful, readings);
-        }catch(error){
+        } catch (error) {
             return new ErrorResult(error.message);
-        }finally{
+        } finally {
             await this.client.close();
         }
     }
