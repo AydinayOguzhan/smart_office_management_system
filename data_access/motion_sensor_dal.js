@@ -35,7 +35,8 @@ class MotionSensorDal {
     async getMotionDevices() {
         try {
             //get distinct values from db
-            const cursor = await this.motionsCol.aggregate([{ $group: { "_id": { device_id: "$device_id", device_name: "$device_name" } } }]);
+            const cursor = await this.motionsCol.aggregate([{ $group: { "_id": { device_id: "$device_id", device_name: "$device_name" } } },
+             {$sort:{'_id.device_id':1}}]);
             var devices = new Array();
             await cursor.forEach(device => devices.push(device));
             return new SuccessDataResult(Messages.Successful, devices);
