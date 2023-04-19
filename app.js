@@ -55,7 +55,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        // url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
+        url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
       }
     ],
     components: {
@@ -140,7 +140,7 @@ app.use(function (req, res, next) {
 // });
 
 app.listen(PORT, () => {
-  console.log(`Working on ${process.env.PROD_HOST}:${PORT}/api-docs`)
+  console.log(`Working on ${process.env.LOCALHOST1}:${PORT}/api-docs`)
 })
 
 
