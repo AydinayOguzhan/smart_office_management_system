@@ -29,6 +29,8 @@ const authRouter = require("./routes/auth");
 const operationOperationClaimsRouter = require("./routes/operation_operation_claims");
 const operationsRouter = require("./routes/operations");
 const motionSensorsRouter = require("./routes/motion_sensors");
+const notificationsRouter = require("./routes/notifications");
+const userNotificationRouter = require("./routes/user_notifications");
 
 
 var notifications = require("./web_socket/notification_socket");
@@ -104,7 +106,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/notifications', notifications.Server);
+app.use('/notificationsSocket', notifications.Server);
 
 
 app.use("/readings", readingsRouter);
@@ -112,6 +114,8 @@ app.use("/auth", authRouter);
 app.use("/operationOperationClaims", operationOperationClaimsRouter);
 app.use("/operations", operationsRouter);
 app.use("/motions", motionSensorsRouter);
+app.use("/notifications", notificationsRouter);
+app.use("/user_notifications", userNotificationRouter);
 // app.use('/sensor_kategoriler', sensorKategorilerRouter);
 // app.use('/sensor', sensorlerRouter);
 // app.use('/cihaz', cihazlarRouter);
