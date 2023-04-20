@@ -21,7 +21,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       properties:
  *         id:
  *           type: string
- *           description: Id numarası. Otomatik oluşturulur.
+ *           description: Id number. Automatic generated
  *         first_name:
  *           type: string
  *           description: User's first name.
