@@ -1,15 +1,20 @@
 const dateFormat = require("date-and-time");
-const LogService = require("./log_service");
+const NotificationDal = require("../data_access/notification_dal");
 
 class NotificationService {
     constructor() {
-        this.logService = new LogService();
+        this.dal = new NotificationDal();
     }
 
-    async getServerLogCount() {
-        var count = await this.logService.getServerLogCount();
-        return count;
-    } 
+    async add(obj){
+        const result = await this.dal.add(obj);
+        return result;
+    }
+
+    async getAll(){
+        const result = await this.dal.getAll();
+        return result;
+    }
 
 }
 
