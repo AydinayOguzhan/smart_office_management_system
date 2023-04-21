@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const methodInterceptor = require("../core/method_interceptor/method_interceptor");
-const securityAspect = require("../core/aspects/security_aspect");
-const extractToken = require("../core/utilities/security/extract_token");
 const OperationOperationClaimService = require('../business/operation_operation_claim_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
