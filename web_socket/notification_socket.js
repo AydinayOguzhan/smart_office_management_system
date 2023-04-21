@@ -1,26 +1,31 @@
 const NotificationService = require('../business/notification_service');
 
 const { Server } = require("ws");
-const { json } = require('stream/consumers');
-
 const sockserver = new Server({ port: 5001 });
 
 //When new client connected
 sockserver.on("connection", (ws) => {
     console.log("new client connected!");
-    // console.log(sockserver.address());
     for (const client of sockserver.clients) {
-        client.send(JSON.stringify({status:"True"}));
+        client.send("true");
     }
-    ws.on("message", (data)=> { console.log(data) });
+    ws.on("message", (data) => { console.log(data.toString()) });
     ws.on("close", () => console.log("client has disconnected!"));
 });
 
-// async function delay(ms){
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
+// setInterval(() => {
+//     sockserver.clients.forEach((client) => {
+//         stream.pipe(process.stdout);
+//         // console.log(stream)
+//         client.send(stream.toString())
+//     });
+// }, 1000);
 
-async function getData(){
+async function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getData() {
     for (const client of sockserver.clients) {
         var service = new NotificationService();
         var data = await service.getServerLogCount();
@@ -28,15 +33,16 @@ async function getData(){
     }
 };
 
-function sendData(data){
+function sendData(data) {
     for (const client of sockserver.clients) {
+        // console.log("send data: ", data)
         client.send(JSON.stringify(data));
     }
     // console.log(data);
 }
 
 setInterval(() => {
-    
+
 }, 1000);
 
 
@@ -57,4 +63,5 @@ setInterval(() => {
 //     });
 // }, 8000);
 
-module.exports = {Server, sendData};
+
+module.exports = { Server, sendData };
