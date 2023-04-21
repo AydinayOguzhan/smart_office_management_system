@@ -19,15 +19,15 @@ class CustomTransport extends Transport{
             case "server":
                 var result = await this.logService.addServerLog(info);
                 // console.log(result);
-                notifications.sendData(info);
+                // notifications.sendData(info);
                 break;
             case "exception":
                 var result = await this.logService.addExceptionLog(info);
-                notifications.sendData(info);
+                // notifications.sendData(info);
                 break;
             case "rejection":
                 var result = await this.logService.addRejectionLog(info);
-                notifications.sendData(info);
+                // notifications.sendData(info);
                 break;
             default:
                 break;
