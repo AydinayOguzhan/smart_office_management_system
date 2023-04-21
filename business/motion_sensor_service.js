@@ -2,12 +2,16 @@ const dateFormat = require("date-and-time");
 const MailAdapter = require("../core/utilities/mail/mail_adapter");
 const ValidatorAdapter = require("../core/utilities/validatorAdapter/validatorAdapter");
 const MotionSensorDal = require("../data_access/motion_sensor_dal");
+const {sendData} = require("../web_socket/notification_socket");
+const SuccessResult = require("../core/utilities/results/success_result");
+const SecurityAspectHelper = require("../core/utilities/security/securityAspectHelper");
 
 class MotionSensorService{
     constructor(){
         this.dal = new MotionSensorDal();
         this.validatorAdapter = new ValidatorAdapter();
         this.mailAdapter = new MailAdapter();
+        this.securityAspectHelper = new SecurityAspectHelper();
 
         this.schema = {
             device_id:{type:"number", optional:false},
@@ -16,15 +20,19 @@ class MotionSensorService{
 
     }
 
-    async addMotion(...args){
-        const [,,obj] = args;
+    async addMotion(obj, token){
+        const securityAspectResult = await this.securityAspectHelper.help("addMotion", token);
+        if(securityAspectResult.success === false) return securityAspectResult;
+        
+
         const validatorResult = this.validatorAdapter.validate(this.schema, obj);
         if(validatorResult !== true) return validatorResult;
 
         let date = new Date();
         obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
 
-        const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.timestamp} tarihinde yeni bir hareket algılandı`);
+        const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.device_name} isimli cihazda
+         ${obj.timestamp} tarihinde yeni bir hareket algılandı`);
         if(mailResult.success === false) return mailResult;
 
         const result = await this.dal.addMotion(obj);
