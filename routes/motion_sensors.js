@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-const SecurityAspectHelper = require('../core/utilities/security/securityAspectHelper');
 const MotionSensorService = require('../business/motion_sensor_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
