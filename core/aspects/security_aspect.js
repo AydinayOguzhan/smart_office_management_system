@@ -11,11 +11,13 @@ function securityAspect(token, canOpenOperationClaims=[]){
     }
 
     const userOperationClaims = result.operationClaims;
+    if(userOperationClaims === undefined) return new ErrorResult(Messages.AuthorizationDenied);
+    
     for (let i = 0; i < canOpenOperationClaims.length; i++) {
         let canOpenOperationClaim = canOpenOperationClaims[i].operation_claim_name;
         for (let j = 0; j < userOperationClaims.length; j++) {
             let userOperationClaim = userOperationClaims[j].name;
-            if (canOpenOperationClaim === userOperationClaim) return;
+            if (canOpenOperationClaim === userOperationClaim) return new SuccessResult();
         }
     }
     return new ErrorResult(Messages.AuthorizationDenied);

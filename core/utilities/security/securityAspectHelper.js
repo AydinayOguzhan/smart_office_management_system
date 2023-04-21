@@ -10,16 +10,15 @@ class SecurityAspectHelper {
         this.operationOperationClaimService = new OperationOperationClaimService();
     }
 
-    async help(service, methodName, token) {
+    async help(methodName, token) {
         const extractResponse = extractToken(token);
         if (extractResponse.success === false) return extractResponse;
 
         const operationOperationClaims = await this.operationOperationClaimService.getOperationOperationClaimsByName(methodName);
         if (operationOperationClaims.success === false) return new ErrorResult(Messages.NotFoundClaimForThisOperation);
 
-        methodInterceptor.inject(service, securityAspect, "before", "method", methodName);
-
-        return {extractResponse, operationOperationClaims};
+        const securityAspectResult = securityAspect(extractResponse.data, operationOperationClaims.data);
+        return securityAspectResult;
     }
 }
 
