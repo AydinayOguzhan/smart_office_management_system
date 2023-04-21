@@ -2,11 +2,6 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 const ReadingService = require("../business/reading_service");
-const methodInterceptor = require("../core/method_interceptor/method_interceptor");
-const securityAspect = require("../core/aspects/security_aspect");
-const extractToken = require("../core/utilities/security/extract_token");
-const OperationOperationClaimService = require('../business/operation_operation_claim_service');
-const SecurityAspectHelper = require('../core/utilities/security/securityAspectHelper');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -61,13 +56,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  */
 router.get("/get_devices", async function (req, res, next) {
     const service = new ReadingService();
-    // const securityAspectHelper = new SecurityAspectHelper();
-    // const methodName = "getDevices";
-
-    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    // if (result.success === false) return res.send(result);
-
-    // const response = await service.getDevices(result.extractResponse.data, result.operationOperationClaims.data);
     const response = await service.getDevices();
     res.send(response);
 });
@@ -92,15 +80,7 @@ router.get("/get_devices", async function (req, res, next) {
  */
 router.get("/get_temperatures_by_device/:deviceId", async function (req, res, next) {
     const service = new ReadingService();
-    // const securityAspectHelper = new SecurityAspectHelper();
-    // const methodName = "getTemperaturesByDevice";
-
-    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    // if (result.success === false) return res.send(result);
-
-    // const response = await service.getTemperaturesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
-    
-    const response = await service.getTemperaturesByDevice("","", req.params.deviceId);
+    const response = await service.getTemperaturesByDevice(req.params.deviceId);
     res.send(response);
 });
 
@@ -124,14 +104,7 @@ router.get("/get_temperatures_by_device/:deviceId", async function (req, res, ne
  */
 router.get('/get_humidities_by_device/:deviceId', async function (req, res, next) {
     const service = new ReadingService();
-    // const securityAspectHelper = new SecurityAspectHelper();
-    // const methodName = "getHumiditiesByDevice";
-
-    // const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    // if (result.success === false) return res.send(result);
-
-    // var response = await service.getHumiditiesByDevice(result.extractResponse.data, result.operationOperationClaims.data, req.params.deviceId);
-    var response = await service.getHumiditiesByDevice("", "", req.params.deviceId);
+    var response = await service.getHumiditiesByDevice(req.params.deviceId);
     res.send(response);
 });
 
@@ -153,11 +126,6 @@ router.get('/get_humidities_by_device/:deviceId', async function (req, res, next
  */
 router.post("/", urlencodedParser, async function (req, res, next) {
     var service = new ReadingService();
-    const securityAspectHelper = new SecurityAspectHelper();
-    const methodName = "addReading";
-
-    const result = await securityAspectHelper.help(service, methodName, req.headers.authorization);
-    if (result.success === false) return res.send(result);
 
     const readingsObj = {
         device_id: req.body.device_id,
@@ -165,7 +133,7 @@ router.post("/", urlencodedParser, async function (req, res, next) {
         temperature: req.body.temperature,
         humidity: req.body.humidity
     };
-    var response = await service.addReading(result.extractResponse.data, result.operationOperationClaims.data, readingsObj);
+    var response = await service.addReading(readingsObj, req.headers.authorization);
     res.send(response);
 });
 
