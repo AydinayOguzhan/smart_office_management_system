@@ -1,4 +1,3 @@
-const methodInterceptor = require("../../../core/method_interceptor/method_interceptor");
 const securityAspect = require("../../../core/aspects/security_aspect");
 const extractToken = require("../../utilities/security/extract_token");
 const OperationOperationClaimService = require('../../../business/operation_operation_claim_service');
