@@ -44,14 +44,12 @@ class ReadingService{
         return result;
     }
 
-    async getTemperaturesByDevice(...args){
-        const [,,deviceId] = args;
+    async getTemperaturesByDevice(deviceId){
         const result = await this.dal.getTemperaturesByDevice(deviceId);
         return result;
     }
 
-    async getHumiditiesByDevice(...args){
-        const [,,deviceId] = args;
+    async getHumiditiesByDevice(deviceId){
         const result = await this.dal.getHumiditiesByDevice(deviceId);
         return result;
     }
