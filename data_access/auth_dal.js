@@ -28,10 +28,10 @@ class AuthDal {
                 connection.query(`INSERT INTO public."Users"(
                     first_name, last_name, email, password_salt, password_hash)
                     VALUES ('${obj.first_name}', '${obj.last_name}', '${obj.email}', '${obj.password_salt}', 
-                    '${obj.password_hash}');`,
+                    '${obj.password_hash}') RETURNING id;`,
                     (err, result) => {
                         if (err) resolve(new ErrorResult(err));
-                        else resolve(new SuccessResult(Messages.Successful));
+                        else resolve(new SuccessDataResult(Messages.Successful, result.rows[0].id)); //result.rows[0].id returns user id
                     });
             }, (errorResponse) => {
                 reject(new ErrorResult(errorResponse));
@@ -66,6 +66,22 @@ class AuthDal {
                         if (err) resolve(new ErrorResult(err));
                         if (result.rowCount <= 0) resolve(new ErrorResult(Messages.UserNotFound));
                         const [...user] = result.rows;
+                        resolve(new SuccessDataResult(Messages.Successful, user));
+                    });
+            }, (errorResponse) => {
+                reject(new ErrorResult(errorResponse));
+            });
+        });
+    }
+
+    getUserByMail(email){
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`SELECT * FROM public."Users" where email = '${email}';`,
+                    (err, result) => {
+                        if (err) resolve(new ErrorResult(err));
+                        if (result.rowCount <= 0) resolve(new ErrorResult(Messages.UserNotFound));
+                        const [user] = result.rows;
                         resolve(new SuccessDataResult(Messages.Successful, user));
                     });
             }, (errorResponse) => {
