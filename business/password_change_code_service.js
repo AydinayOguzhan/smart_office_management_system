@@ -35,6 +35,11 @@ class PasswordChangeCodeService {
         
     }
 
+    async getCodeByUserId(userId){
+        const result = this.dal.getCodeByUserId(userId);
+        return result;
+    }
+
 
     createRandomCode(length){
         const code = crypto.randomBytes(length).toString("hex");
