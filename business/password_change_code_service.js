@@ -16,7 +16,7 @@ class PasswordChangeCodeService {
         }
     }
 
-    async add(userId, email) {
+    async add(userId) {
         let obj = {
             user_id : userId
         };
@@ -25,10 +25,10 @@ class PasswordChangeCodeService {
         if (validatorResult !== true) return validatorResult;
 
         const date = new Date();
-        obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH-mm-ss");
+        obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
         obj.code = this.createRandomCode(16);
         
-        var result = this.dal.add(obj);
+        var result = await this.dal.add(obj);
         if(result.success === false) return result;
 
         return new SuccessDataResult(Messages.Successful, obj);

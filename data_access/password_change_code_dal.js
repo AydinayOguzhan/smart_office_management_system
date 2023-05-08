@@ -10,7 +10,7 @@ class PasswordChangeCodeDal {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
                 connection.query(`INSERT INTO public."PasswordChangeCodes"(user_id, code, timestamp)
-                    VALUES (${obj.user_id}, '${obj.code}', ${obj.timestamp});`,
+                    VALUES (${obj.user_id}, '${obj.code}', '${obj.timestamp}');`,
                     (err, result) => {
                         if (err) resolve(new ErrorResult(err));
                         else resolve(new SuccessResult(Messages.Successful)); 
