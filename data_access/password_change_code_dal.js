@@ -24,7 +24,8 @@ class PasswordChangeCodeDal {
     getCodeByUserId(userId) {
         return new Promise((resolve, reject) => {
             connection.connect((successResponse) => {
-                connection.query(`select * from public."PasswordChangeCodes" where user_id = ${userId}`,
+                connection.query(`SELECT * FROM public."PasswordChangeCodes"
+                where user_id = ${userId} order by "timestamp" desc limit 1;`,
                     (err, result) => {
                         if (err) resolve(new ErrorResult(err));
                         if (result.rowCount <= 0) resolve(new ErrorResult(Messages.UserNotFound));
