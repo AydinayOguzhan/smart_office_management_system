@@ -15,16 +15,17 @@ class MailAdapter{
 
         this.mailOptions = {
             from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_TO,
+            to: "",
             subject:"",
             text:""
         };
     }
 
 
-    sendEmail(subject, message){
+    sendEmail(subject, message, toEmail){
         this.mailOptions.subject = subject;
         this.mailOptions.text = message;
+        this.mailOptions.to = toEmail;
         return new Promise((resolve, reject) => {
             this.transporter.sendMail(this.mailOptions, (error, info)=>{
                 if(error) resolve(new ErrorResult(error));
