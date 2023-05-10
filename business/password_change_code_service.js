@@ -31,8 +31,7 @@ class PasswordChangeCodeService {
         var result = await this.dal.add(obj);
         if(result.success === false) return result;
 
-        return new SuccessDataResult(Messages.Successful, obj);
-        
+        return new SuccessDataResult(Messages.Successful, obj);   
     }
 
     async getCodeByUserId(userId){
@@ -40,6 +39,10 @@ class PasswordChangeCodeService {
         return result;
     }
 
+    async setCodeUseTrueById(codeId){
+        const result = this.dal.setCodeUseTrueById(codeId);
+        return result;
+    }
 
     createRandomCode(length){
         const code = crypto.randomBytes(length).toString("hex");
