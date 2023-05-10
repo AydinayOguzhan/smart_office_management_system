@@ -95,7 +95,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *       required:
  *          email
  *          password
- *          password_again
+ *          passwordAgain
  *          code
  *       properties:
  *         email:
@@ -104,7 +104,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *         password:
  *           type: string
  *           description: New password
- *         password_again:
+ *         passwordAgain:
  *           type: string
  *           description: For check the password
  */
@@ -236,7 +236,7 @@ router.post("/change_password", urlencodedParser, async function (req, res, next
     const authObj = {
         email: req.body.email,
         password: req.body.password,
-        password_again: req.body.password_again,
+        password_again: req.body.passwordAgain,
     };
     var result = await service.changePassword(authObj);
     res.send(result);
