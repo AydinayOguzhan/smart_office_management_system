@@ -68,6 +68,23 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
  *           description: User's email.
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     CheckCode:
+ *       type: object
+ *       required:
+ *          email
+ *          code
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: User's email.
+ *         code:
+ *           type: string
+ *           description: The code that system sent the user for changing password
+ */
 
 /**
  * @swagger
@@ -146,6 +163,32 @@ router.post("/forgot_password", urlencodedParser, async function (req, res, next
         email: req.body.email,
     };
     var result = await service.forgotPassword(authObj);
+    res.send(result);
+});
+
+/**
+ * @swagger
+ * /auth/check_code:
+ *   post:
+ *      summary: Check forgot password code
+ *      tags: [auth]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *               schema:
+ *                  $ref: '#/components/schemas/CheckCode'
+ *      responses:
+ *          200:
+ *              description: Successful
+ */
+router.post("/check_code", urlencodedParser, async function (req, res, next) {
+    var service = new AuthService();
+    const authObj = {
+        email: req.body.email,
+        code: req.body.code,
+    };
+    var result = await service.checkCode(authObj);
     res.send(result);
 });
 

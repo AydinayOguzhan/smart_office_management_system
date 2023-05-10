@@ -9,7 +9,8 @@ const SuccessDataResult = require("../core/utilities/results/success_data_result
 const UserOperationClaimDal = require("../data_access/user_operation_claim_dal");
 const MailAdapter = require("../core/utilities/mail/mail_adapter");
 const PasswordChangeCodeService = require("./password_change_code_service");
-// const dateFormat = require("date-and-time");
+const dateFormat = require("date-and-time");
+const { Timestamp } = require("mongodb");
 
 class AuthService {
     constructor() {
@@ -33,6 +34,15 @@ class AuthService {
         this.loginSchema = {
             email: { type: "email", optional: false },
             password: { type: "string", optional: false }
+        }
+
+        this.forgotPasswordSchema = {
+            email: {type: "email", optional: false},
+        }
+
+        this.checkCodeSchema = {
+            email: {type: "email", optional: false},
+            code: {type: "string", optional: false},
         }
     }
 
@@ -71,16 +81,39 @@ class AuthService {
     }
 
     async forgotPassword(obj){
+        const validatorResult = this.validatorAdapter.validate(this.forgotPasswordSchema, obj);
+        if (validatorResult !== true) return validatorResult;
+
         const user = await this.dal.getUserByMail(obj.email);
         if(user.success === false) return user;
         
-        const result = await this.passwordChangeService.add(user.data.id, user.data.email);
+        const result = await this.passwordChangeService.add(user.data.id);
         if(result.success === false) return new ErrorResult(Messages.Unsuccessful);
 
         this.mailAdapter.sendEmail("Şifre değiştirme isteği hakkında", `Şifrenizi değiştirmek istediğinizi gördük. Lütfen size gönderdiğimiz kodu sitede açılan alana 1 saat içinde giriniz. Aksi taktirde kod geçersiz sayılacaktır. 
 Kod: ${result.data.code}`, obj.email);
 
         return new SuccessResult(Messages.Successful);
+    }
+
+    async checkCode(obj){
+        const validatorResult = this.validatorAdapter.validate(this.checkCodeSchema, obj);
+        if (validatorResult !== true) return validatorResult;
+
+        const user = await this.dal.getUserByMail(obj.email);
+        if(user.success === false) return user;
+
+        const passwordCode = await this.passwordChangeService.getCodeByUserId(user.data.id);
+        if(passwordCode.success === false) return passwordCode;
+
+        const checkDate = new Date();
+        const timestamp = new Date(passwordCode.data.timestamp);
+
+        var hours = Math.abs(timestamp - checkDate) / 36e5;
+
+        if (obj.code !== passwordCode.data.code) return new ErrorResult(Messages.Unsuccessful);
+        else if(hours > 1.00) return new ErrorResult(Messages.CodeDateExpired); //1 means 1 hour
+        else {this.passwordChangeService.setCodeUseTrueById(passwordCode.data.id); return new SuccessResult(Messages.Successful);}
     }
 
     async checkUserMail(email){
