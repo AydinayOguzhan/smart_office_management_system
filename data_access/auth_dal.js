@@ -90,7 +90,20 @@ class AuthDal {
         });
     }
 
-
+    changePasswordByMail(obj){
+        return new Promise((resolve, reject) => {
+            connection.connect((successResponse) => {
+                connection.query(`UPDATE public."Users" set password_salt = '${obj.password_salt}', 
+                password_hash = '${obj.password_hash}' where email = '${obj.email}'; `,
+                    (err, result) => {
+                        if (err) resolve(new ErrorResult(err));
+                        else resolve(new SuccessDataResult(Messages.Successful));
+                    });
+            }, (errorResponse) => {
+                reject(new ErrorResult(errorResponse));
+            });
+        });
+    }
 }
 
 module.exports = AuthDal;

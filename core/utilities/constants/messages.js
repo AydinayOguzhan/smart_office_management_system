@@ -9,6 +9,7 @@ class Messages{
     static NotFoundClaimForThisOperation = "Bu operasyon için bir yetki bulunamadı";
     static UserAlreadyExist = "Bu kullanıcı sistemde halihazırda mevcut";
     static CodeDateExpired = "Bu kodun kullanım süresi sona ermiştir";
+    static PasswordsDontMatch = "Şifreler uyuşmuyor";
 }
 
 module.exports = Messages;
