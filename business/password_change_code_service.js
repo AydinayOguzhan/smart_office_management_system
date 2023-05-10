@@ -44,6 +44,11 @@ class PasswordChangeCodeService {
         return result;
     }
 
+    async setCodeCheckedTrueById(codeId){
+        const result = this.dal.setCodeCheckedTrueById(codeId);
+        return result;
+    }
+
     createRandomCode(length){
         const code = crypto.randomBytes(length).toString("hex");
         return code;
