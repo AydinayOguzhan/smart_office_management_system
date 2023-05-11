@@ -7,7 +7,7 @@ const sockserver = new Server({ port: 5001 });
 sockserver.on("connection", (ws) => {
     console.log("new client connected!");
     for (const client of sockserver.clients) {
-        client.send("true");
+        // client.send("true");
     }
     ws.on("message", (data) => { console.log(data.toString()) });
     ws.on("close", () => console.log("client has disconnected!"));
