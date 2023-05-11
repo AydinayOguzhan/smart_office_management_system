@@ -1,6 +1,6 @@
 var winston = require("winston");
 const { combine, timestamp, json, errors } = winston.format;
-const CustomTransport = require("./customTransport");
+// const CustomTransport = require("./customTransport");
 
 // var customTransport = new CustomTransport({});
 
@@ -12,15 +12,15 @@ const logger = winston.createLogger({
     }), json()),
     transports: [
         new winston.transports.File({filename: 'logs/server.log'}),
-        new CustomTransport({key:"server"}),
+        // new CustomTransport({key:"server"}),
     ],
     exceptionHandlers: [
         new winston.transports.File({filename:'logs/exception.log'}),
-        new CustomTransport("exception"),
+        // new CustomTransport("exception"),
     ],
     rejectionHandlers: [ 
         new winston.transports.File({filename:'logs/rejections.log'}),
-        new CustomTransport("rejection"),
+        // new CustomTransport("rejection"),
     ],
 });
 
