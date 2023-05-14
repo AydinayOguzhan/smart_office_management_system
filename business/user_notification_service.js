@@ -1,9 +1,11 @@
 const dateFormat = require("date-and-time");
 const UserNotificationDal = require("../data_access/user_notification_dal");
+const AuthService = require("./auth_service");
 
 class UserNotificationService {
     constructor() {
         this.dal = new UserNotificationDal();
+        this.authService = new AuthService();
     }
 
     async add(obj){
@@ -28,6 +30,14 @@ class UserNotificationService {
 
     async getAllDetailsByUserId(userId){
         const result = await this.dal.getAllDetailsByUserId(userId);
+        return result;
+    }
+
+    async getAllDetailsByEmail(email){
+        const user = await this.authService.getUserByMail(email);
+        if(user.success === false) return user;
+
+        const result = await this.dal.getAllDetailsByUserId(user.data.id);
         return result;
     }
 }
