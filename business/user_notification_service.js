@@ -21,6 +21,15 @@ class UserNotificationService {
         return result;
     }
 
+    async getDetailsByUserIdAndNotificationName(userId, notificationName){
+        const result = await this.dal.getDetailsByUserIdAndNotificationName(userId, notificationName);
+        return result;
+    }
+
+    async getAllDetailsByUserId(userId){
+        const result = await this.dal.getAllDetailsByUserId(userId);
+        return result;
+    }
 }
 
 module.exports = UserNotificationService;
