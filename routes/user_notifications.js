@@ -61,24 +61,24 @@ router.get("/get_all", async function (req, res, next) {
 
 /**
  * @swagger
- * /user_notifications/get_all_details_by_user_id/{userId}:
+ * /user_notifications/get_all_details_by_email/{email}:
  *   get:
  *     summary: Get all notification details by user id 
  *     tags: [user_notifications]
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: email
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
- *         description: User's Id number
+ *         description: User's email
  *     responses:
  *       200:
  *         description: Successful
  */
-router.get("/get_all_details_by_user_id/:userId", async function (req, res, next) {
+router.get("/get_all_details_by_email/:email", async function (req, res, next) {
     var service = new UserNotificationService();
-    const response = await service.getAllDetailsByUserId(req.params.userId);
+    const response = await service.getAllDetailsByEmail(req.params.email);
     res.send(response);
 });
 
