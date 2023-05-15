@@ -33,9 +33,10 @@ async function getData() {
     }
 };
 
-function sendData(data) {
+function sendData(data, notificationType) {
     for (const client of sockserver.clients) {
         // console.log("send data: ", data)
+        data.type = notificationType;
         client.send(JSON.stringify(data));
     }
     // console.log(data);
