@@ -11,6 +11,7 @@ const MailAdapter = require("../core/utilities/mail/mail_adapter");
 const PasswordChangeCodeService = require("./password_change_code_service");
 const dateFormat = require("date-and-time");
 const { Timestamp } = require("mongodb");
+const UserNotificationService = require("./user_notification_service");
 
 class AuthService {
     constructor() {
@@ -21,6 +22,7 @@ class AuthService {
         this.userOperationClaimDal = new UserOperationClaimDal();
         this.mailAdapter = new MailAdapter();
         this.passwordChangeService = new PasswordChangeCodeService();
+        this.userNotificationService = new UserNotificationService();
 
         this.saltRounds = 10;
 
@@ -66,6 +68,9 @@ class AuthService {
 
         const userOperationClaimResult = await this.userOperationClaimDal.add({ user_id: result.data, operation_claim_id: 2 }); // 2 is user
         if (userOperationClaimResult.success === false) return userOperationClaimResult;
+
+        const userDefaultNotificationResult = await this.userNotificationService.addDefaultUserNotificationOptions(result.data, obj.email);
+        if(userDefaultNotificationResult.success === false) return userDefaultNotificationResult;
 
         return result;
     }
@@ -152,11 +157,6 @@ Kod: ${result.data.code}`, obj.email);
         var emailUser = await this.dal.getUserByMail(email);
         if (emailUser.success === false) return false;
         else return true;
-    }
-
-    async getUserByMail(email) {
-        var result = await this.dal.getUserByMail(email);
-        return result;
     }
 
 }
