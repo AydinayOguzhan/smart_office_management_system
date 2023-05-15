@@ -35,7 +35,7 @@ class MotionSensorService {
          ${obj.timestamp} tarihinde yeni bir hareket algılandı`, securityAspectResult.data);
         if (mailResult.success === false) return mailResult;
 
-        sendData(obj); //for sending data to websocket clients
+        sendData(obj, "motion"); //for sending data to websocket clients
 
         const result = await this.dal.addMotion(obj);
         return result;
