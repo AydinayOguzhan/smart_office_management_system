@@ -5,6 +5,7 @@ const MotionSensorDal = require("../data_access/motion_sensor_dal");
 const { sendData } = require("../web_socket/notification_socket");
 const SuccessResult = require("../core/utilities/results/success_result");
 const SecurityAspectHelper = require("../core/utilities/security/securityAspectHelper");
+const UserNotificationService = require("./user_notification_service");
 
 class MotionSensorService {
     constructor() {
@@ -12,6 +13,7 @@ class MotionSensorService {
         this.validatorAdapter = new ValidatorAdapter();
         this.mailAdapter = new MailAdapter();
         this.securityAspectHelper = new SecurityAspectHelper();
+        this.userNotificationService = new UserNotificationService();
 
         this.schema = {
             device_id: { type: "number", optional: false },
@@ -31,9 +33,14 @@ class MotionSensorService {
         let date = new Date();
         obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
 
-        const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.device_name} isimli cihazda
-         ${obj.timestamp} tarihinde yeni bir hareket algılandı`, securityAspectResult.data);
-        if (mailResult.success === false) return mailResult;
+        const userMotionNotificationSetting = await this.userNotificationService.getMotionNotificationSettingsByEmail(securityAspectResult.data);
+
+        if(userMotionNotificationSetting !== undefined && userMotionNotificationSetting.data.notification === true){
+            const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.device_name} isimli cihazda
+             ${obj.timestamp} tarihinde yeni bir hareket algılandı`, userMotionNotificationSetting.data.notificationMail);
+            if (mailResult.success === false) return mailResult;
+        }
+
 
         sendData(obj, "motion"); //for sending data to websocket clients
 
