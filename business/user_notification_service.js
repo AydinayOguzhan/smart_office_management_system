@@ -1,6 +1,5 @@
 const dateFormat = require("date-and-time");
 const UserNotificationDal = require("../data_access/user_notification_dal");
-const AuthService = require("./auth_service");
 const NotificationService = require("./notification_service");
 const SuccessResult = require("../core/utilities/results/success_result");
 const Messages = require("../core/utilities/constants/messages");
@@ -56,6 +55,30 @@ class UserNotificationService {
         if(user.success === false) return user;
 
         const result = await this.dal.getAllDetailsByUserId(user.data.id);
+        return result;
+    }
+
+    async getMotionNotificationSettingsByEmail(email){
+        const user = await this.userService.getUserByMail(email);
+        if(user.success === false) return user;
+
+        const result = await this.dal.getMotionNotificationSettingsByUserId(user.data.id);
+        return result;
+    }
+
+    async getTemperatureNotificationSettingsByEmail(email){
+        const user = await this.userService.getUserByMail(email);
+        if(user.success === false) return user;
+
+        const result = await this.dal.getTemperatureNotificationSettingsByUserId(user.data.id);
+        return result;
+    }
+
+    async getHumidityNotificationSettingsByEmail(email){
+        const user = await this.userService.getUserByMail(email);
+        if(user.success === false) return user;
+
+        const result = await this.dal.getHumidityNotificationSettingsByUserId(user.data.id);
         return result;
     }
 }
