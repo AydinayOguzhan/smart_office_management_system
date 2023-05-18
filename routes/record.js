@@ -7,7 +7,7 @@ const RecordService = require('../business/record_service');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-const upload = multer({dest: "www/records/"});
+const upload = multer({dest: "public/records/"});
 
 // /**
 //  * @swagger
