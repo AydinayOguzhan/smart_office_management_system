@@ -12,17 +12,7 @@ var winLog = require("./core/logger/winston_logger");
 
 var swaggerJsDoc = require("swagger-jsdoc");
 var swaggerUI = require("swagger-ui-express");
- 
 
-// var sensorKategorilerRouter = require('./routes/sensor_kategoriler');
-// var sensorlerRouter = require("./routes/sensor");
-// var cihazlarRouter = require("./routes/cihazlar");
-// var veriLimitleriRouter = require("./routes/veri_limit");
-// var olcumlerRouter = require("./routes/olcum");
-// var veriLimitKategoriRouter = require("./routes/veri_limit_kategori");
-// var loglarRouter = require("./routes/logs");
-// var cihazKategorilerRouter = require("./routes/cihaz_kategoriler");
-// var akimOlcumlerRouter = require("./routes/akim_olcumler");
 
 const readingsRouter = require("./routes/readings");
 const authRouter = require("./routes/auth");
@@ -31,7 +21,7 @@ const operationsRouter = require("./routes/operations");
 const motionSensorsRouter = require("./routes/motion_sensors");
 const notificationsRouter = require("./routes/notifications");
 const userNotificationRouter = require("./routes/user_notifications");
-
+const recordsRouter = require("./routes/record");
 
 var notifications = require("./web_socket/notification_socket");
 const { level } = require('winston');
@@ -57,7 +47,7 @@ const swaggerOptions = {
     servers: [
       {
         url: `${process.env.LOCALHOST1}:${PORT}`,
-        url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
+        // url: `${process.env.SCHOOL_LOCALHOST}:${PORT}`
       }
     ],
     components: {
@@ -116,16 +106,7 @@ app.use("/operations", operationsRouter);
 app.use("/motions", motionSensorsRouter);
 app.use("/notifications", notificationsRouter);
 app.use("/user_notifications", userNotificationRouter);
-// app.use('/sensor_kategoriler', sensorKategorilerRouter);
-// app.use('/sensor', sensorlerRouter);
-// app.use('/cihaz', cihazlarRouter);
-// app.use('/veri_limit', veriLimitleriRouter);
-// app.use('/olcum', olcumlerRouter);
-// app.use('/veri_limit_kategori', veriLimitKategoriRouter);
-// app.use('/loglar', loglarRouter);
-// app.use('/cihaz_kategoriler', cihazKategorilerRouter);
-// app.use('/akim_olcum', akimOlcumlerRouter);
-
+app.use("/records", recordsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
