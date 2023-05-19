@@ -66,6 +66,36 @@ router.get("/get_all", async function (req, res, next) {
 
 /**
  * @swagger
+ * /records/get_all_date_range/{start_date}/{end_date}:
+ *   get:
+ *     summary: Get all records by specific date range
+ *     tags: [records]
+ *     parameters:
+ *       - in: path
+ *         name: start_date
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Start date
+ *       - in: path
+ *         name: end_date
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: End date
+ *     responses:
+ *       200:
+ *         description: Successful
+ */
+router.get("/get_all_date_range/:start_date/:end_date", async function (req, res, next) {
+    const service = new RecordService();
+    const response = await service.getAllDateRange(req.params.start_date, req.params.end_date);
+    res.send(response);
+});
+
+
+/**
+ * @swagger
  * /records:
  *   post:
  *      summary: Add new record

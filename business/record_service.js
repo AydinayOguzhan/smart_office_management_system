@@ -1,4 +1,5 @@
 const RecordDal = require("../data_access/record_dal");
+const dateFormat = require("date-and-time");
 
 class RecordService{
     constructor(){
@@ -6,12 +7,30 @@ class RecordService{
     }
 
     async add(document){
+        //Remove it 
+        document.timestamp = new Date("2023-5-5 10:00:00");
+        //TODO: Convert document.timestamp to datetime object
+        // document.timestamp = new Date(document.timestamp);
         const result = await this.dal.add(document);
         return result;
     }
 
     async getAll(){
         const result = await this.dal.getAll();
+        for (let i = 0; i < result.data.length; i++) {
+            const element = result.data[i];
+            element.timestamp = dateFormat.format(element.timestamp, "YYYY-M-DD HH:mm:ss")
+        }
+        return result;
+    }
+
+    async getAllDateRange(start_date, end_date){
+        const result = await this.dal.getAllDateRange(start_date, end_date);
+        for (let i = 0; i < result.data.length; i++) {
+            const element = result.data[i];
+            element.timestamp = dateFormat.format(element.timestamp, "YYYY-M-DD HH:mm:ss")
+        }
+        
         return result;
     }
 }

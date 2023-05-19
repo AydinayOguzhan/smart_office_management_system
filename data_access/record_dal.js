@@ -35,7 +35,7 @@ class RecordDal {
             const query = {};
             const cursor = await this.recordsCol.find(query);
             var records = new Array();
-            await cursor.forEach(record => records.push(record));
+            await cursor.forEach(record => {records.push(record); console.log(record.timestamp,typeof record.timestamp)});
             return new SuccessDataResult(Messages.Successful, records);
         } catch (error) {
             return new ErrorResult(error.message);
@@ -44,19 +44,33 @@ class RecordDal {
         }
     }
 
-    async getDevices() {
+    async getAllDateRange(start_date, end_date) {
         try {
-            //get distinct values from db
-            const cursor = await this.recordsCol.aggregate([{ $group: { "_id": { device_id: "$device_id", device_name: "$device_name" } } }]);
-            var devices = new Array();
-            await cursor.forEach(device => devices.push(device));
-            return new SuccessDataResult(Messages.Successful, devices);
+            const query = {timestamp:{$gte: new Date(start_date), $lte: new Date(end_date)}};
+            const cursor = await this.recordsCol.find(query).sort({"timestamp": 1});
+            var records = new Array();
+            await cursor.forEach(record => {records.push(record); console.log(record.timestamp,typeof record.timestamp)});
+            return new SuccessDataResult(Messages.Successful, records);
         } catch (error) {
             return new ErrorResult(error.message);
         } finally {
             await this.client.close();
         }
     }
+
+    // async getDevices() {
+    //     try {
+    //         //get distinct values from db
+    //         const cursor = await this.recordsCol.aggregate([{ $group: { "_id": { device_id: "$device_id", device_name: "$device_name" } } }]);
+    //         var devices = new Array();
+    //         await cursor.forEach(device => devices.push(device));
+    //         return new SuccessDataResult(Messages.Successful, devices);
+    //     } catch (error) {
+    //         return new ErrorResult(error.message);
+    //     } finally {
+    //         await this.client.close();
+    //     }
+    // }
 
 
 }

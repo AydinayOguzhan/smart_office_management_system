@@ -80,7 +80,6 @@ process.on('warning', e => {
 });
 
 //LOG
-//TODO: Bu kodu aspect olarak yaz.
 app.use((req, res, next) => {
   const urlArr = req.url.split("/");
   const userId = urlArr[urlArr.length - 1];
