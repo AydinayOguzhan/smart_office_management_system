@@ -51,7 +51,7 @@ class RecordDal {
             before.setDate(today.getDate() - 2);
 
             const query = {timestamp:{$gte: before, $lte: today}};
-            const cursor = await this.recordsCol.find(query);
+            const cursor = await this.recordsCol.find(query).sort({'timestamp': -1});
             var records = new Array();
             await cursor.forEach(record => {records.push(record); console.log(record.timestamp,typeof record.timestamp)});
             return new SuccessDataResult(Messages.Successful, records);
