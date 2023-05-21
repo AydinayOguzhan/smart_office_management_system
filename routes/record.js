@@ -115,11 +115,11 @@ router.post("/", upload.single("file") ,urlencodedParser, async function (req, r
     const service = new RecordService();
     const file= req.file;
     const document = {
+        justName: file.originalname.split(".")[0],
         filename: file.originalname,
         mimeType: file.mimetype,
         path: file.path
     };
-
     const result = await service.add(document);
     res.send(result);
 });
