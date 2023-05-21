@@ -33,14 +33,17 @@ class MotionSensorService {
         let date = new Date();
         obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
 
-        const userMotionNotificationSetting = await this.userNotificationService.getMotionNotificationSettingsByEmail(securityAspectResult.data);
+        const userMotionNotificationSettings = await this.userNotificationService.getAllMotionNotificationSettings();
 
-        if(userMotionNotificationSetting !== undefined && userMotionNotificationSetting.data.notification === true){
-            const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.device_name} isimli cihazda
-             ${obj.timestamp} tarihinde yeni bir hareket algılandı`, userMotionNotificationSetting.data.notificationMail);
-            if (mailResult.success === false) return mailResult;
+        for (let i = 0; i < userMotionNotificationSettings.data.length; i++) {
+            const element = userMotionNotificationSettings.data[i];
+
+            if (element !== undefined && element.notification === true) {
+                const mailResult = await this.mailAdapter.sendEmail("Yeni Hareket uyarısı", `${obj.device_name} isimli cihazda
+             ${obj.timestamp} tarihinde yeni bir hareket algılandı`, element.notificationMail);
+                if (mailResult.success === false) return mailResult;
+            }
         }
-
 
         sendData(obj, "motion"); //for sending data to websocket clients
 

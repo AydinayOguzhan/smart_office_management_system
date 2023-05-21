@@ -66,6 +66,11 @@ class UserNotificationService {
         return result;
     }
 
+    async getAllMotionNotificationSettings(){
+        const result = await this.dal.getAllMotionNotificationSettings();
+        return result;
+    }
+
     async getTemperatureNotificationSettingsByEmail(email){
         const user = await this.userService.getUserByMail(email);
         if(user.success === false) return user;
