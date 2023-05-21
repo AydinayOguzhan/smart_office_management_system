@@ -40,27 +40,37 @@ class ReadingService {
         obj.timestamp = dateFormat.format(date, "YYYY-MM-DD HH:mm:ss");
         // obj.timestamp = this.randDate();
 
-        const userTemperatureNotificationSetting = await this.userNotificationService.getTemperatureNotificationSettingsByEmail(securityAspectResult.data);
-        const userHumidityNotificationSetting = await this.userNotificationService.getHumidityNotificationSettingsByEmail(securityAspectResult.data);
+        // const userTemperatureNotificationSetting = await this.userNotificationService.getTemperatureNotificationSettingsByEmail(securityAspectResult.data);
+        // const userHumidityNotificationSetting = await this.userNotificationService.getHumidityNotificationSettingsByEmail(securityAspectResult.data);
+        const userTemperatureNotificationSettings = await this.userNotificationService.getAllTemperatureNotificationSettings();
+        const userHumidityNotificationSettings = await this.userNotificationService.getAllHumidityNotificationSettings();        
 
         if (obj.temperature >= 40 || obj.temperature <= -2) {
             let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.temperature };
             sendData(notificationObj, "temperature");
 
-            if (userTemperatureNotificationSetting !== undefined && userTemperatureNotificationSetting.data.notification === true) {
-                const mailResult = await this.mailAdapter.sendEmail("Sıcaklık Problemi Algılandı", `${obj.device_name} isimli cihazda
-${obj.timestamp} tarihinde ölçülen sıcaklık değeri ${obj.temperature} derecesine ulaşmıştır.`, userTemperatureNotificationSetting.data.notificationMail);
-                if (mailResult.success === false) return mailResult;
+            for (let i = 0; i < userTemperatureNotificationSettings.data.length; i++) {
+                const element = userTemperatureNotificationSettings.data[i];
+
+                if (element !== undefined && element.notification === true) {
+                    const mailResult = await this.mailAdapter.sendEmail("Sıcaklık Problemi Algılandı", `${obj.device_name} isimli cihazda
+    ${obj.timestamp} tarihinde ölçülen sıcaklık değeri ${obj.temperature} derecesine ulaşmıştır.`, element.notificationMail);
+                    if (mailResult.success === false) return mailResult;
+                }
             }
         }
         if (obj.humidity >= 55 || obj.humidity <= 25) {
             let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.humidity };
             sendData(notificationObj, "humidity");
 
-            if (userHumidityNotificationSetting !== undefined && userHumidityNotificationSetting.data.notification === true) {
-                const mailResult = await this.mailAdapter.sendEmail("Nem Problemi Algılandı", `${obj.device_name} isimli cihazda
-${obj.timestamp} tarihinde ölçülen nem değeri %${obj.temperature} miktarına ulaşmıştır.`, userHumidityNotificationSetting.data.notificationMail);
-                if (mailResult.success === false) return mailResult;
+            for (let i = 0; i < userHumidityNotificationSettings.data.length; i++) {
+                const element = userHumidityNotificationSettings.data[i];
+
+                if (element !== undefined && element.notification === true) {
+                    const mailResult = await this.mailAdapter.sendEmail("Nem Problemi Algılandı", `${obj.device_name} isimli cihazda
+    ${obj.timestamp} tarihinde ölçülen nem değeri %${obj.temperature} miktarına ulaşmıştır.`, element.notificationMail);
+                    if (mailResult.success === false) return mailResult;
+                }   
             }
         }
 

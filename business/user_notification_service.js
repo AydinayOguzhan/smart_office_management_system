@@ -79,11 +79,21 @@ class UserNotificationService {
         return result;
     }
 
+    async getAllTemperatureNotificationSettings(){
+        const result = await this.dal.getAllTemperatureNotificationSettings();
+        return result;
+    }
+
     async getHumidityNotificationSettingsByEmail(email){
         const user = await this.userService.getUserByMail(email);
         if(user.success === false) return user;
 
         const result = await this.dal.getHumidityNotificationSettingsByUserId(user.data.id);
+        return result;
+    }
+
+    async getAllHumidityNotificationSettings(){
+        const result = await this.dal.getAllHumidityNotificationSettings();
         return result;
     }
 }
