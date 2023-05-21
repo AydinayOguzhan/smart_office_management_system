@@ -46,7 +46,7 @@ class ReadingService {
         const userHumidityNotificationSettings = await this.userNotificationService.getAllHumidityNotificationSettings();        
 
         if (obj.temperature >= 40 || obj.temperature <= -2) {
-            let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.temperature };
+            let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.temperature, timestamp: obj.timestamp };
             sendData(notificationObj, "temperature");
 
             for (let i = 0; i < userTemperatureNotificationSettings.data.length; i++) {
@@ -60,7 +60,7 @@ class ReadingService {
             }
         }
         if (obj.humidity >= 55 || obj.humidity <= 25) {
-            let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.humidity };
+            let notificationObj = { device_id: obj.device_id, device_name: obj.device_name, reading: obj.humidity, timestamp: obj.timestamp };
             sendData(notificationObj, "humidity");
 
             for (let i = 0; i < userHumidityNotificationSettings.data.length; i++) {
