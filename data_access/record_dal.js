@@ -44,6 +44,24 @@ class RecordDal {
         }
     }
 
+    async getLastTwoDays() {
+        try {
+            let today = new Date();
+            let before = new Date();
+            before.setDate(today.getDate() - 2);
+
+            const query = {timestamp:{$gte: before, $lte: today}};
+            const cursor = await this.recordsCol.find(query);
+            var records = new Array();
+            await cursor.forEach(record => {records.push(record); console.log(record.timestamp,typeof record.timestamp)});
+            return new SuccessDataResult(Messages.Successful, records);
+        } catch (error) {
+            return new ErrorResult(error.message);
+        } finally {
+            await this.client.close();
+        }
+    }
+
     async getAllDateRange(start_date, end_date) {
         try {
             const query = {timestamp:{$gte: new Date(start_date), $lte: new Date(end_date)}};

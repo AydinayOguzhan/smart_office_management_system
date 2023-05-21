@@ -66,6 +66,22 @@ router.get("/get_all", async function (req, res, next) {
 
 /**
  * @swagger
+ * /records/get_last_two_days:
+ *   get:
+ *     summary: Get all records that recorded in last two days
+ *     tags: [records]
+ *     responses:
+ *       200:
+ *         description: Successful
+ */
+router.get("/get_last_two_days", async function (req, res, next) {
+    const service = new RecordService();
+    const response = await service.getLastTwoDays();
+    res.send(response);
+});
+
+/**
+ * @swagger
  * /records/get_all_date_range/{start_date}/{end_date}:
  *   get:
  *     summary: Get all records by specific date range

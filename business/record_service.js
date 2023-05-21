@@ -21,6 +21,15 @@ class RecordService{
         return result;
     }
 
+    async getLastTwoDays(){
+        const result = await this.dal.getLastTwoDays();
+        for (let i = 0; i < result.data.length; i++) {
+            const element = result.data[i];
+            element.timestamp = dateFormat.format(element.timestamp, "YYYY-M-DD HH:mm:ss")
+        }
+        return result;
+    }
+
     async getAllDateRange(start_date, end_date){
         const result = await this.dal.getAllDateRange(start_date, end_date);
         for (let i = 0; i < result.data.length; i++) {
