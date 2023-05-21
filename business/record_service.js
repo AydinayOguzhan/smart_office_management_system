@@ -7,10 +7,7 @@ class RecordService{
     }
 
     async add(document){
-        //Remove it 
-        document.timestamp = new Date("2023-5-5 10:00:00");
-        //TODO: Convert document.timestamp to datetime object
-        // document.timestamp = new Date(document.timestamp);
+        document.timestamp = new Date(document.justName);
         const result = await this.dal.add(document);
         return result;
     }
